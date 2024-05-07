@@ -1,5 +1,5 @@
 jar.enabled = true
 bootJar.enabled = false
 dependencies {
-
+    implementation 'io.springfox:springfox-boot-starter:3.0.0'
 }
