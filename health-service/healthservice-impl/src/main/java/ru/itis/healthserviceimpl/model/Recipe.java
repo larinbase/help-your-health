@@ -29,5 +29,5 @@ public class Recipe {
 
     private List<String> images;
 
-    private Integer cookingTime;
+    private int cookingTime;
 }
