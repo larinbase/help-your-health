@@ -17,8 +17,7 @@ public record RecipeResponse(
 
         @ApiModelProperty(value = "время готовки") int cookingTime,
 
-        // TODO: сделать список дто еды, как ингредиенты
-        @ApiModelProperty(value = "ингредиенты") List<String> ingredients,
+        @ApiModelProperty(value = "ингредиенты") List<IngredientResponse> ingredients,
 
         @ApiModelProperty(value = "инструкции") List<String> instructions,
 
