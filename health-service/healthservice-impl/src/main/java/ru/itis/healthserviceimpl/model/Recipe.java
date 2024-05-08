@@ -16,7 +16,7 @@ public class Recipe {
     @Id
     private ObjectId id;
 
-    // TODO: тут должна быть сущность юзера
+    // TODO: С‚СѓС‚ РґРѕР»Р¶РЅР° Р±С‹С‚СЊ СЃСѓС‰РЅРѕСЃС‚СЊ СЋР·РµСЂР°
     private String author;
 
     private List<String> categories;
