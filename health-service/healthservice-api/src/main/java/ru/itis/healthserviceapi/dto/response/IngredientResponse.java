@@ -1,10 +1,14 @@
 package ru.itis.healthserviceapi.dto.response;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel(description = "Модель для получения Ingredient")
 public record IngredientResponse(
-        String name,
+        @ApiModelProperty(value = "название") String name,
 
-        float amount,
+        @ApiModelProperty(value = "вес") float amount,
 
-        String unit
+        @ApiModelProperty(value = "единица измерения") String unit
 ) {
 }
