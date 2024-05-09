@@ -4,12 +4,13 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.bson.types.ObjectId;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
 import ru.itis.healthserviceapi.dto.request.RecipeRequest;
 import ru.itis.healthserviceapi.dto.response.RecipeResponse;
 
 import java.util.List;
-import java.util.UUID;
 
 @Api("RecipeApi")
 @RequestMapping("api/v1/recipe")
@@ -35,7 +36,8 @@ public interface RecipeApi {
             @ApiResponse(code = 500, message = "Ведутся технические работы")
     })
     @GetMapping
-    List<RecipeResponse> findAll();
+    Page<RecipeResponse> findAll(@RequestParam(defaultValue = "0") int offset,
+                                 @RequestParam(defaultValue = "10") int limit);
 
     @ApiOperation(value = "Получение рецепта по id", nickname = "find-by-id")
     @ApiResponses(value = {
@@ -46,7 +48,7 @@ public interface RecipeApi {
             @ApiResponse(code = 500, message = "Ведутся технические работы")
     })
     @GetMapping("/findById/{id}")
-    RecipeResponse findById(@PathVariable("id") UUID id);
+    RecipeResponse findById(@PathVariable("id") ObjectId id);
 
     @ApiOperation(value = "Получение рецепта по названию", nickname = "find-by-title")
     @ApiResponses(value = {
@@ -57,7 +59,9 @@ public interface RecipeApi {
             @ApiResponse(code = 500, message = "Ведутся технические работы")
     })
     @GetMapping("/findByTitle/{title}")
-    RecipeResponse findByTitle(@PathVariable("title") String title);
+    Page<RecipeResponse> findByTitle(@PathVariable("title") String title,
+                               @RequestParam(defaultValue = "0") int offset,
+                               @RequestParam(defaultValue = "10") int limit);
 
     @ApiOperation(value = "Получение рецепта по категории", nickname = "find-by-category")
     @ApiResponses(value = {
@@ -68,7 +72,9 @@ public interface RecipeApi {
             @ApiResponse(code = 500, message = "Ведутся технические работы")
     })
     @GetMapping("/findByCategory/{category}")
-    List<RecipeResponse> findByCategory(@PathVariable("category") String category);
+    Page<RecipeResponse> findByCategory(@PathVariable("category") String category,
+                                        @RequestParam(defaultValue = "0") int offset,
+                                        @RequestParam(defaultValue = "10") int limit);
 
     @ApiOperation(value = "Обновление рецепта", nickname = "update")
     @ApiResponses(value = {
@@ -79,7 +85,7 @@ public interface RecipeApi {
             @ApiResponse(code = 500, message = "Ведутся технические работы")
     })
     @PutMapping
-    void update(@RequestBody RecipeRequest request);
+    void update(ObjectId id, @RequestBody RecipeRequest request);
 
     @ApiOperation(value = "Удаление рецепта по id", nickname = "delete-by-id")
     @ApiResponses(value = {
@@ -90,5 +96,5 @@ public interface RecipeApi {
             @ApiResponse(code = 500, message = "Ведутся технические работы")
     })
     @DeleteMapping("/{id}")
-    void deleteById(@PathVariable("id") UUID id);
+    void deleteById(@PathVariable("id") ObjectId id);
 }
