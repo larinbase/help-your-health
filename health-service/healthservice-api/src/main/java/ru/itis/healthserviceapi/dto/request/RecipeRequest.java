@@ -9,7 +9,7 @@ import java.util.List;
 public record RecipeRequest(
         @ApiModelProperty(value = "название") String title,
 
-        @ApiModelProperty(value = "категория") List<String> category,
+        @ApiModelProperty(value = "категории") List<String> categories,
 
         @ApiModelProperty(value = "время готовки") int cookingTime,
 

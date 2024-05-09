@@ -7,3 +7,7 @@ spring:
       host: localhost
       port: 27017
       database: healthservice
+
+  liquibase:
+    change-log: classpath:/db/database-changelog-master.yaml
+    enabled: true

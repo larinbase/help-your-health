@@ -18,7 +18,7 @@ public interface RecipeMapper {
 
     RecipeResponse toResponse(Recipe recipe);
 
-    Page<RecipeResponse> toResponse(Page<Recipe> recipe);
-
-    Page<RecipeResponse> toResponse(List<Recipe> allByTitleIgnoreCase, PageRequest title);
+    default Page<RecipeResponse> toResponse(Page<Recipe> recipe) {
+        return recipe.map(this::toResponse);
+    }
 }

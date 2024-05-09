@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.0.xsd
+      http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <changeSet id="1" author="labinochka">
+        <ext:createCollection collectionName="recipes">
+            <ext:options>
+                {
+                validator: {
+                    $jsonSchema: {
+                        bsonType: "object",
+                        required: ["title", "author", "category", "ingredients", "instructions", "images",
+                                    "cookingTime", "nutritionalInfo"],
+                        properties: {
+                            _id: {
+                                bsonType: "objectId",
+                                description: "The unique identifier for the recipe"
+                            },
+                            title: {
+                                bsonType: "string",
+                                description: "The Title"
+                            },
+                            author: {
+                                bsonType: "string",
+                                description: "The author"
+                            },
+                            category: {
+                                bsonType: "array",
+                                description: "The category of the recipe",
+                                items: {
+                                    bsonType: "string"
+                                }
+                            },
+                            ingredients: {
+                                bsonType: "array",
+                                description: "List of Ingredients",
+                                items: {
+                                    bsonType: "object",
+                                    required: ["name", "amount", "unit"],
+                                    properties: {
+                                        name: {
+                                            bsonType: "string",
+                                            description: "Ingredient Name"
+                                        },
+                                        amount: {
+                                            bsonType: "string",
+                                            description: "Amount of Ingredient"
+                                        },
+                                        unit: {
+                                            bsonType: "string",
+                                            description: "Unit of Measurement"
+                                        }
+                                    }
+                                }
+                            },
+                            instructions: {
+                                bsonType: "array",
+                                description: "Cooking Instructions",
+                                items: {
+                                    bsonType: "string"
+                                }
+                            },
+                            images: {
+                                bsonType: "array",
+                                description: "URLs of Images",
+                                items: {
+                                    bsonType: "string"
+                                }
+                            },
+                            cookingTime: {
+                                bsonType: "string",
+                                description: "Cooking Time in minutes"
+                            },
+                            nutritionalInfo: {
+                                bsonType: "object",
+                                required: ["calories", "protein", "fat", "carbohydrates"],
+                                properties: {
+                                    calories: {
+                                        bsonType: "string",
+                                        description: "Calories"
+                                    },
+                                    protein: {
+                                        bsonType: "string",
+                                        description: "Protein"
+                                    },
+                                    fat: {
+                                        bsonType: "string",
+                                        description: "Fat"
+                                    },
+                                    carbohydrates: {
+                                        bsonType: "string",
+                                        description: "Carbohydrates"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    validationAction: "warn",
+                    validationLevel: "strict"
+                }
+            </ext:options>
+        </ext:createCollection>
+    </changeSet>
+</databaseChangeLog>

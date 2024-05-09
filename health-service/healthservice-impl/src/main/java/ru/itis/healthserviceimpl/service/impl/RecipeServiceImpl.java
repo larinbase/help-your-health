@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.itis.healthserviceapi.dto.request.RecipeRequest;
@@ -41,14 +42,14 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Page<RecipeResponse> findByTitle(String title, int offset, int limit) {
-        return mapper.toResponse(repository.findAllByTitleIgnoreCase(title), PageRequest.of(offset, limit,
-                Sort.by(Sort.Direction.ASC, "title")));
+        Pageable pageable = PageRequest.of(offset, limit);
+        return mapper.toResponse(repository.findAllByTitleIgnoreCase(title, pageable));
     }
 
     @Override
     public Page<RecipeResponse> findByCategory(String category, int offset, int limit) {
-        return mapper.toResponse(repository.findAllByCategoriesContaining(category), PageRequest.of(offset, limit,
-                Sort.by(Sort.Direction.ASC, "title")));
+        Pageable pageable = PageRequest.of(offset, limit);
+        return mapper.toResponse(repository.findAllByCategoriesContaining(category, pageable));
     }
 
     @Override

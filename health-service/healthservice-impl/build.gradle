@@ -1,7 +1,21 @@
 dependencies {
     implementation 'org.mapstruct:mapstruct:1.5.5.Final'
     implementation project(':healthservice-api')
+    implementation project(':healthservice-db')
+    implementation 'org.mongodb:mongodb-driver-sync:4.11.1'
+    implementation 'org.liquibase.ext:liquibase-mongodb:4.24.0'
+    implementation 'org.liquibase:liquibase-core:4.0.0'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+}
+
+sourceSets {
+    main {
+        resources {
+            srcDirs += [
+                    project(":healthservice-db").sourceSets.main.resources
+            ]
+        }
+    }
 }
 
 tasks.named('test') {
