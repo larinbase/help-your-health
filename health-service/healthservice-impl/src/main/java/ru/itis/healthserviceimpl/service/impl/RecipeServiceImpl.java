@@ -53,6 +53,12 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
+    public Page<RecipeResponse> findByCookingTime(int cookingTime, int offset, int limit) {
+        Pageable pageable = PageRequest.of(offset, limit);
+        return mapper.toResponse(repository.findAllByCookingTime(cookingTime, pageable));
+    }
+
+    @Override
     public void update(ObjectId id, RecipeRequest request) {
         repository.findById(id).orElseThrow(() -> new RecipeNotFoundException(id));
         Recipe recipe = mapper.toEntity(request);

@@ -41,6 +41,11 @@ public class RecipeController implements RecipeApi {
     }
 
     @Override
+    public Page<RecipeResponse> findByCookingTime(int category, int offset, int limit) {
+        return service.findByCookingTime(category, offset, limit);
+    }
+
+    @Override
     public void update(ObjectId id, RecipeRequest request) {
         service.update(id, request);
     }
