@@ -45,7 +45,7 @@ public interface RecipeApi {
             @ApiResponse(code = 403, message = "Не достаточно прав"),
             @ApiResponse(code = 500, message = "Ведутся технические работы")
     })
-    @GetMapping("/{id}")
+    @GetMapping("/findById/{id}")
     RecipeResponse findById(@PathVariable("id") UUID id);
 
     @ApiOperation(value = "Получение рецепта по названию", nickname = "find-by-title")
@@ -56,8 +56,19 @@ public interface RecipeApi {
             @ApiResponse(code = 403, message = "Не достаточно прав"),
             @ApiResponse(code = 500, message = "Ведутся технические работы")
     })
-    @GetMapping("/{title}")
+    @GetMapping("/findByTitle/{title}")
     RecipeResponse findByTitle(@PathVariable("title") String title);
+
+    @ApiOperation(value = "Получение рецепта по категории", nickname = "find-by-category")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Рецепт получен", response = RecipeResponse.class),
+            @ApiResponse(code = 400, message = "Ошибка валидации"),
+            @ApiResponse(code = 401, message = "Не пройдена авторизация"),
+            @ApiResponse(code = 403, message = "Не достаточно прав"),
+            @ApiResponse(code = 500, message = "Ведутся технические работы")
+    })
+    @GetMapping("/findByCategory/{category}")
+    List<RecipeResponse> findByCategory(@PathVariable("category") String category);
 
     @ApiOperation(value = "Обновление рецепта", nickname = "update")
     @ApiResponses(value = {
