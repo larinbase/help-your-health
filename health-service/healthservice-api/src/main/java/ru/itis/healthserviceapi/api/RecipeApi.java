@@ -13,7 +13,7 @@ import ru.itis.healthserviceapi.dto.response.RecipeResponse;
 import java.util.List;
 
 @Api("RecipeApi")
-@RequestMapping("api/v1/recipe")
+@RequestMapping("/api/v1/recipe")
 public interface RecipeApi {
 
     @ApiOperation(value = "Создание рецепта", nickname = "create")
