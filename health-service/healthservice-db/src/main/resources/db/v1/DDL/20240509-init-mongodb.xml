@@ -24,7 +24,7 @@
                                 description: "The Title"
                             },
                             author: {
-                                bsonType: "string",
+                                bsonType: "objectId",
                                 description: "The author"
                             },
                             category: {

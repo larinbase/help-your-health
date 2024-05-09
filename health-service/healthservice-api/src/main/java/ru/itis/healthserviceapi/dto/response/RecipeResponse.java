@@ -2,6 +2,7 @@ package ru.itis.healthserviceapi.dto.response;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.bson.types.ObjectId;
 
 import java.util.List;
 
@@ -9,7 +10,7 @@ import java.util.List;
 public record RecipeResponse(
 
         // TODO: автор - дто юзера
-        @ApiModelProperty(value = "автор") String author,
+        @ApiModelProperty(value = "автор") ObjectId author,
 
         @ApiModelProperty(value = "название") String title,
 

@@ -18,7 +18,7 @@ public class Recipe {
     private ObjectId id;
 
     // TODO: тут должна быть сущность юзера
-    private String author;
+    private ObjectId author;
 
     @Indexed
     private String title;
