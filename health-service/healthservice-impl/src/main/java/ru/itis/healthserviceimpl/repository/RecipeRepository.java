@@ -11,8 +11,8 @@ import ru.itis.healthserviceimpl.model.Recipe;
 @Repository
 public interface RecipeRepository extends MongoRepository<Recipe, ObjectId> {
 
-    @Query("{title: ?0}")
-    Page<Recipe> findAllByTitleIgnoreCase(String title, Pageable pageable);
+    @Query(value = "{'title': {$regex : ?0, $options: 'i'}}")
+    Page<Recipe> findAllByTitleRegex(String title, Pageable pageable);
 
     @Query("{cookingTime: ?0}")
     Page<Recipe> findAllByCookingTime(int cookingTime, Pageable pageable);

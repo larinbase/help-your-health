@@ -43,7 +43,7 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public Page<RecipeResponse> findByTitle(String title, int offset, int limit) {
         Pageable pageable = PageRequest.of(offset, limit);
-        return mapper.toResponse(repository.findAllByTitleIgnoreCase(title, pageable));
+        return mapper.toResponse(repository.findAllByTitleRegex(title, pageable));
     }
 
     @Override
@@ -63,6 +63,7 @@ public class RecipeServiceImpl implements RecipeService {
         repository.findById(id).orElseThrow(() -> new RecipeNotFoundException(id));
         Recipe recipe = mapper.toEntity(request);
         recipe.setId(id);
+        repository.save(recipe);
     }
 
     @Override

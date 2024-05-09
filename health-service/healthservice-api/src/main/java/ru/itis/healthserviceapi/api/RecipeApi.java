@@ -97,8 +97,8 @@ public interface RecipeApi {
             @ApiResponse(code = 403, message = "Не достаточно прав"),
             @ApiResponse(code = 500, message = "Ведутся технические работы")
     })
-    @PutMapping
-    void update(ObjectId id, @RequestBody RecipeRequest request);
+    @PutMapping("/{id}")
+    void update(@PathVariable("id") ObjectId id, @RequestBody RecipeRequest request);
 
     @ApiOperation(value = "Удаление рецепта по id", nickname = "delete-by-id")
     @ApiResponses(value = {
