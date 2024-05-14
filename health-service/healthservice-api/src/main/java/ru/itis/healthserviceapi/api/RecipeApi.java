@@ -13,7 +13,7 @@ import ru.itis.healthserviceapi.dto.request.RecipeRequest;
 import ru.itis.healthserviceapi.dto.response.RecipeResponse;
 
 @Tags(value = {
-        @Tag(name = "Recipes")
+        @Tag(name = "RecipeApi")
 })
 @Schema(description = "Работа с рецептами")
 @RequestMapping("/api/v1/recipe")
