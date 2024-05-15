@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - include:
+      file: DDL/20240510-init-user-db.yml
+      relativeToChangelogFile: true
+  - include:
+      file: DDL/20240509-init-mongodb.xml
+      relativeToChangelogFile: true
+      

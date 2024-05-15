@@ -1,0 +1,63 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2
+      author: salyukov
+      changes:
+        - createTable:
+            tableName: account
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  defaultValueComputed: uuid_generate_v4()
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: account_pk
+              - column:
+                  name: username
+                  type: varchar(40)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: firstname
+                  type: varchar(40)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: lastname
+                  type: varchar(40)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: age
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: weight
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: height
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: calorie_allowance
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: water_norm
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: create_date
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: update_date
+                  type: date

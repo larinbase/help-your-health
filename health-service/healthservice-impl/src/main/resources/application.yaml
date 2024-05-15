@@ -1,1 +1,24 @@
-spring.application.name=healthservice-impl
+spring:
+  application:
+    name: healthservice-impl
+
+  liquibase:
+    change-log: classpath:db/database-changelog-master.yaml
+    enabled: true
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/agona
+    hikari:
+      password: admin
+      username: admin
+      maximum-pool-size: 20
+      jdbc-url: jdbc:postgresql://localhost:5432/agona
+
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: healthservice
+      
+server:
+  port: 8081
