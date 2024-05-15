@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import ru.itis.healthserviceapi.dto.request.DrinkingWaterRequest;
 import ru.itis.healthserviceapi.dto.response.DrinkingWaterResponse;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,4 +19,6 @@ public interface DrinkingWaterService {
     void save(DrinkingWaterRequest request);
 
     void delete(UUID id);
+
+    List<DrinkingWaterResponse> findAllDrinkingWaterByTimePeriod(UUID userId, Instant from, Instant to);
 }

@@ -10,7 +10,7 @@ import ru.itis.healthserviceimpl.model.DrinkingWater;
 @Mapper(componentModel = "spring")
 public interface DrinkingWaterMapper {
 
-    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "id")
     DrinkingWaterResponse toResponse(DrinkingWater drinkingWater);
 
     DrinkingWater toEntity(DrinkingWaterRequest request);

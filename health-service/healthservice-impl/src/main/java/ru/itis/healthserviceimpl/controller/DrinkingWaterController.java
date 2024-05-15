@@ -8,6 +8,7 @@ import ru.itis.healthserviceapi.dto.request.DrinkingWaterRequest;
 import ru.itis.healthserviceapi.dto.response.DrinkingWaterResponse;
 import ru.itis.healthserviceimpl.service.DrinkingWaterService;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,26 +21,31 @@ public class DrinkingWaterController implements DrinkingWaterApi {
 
     @Override
     public DrinkingWaterResponse getDrinkingWaterById(UUID id) {
-        return null;
+        return drinkingWaterService.findDrinkingWaterById(id);
     }
 
     @Override
     public DrinkingWaterResponse getLastDrinkingWaterByUser(UUID userId) {
-        return null;
+        return drinkingWaterService.findLastDrinkingWaterByUser(userId);
     }
 
     @Override
     public List<DrinkingWaterResponse> getAllDrinkingWaterByUser(UUID userId) {
-        return null;
+        return drinkingWaterService.findAllDrinkingWaterByUser(userId);
     }
 
     @Override
     public void saveDrinkingWater(DrinkingWaterRequest request) {
-
+        drinkingWaterService.save(request);
     }
 
     @Override
     public void deleteDrinkingWater(UUID id) {
+        drinkingWaterService.delete(id);
+    }
 
+    @Override
+    public List<DrinkingWaterResponse> getDrinkingWaterForTimePeriod(UUID userId, Instant from, Instant to) {
+        return drinkingWaterService.findAllDrinkingWaterByTimePeriod(userId, from, to);
     }
 }

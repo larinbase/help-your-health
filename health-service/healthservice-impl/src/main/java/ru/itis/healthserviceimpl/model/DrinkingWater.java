@@ -3,7 +3,6 @@ package ru.itis.healthserviceimpl.model;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -25,11 +24,11 @@ public class DrinkingWater {
     @Column(name = "create_date")
     private Instant createDate;
 
-    @UpdateTimestamp
-    @Column(name = "update_date")
-    private Instant updateDate;
-
     @Column(name = "milliliters")
     private int milliliters;
+
+    @JoinColumn(name = "account_id")
+    @ManyToOne
+    private User user;
 
 }
