@@ -1,9 +1,9 @@
-package ru.itis.healthserviceapi.api.exercises;
+package ru.itis.healthserviceapi.dto.request;
 
 import java.util.Date;
 import java.util.UUID;
 
-public record ExerciseSessionsRequest(
+public record ExerciseSessionRequest(
         UUID exerciseTemplateId,
         float metricAmount,
         Date date
