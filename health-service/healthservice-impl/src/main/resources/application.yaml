@@ -10,7 +10,7 @@ spring:
     url: jdbc:postgresql://localhost:5432/agona
     hikari:
       password: admin
-      username: danilkhairulin
+      username: admin
       maximum-pool-size: 20
       jdbc-url: jdbc:postgresql://localhost:5432/agona
 
