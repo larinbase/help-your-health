@@ -75,10 +75,10 @@ public class ExerciseServiceImpl implements ExerciseService {
 
 
         // TODO: get user from security context
-        UUID userId = UUID.randomUUID();
+        UUID userId = UUID.fromString("286ace31-3bb9-4749-b36f-91b203e0c759");
 
         session.setUserId(userId);
-        session.setTemplateId(request.exerciseTemplateId());
+        session.setTemplateId(request.templateId());
         session.setMetricAmount(request.metricAmount());
         session.setDate(new Date(request.date().getTime()));
         sessionRepository.save(session);

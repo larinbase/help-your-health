@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.UUID;
 
 public record ExerciseSessionRequest(
-        UUID exerciseTemplateId,
+        UUID templateId,
         float metricAmount,
         Date date
 ) {

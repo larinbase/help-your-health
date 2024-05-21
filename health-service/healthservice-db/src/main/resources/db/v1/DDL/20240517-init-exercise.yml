@@ -9,6 +9,7 @@ databaseChangeLog:
               - column:
                 - name: id
                   type: uuid
+                  defaultValueComputed: uuid_generate_v4()
                   constraints:
                     primaryKey: true
                     nullable: false
@@ -41,6 +42,7 @@ databaseChangeLog:
               - column:
                 - name: id
                   type: uuid
+                  defaultValueComputed: uuid_generate_v4()
                   constraints:
                     primaryKey: true
                     nullable: false
