@@ -3,7 +3,7 @@ package ru.itis.healthserviceimpl.model.roles;
 import java.util.HashSet;
 import java.util.Set;
 
-public enum TrainingRole implements Role {
+public enum TrainingRoleType implements Role {
     VIEWER, REPORTER, EDITOR;
 
     private final Set<Role> children = new HashSet<>();

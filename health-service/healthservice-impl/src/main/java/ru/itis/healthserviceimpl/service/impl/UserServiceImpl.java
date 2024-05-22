@@ -5,8 +5,14 @@ import org.springframework.stereotype.Service;
 import ru.itis.healthserviceapi.dto.request.UserSave;
 import ru.itis.healthserviceapi.dto.request.UserUpdate;
 import ru.itis.healthserviceapi.dto.response.UserResponse;
+import ru.itis.healthserviceimpl.exception.CommunityRoleNotFoundException;
+import ru.itis.healthserviceimpl.exception.UserAlreadyExistException;
+import ru.itis.healthserviceimpl.exception.UserNotFoundException;
 import ru.itis.healthserviceimpl.mapper.UserMapper;
+import ru.itis.healthserviceimpl.model.CommunityRole;
 import ru.itis.healthserviceimpl.model.User;
+import ru.itis.healthserviceimpl.model.roles.CommunityRoleType;
+import ru.itis.healthserviceimpl.repository.CommunityRoleRepository;
 import ru.itis.healthserviceimpl.repository.UserRepository;
 import ru.itis.healthserviceimpl.service.UserService;
 
@@ -15,42 +21,48 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-    private final UserRepository repository;
+    private final UserRepository userRepository;
     private final UserMapper mapper;
+    private final CommunityRoleRepository communityRoleRepository;
 
     @Override
     public void create(UserSave userSave) {
-        if (repository.findByUsername(userSave.username()).isPresent()) {
-            throw new IllegalArgumentException("User alreay exist"); // ToDo: Custom exception
+        if (userRepository.findByUsername(userSave.username()).isPresent()) {
+            throw new UserAlreadyExistException(userSave.username()); // ToDo: Custom exception
         }
-        repository.save(mapper.fromRequest(userSave));
+        CommunityRoleType roleType = CommunityRoleType.valueOf(userSave.role());
+        CommunityRole role = communityRoleRepository.findByType(roleType)
+                .orElseThrow(()-> new CommunityRoleNotFoundException(roleType.name()));
+        User user = mapper.fromRequest(userSave);
+        user.setRole(role);
+        userRepository.save(user);
     }
 
     @Override
     public UserResponse findByUsername(String username) {
         return mapper.toResponse(
-                repository.findByUsername(username)
-                        .orElseThrow(() -> new IllegalArgumentException("User not found"))
+                userRepository.findByUsername(username)
+                        .orElseThrow(() -> new UserNotFoundException(username))
         );
     }
 
     @Override
     public void update(UserUpdate userUpdate, UUID id) {
-        User user = repository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(id));
         user.setFirstname(userUpdate.firstname());
         user.setLastname(userUpdate.lastname());
         user.setAge(userUpdate.age());
         user.setHeight(userUpdate.height());
         user.setWeight(user.getWeight());
-        repository.save(user);
+        userRepository.save(user);
     }
 
     @Override
     public void deleteById(UUID id) {
-        if (repository.findById(id).isEmpty()){
-            throw new IllegalArgumentException("User not found");
+        if (userRepository.findById(id).isEmpty()){
+            throw new UserNotFoundException(id);
         }
-        repository.deleteById(id);
+        userRepository.deleteById(id);
     }
 }

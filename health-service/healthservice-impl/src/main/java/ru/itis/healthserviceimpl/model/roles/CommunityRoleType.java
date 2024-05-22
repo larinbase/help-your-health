@@ -4,21 +4,21 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public enum CommunityRole implements Role {
+public enum CommunityRoleType implements Role {
     ADMIN, MODERATOR, PRIVILEGED_USER, USER;
 
     private final Set<Role> children = new HashSet<>();
 
     static {
         USER.children.addAll(List.of(
-                ReceiptRole.VIEWER,
-                ReceiptRole.EDITOR,
-                ReceiptRole.REPORTER,
-                TrainingRole.VIEWER,
-                TrainingRole.REPORTER)
+                RecipeRoleType.VIEWER,
+                RecipeRoleType.EDITOR,
+                RecipeRoleType.REPORTER,
+                TrainingRoleType.VIEWER,
+                TrainingRoleType.REPORTER)
         );
         PRIVILEGED_USER.children.add(USER);
-        MODERATOR.children.addAll(List.of(PRIVILEGED_USER, TrainingRole.EDITOR));
+        MODERATOR.children.addAll(List.of(PRIVILEGED_USER, TrainingRoleType.EDITOR));
         ADMIN.children.add(MODERATOR);
     }
 
