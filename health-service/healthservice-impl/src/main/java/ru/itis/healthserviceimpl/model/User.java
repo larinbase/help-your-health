@@ -21,6 +21,7 @@ public class User extends AbstractModel {
     private int age;
     private int weight;
     private int height;
+    private String password;
 
     @Column(name = "calorie_allowance")
     private int calorieAllowance;
