@@ -9,7 +9,7 @@ import ru.itis.healthserviceimpl.model.User;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
-    @Mapping(target = "roleType", ignore = true)
+    @Mapping(target = "role", ignore = true)
     User fromRequest(UserSave userSave);
 
     User fromRequest(UserUpdate userUpdate);

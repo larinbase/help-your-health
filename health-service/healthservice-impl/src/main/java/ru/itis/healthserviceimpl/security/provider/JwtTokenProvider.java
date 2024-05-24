@@ -1,4 +1,4 @@
-package ru.itis.healthserviceimpl.security;
+package ru.itis.healthserviceimpl.security.provider;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.SignatureException;

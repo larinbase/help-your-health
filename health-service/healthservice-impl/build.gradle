@@ -4,8 +4,8 @@ dependencies {
     implementation project(':healthservice-api')
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
     implementation 'org.liquibase:liquibase-core:4.27.0'
-    implementation 'org.mongodb:mongodb-driver-sync:4.11.1'
-    implementation 'org.liquibase.ext:liquibase-mongodb:4.24.0'
+    //implementation 'org.mongodb:mongodb-driver-sync:4.11.1'
+    //implementation 'org.liquibase.ext:liquibase-mongodb:4.24.0'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
     // погуглить
     implementation("io.jsonwebtoken:jjwt-api:0.11.5")

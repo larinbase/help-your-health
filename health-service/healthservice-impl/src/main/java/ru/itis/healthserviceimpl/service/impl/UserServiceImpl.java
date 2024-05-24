@@ -1,6 +1,7 @@
 package ru.itis.healthserviceimpl.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.itis.healthserviceapi.dto.request.UserSave;
 import ru.itis.healthserviceapi.dto.request.UserUpdate;
@@ -20,6 +21,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper mapper;
@@ -27,14 +29,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void create(UserSave userSave) {
+        log.info("check user in database by not existing");
         if (userRepository.findByUsername(userSave.username()).isPresent()) {
             throw new UserAlreadyExistException(userSave.username()); // ToDo: Custom exception
         }
         CommunityRoleType roleType = CommunityRoleType.valueOf(userSave.role());
+        log.info("Find role id by type");
         CommunityRole role = communityRoleRepository.findByType(roleType)
                 .orElseThrow(()-> new CommunityRoleNotFoundException(roleType.name()));
+        log.info("mapping entity from dto");
         User user = mapper.fromRequest(userSave);
         user.setRole(role);
+        log.info("create user in database");
         userRepository.save(user);
     }
 
