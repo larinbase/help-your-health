@@ -6,6 +6,7 @@ import ru.itis.healthserviceapi.dto.request.UserSave;
 import ru.itis.healthserviceapi.dto.request.UserUpdate;
 import ru.itis.healthserviceapi.dto.response.UserResponse;
 import ru.itis.healthserviceimpl.mapper.UserMapper;
+import ru.itis.healthserviceimpl.model.ActivityCoefficient;
 import ru.itis.healthserviceimpl.model.Nutrition;
 import ru.itis.healthserviceimpl.model.User;
 import ru.itis.healthserviceimpl.repository.UserRepository;
@@ -48,6 +49,7 @@ public class UserServiceImpl implements UserService {
         user.setAge(userUpdate.age());
         user.setHeight(userUpdate.height());
         user.setWeight(user.getWeight());
+        user.setActivityCoefficient(ActivityCoefficient.valueOf(userUpdate.activityCoefficient()));
         setNutritionalNorm(user);
         repository.save(user);
     }
