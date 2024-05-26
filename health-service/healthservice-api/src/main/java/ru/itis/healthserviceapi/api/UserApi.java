@@ -1,6 +1,7 @@
 package ru.itis.healthserviceapi.api;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -10,7 +11,8 @@ import ru.itis.healthserviceapi.dto.request.UserUpdate;
 import ru.itis.healthserviceapi.dto.response.UserResponse;
 
 @Tag(name = "UserApi")
-@RequestMapping("api/v1/user")
+@Schema(description = "Работа с пользователем")
+@RequestMapping("/api/v1/user")
 public interface UserApi {
     @PostMapping("/save")
     @Operation(summary = "Создание пользователя", method = "create")
@@ -21,7 +23,7 @@ public interface UserApi {
             @ApiResponse(responseCode = "403", description = "Не достаточно прав"),
             @ApiResponse(responseCode = "500", description = "Ведутся технические работы")
     })
-    void create(UserSave userSave);
+    void create(@RequestBody UserSave userSave);
 
     @Operation(summary = "Получение пользователя по username", method = "find-by-username")
     @ApiResponses(value = {

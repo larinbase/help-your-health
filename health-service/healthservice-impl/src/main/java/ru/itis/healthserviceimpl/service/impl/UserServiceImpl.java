@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void create(UserSave userSave) {
         if (repository.findByUsername(userSave.username()).isPresent()) {
-            throw new IllegalArgumentException("User alreay exist"); // ToDo: Custom exception
+            throw new IllegalArgumentException("User already exist"); // ToDo: Custom exception
         }
         User user = mapper.fromRequest(userSave);
         setNutritionalNorm(user);
