@@ -1,7 +1,7 @@
 package ru.itis.healthserviceimpl.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
 import ru.itis.healthserviceapi.api.UserApi;
 import ru.itis.healthserviceapi.dto.request.UserSave;
 import ru.itis.healthserviceapi.dto.request.UserUpdate;
@@ -10,7 +10,7 @@ import ru.itis.healthserviceimpl.service.UserService;
 
 import java.util.UUID;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class UserController implements UserApi {
     private final UserService service;
