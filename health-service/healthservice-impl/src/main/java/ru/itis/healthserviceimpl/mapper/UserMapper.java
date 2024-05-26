@@ -27,6 +27,11 @@ public interface UserMapper {
     @Mapping(source = "sex", target = "sex", qualifiedByName = "mapSex")
     @Mapping(source = "activityCoefficient", target = "activityCoefficient",
             qualifiedByName = "mapActivityCoefficient")
+    @Mapping(target = "proteins", ignore = true)
+    @Mapping(target = "fats", ignore = true)
+    @Mapping(target = "carbohydrates", ignore = true)
+    @Mapping(target = "calorieAllowance", ignore = true)
+    @Mapping(target = "waterNorm", ignore = true)
     User fromRequest(UserUpdate userUpdate);
 
     @Mapping(source = "sex", target = "sex", qualifiedByName = "mapSex")
