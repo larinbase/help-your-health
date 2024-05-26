@@ -9,8 +9,8 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/agona
     hikari:
-      password: admin
-      username: admin
+      password: password
+      username: postgres
       maximum-pool-size: 20
       jdbc-url: jdbc:postgresql://localhost:5432/agona
 
