@@ -18,32 +18,27 @@ import java.util.UUID;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/exercises/sessions")
 public class ExerciseSessionController implements ExerciseSessionApi {
 
     private final ExerciseService exerciseService;
 
     @Override
-    @GetMapping("/{date}")
-    public List<ExerciseSessionResponse> getExercisesAtDay(@PathVariable String date) {
+    public List<ExerciseSessionResponse> getExercisesAtDay(String date) {
         return exerciseService.getExercisesAtDay(date);
     }
 
     @Override
-    @PostMapping
-    public void addExercise(@RequestBody  ExerciseSessionRequest request) {
+    public void addExercise(ExerciseSessionRequest request) {
         exerciseService.addExercise(request);
     }
 
     @Override
-    @PutMapping("/{id}")
-    public void updateExercise(@PathVariable UUID id, @RequestBody ExerciseSessionRequest request) {
+    public void updateExercise(UUID id, ExerciseSessionRequest request) {
         exerciseService.updateExercise(id, request);
     }
 
     @Override
-    @DeleteMapping("/{id}")
-    public void deleteExercise(@PathVariable  UUID id) {
+    public void deleteExercise(UUID id) {
         exerciseService.deleteExercise(id);
     }
 }

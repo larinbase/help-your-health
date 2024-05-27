@@ -8,6 +8,7 @@ import ru.itis.healthserviceapi.dto.request.ExerciseSessionRequest;
 import ru.itis.healthserviceapi.dto.request.ExerciseTemplateRequest;
 import ru.itis.healthserviceapi.dto.response.ExerciseSessionResponse;
 import ru.itis.healthserviceapi.dto.response.ExerciseTemplateResponse;
+import ru.itis.healthserviceimpl.exception.NotFoundException;
 import ru.itis.healthserviceimpl.mapper.ExerciseMapper;
 import ru.itis.healthserviceimpl.model.ExerciseSessionEntity;
 import ru.itis.healthserviceimpl.model.ExerciseTemplateEntity;
@@ -29,10 +30,12 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     private final ExerciseMapper exerciseMapper;
 
+    @Override
     public Page<ExerciseTemplateResponse> getTemplates(Pageable pageable) {
         return templateRepository.findAll(pageable).map(exerciseMapper::toResponse);
     }
 
+    @Override
     public List<ExerciseTemplateResponse> searchTemplates(String query) {
         return templateRepository.findAll().stream()
                 .filter(template -> template.getDescription().toLowerCase().contains(query.toLowerCase()))
@@ -40,6 +43,7 @@ public class ExerciseServiceImpl implements ExerciseService {
                 .collect(Collectors.toList());
     }
 
+    @Override
     public UUID createTemplate(ExerciseTemplateRequest templateRequest) {
         ExerciseTemplateEntity template = new ExerciseTemplateEntity();
         template.setDescription(templateRequest.description());
@@ -50,8 +54,10 @@ public class ExerciseServiceImpl implements ExerciseService {
         return templateRepository.save(template).getId();
     }
 
+    @Override
     public void updateTemplate(UUID templateId, ExerciseTemplateRequest templateRequest) {
-        ExerciseTemplateEntity template = templateRepository.findById(templateId).orElseThrow(() -> new RuntimeException("Template not found"));
+        ExerciseTemplateEntity template = templateRepository.findById(templateId)
+                .orElseThrow(() -> new NotFoundException("Template not found"));
         template.setDescription(templateRequest.description());
         template.setImage(templateRequest.image());
         template.setCaloriesPerUnit(templateRequest.caloriesPerUnit());
@@ -60,16 +66,19 @@ public class ExerciseServiceImpl implements ExerciseService {
         templateRepository.save(template);
     }
 
+    @Override
     public void deleteTemplate(UUID templateId) {
         templateRepository.deleteById(templateId);
     }
 
+    @Override
     public List<ExerciseSessionResponse> getExercisesAtDay(String date) {
         return sessionRepository.findAllByDate(Date.valueOf(date)).stream()
                 .map(exerciseMapper::toResponse)
                 .collect(Collectors.toList());
     }
 
+    @Override
     public void addExercise(ExerciseSessionRequest request) {
         ExerciseSessionEntity session = new ExerciseSessionEntity();
 
@@ -84,8 +93,10 @@ public class ExerciseServiceImpl implements ExerciseService {
         sessionRepository.save(session);
     }
 
+    @Override
     public void updateExercise(UUID id, ExerciseSessionRequest request) {
-        ExerciseSessionEntity session = sessionRepository.findById(id).orElseThrow(() -> new RuntimeException("Session not found"));
+        ExerciseSessionEntity session = sessionRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Session not found"));
         session.setMetricAmount(request.metricAmount());
         session.setDate(new Date(request.date().getTime()));
         sessionRepository.save(session);

@@ -16,40 +16,34 @@ import java.util.UUID;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/exercises/templates")
 public class ExerciseTemplateController implements ExerciseTemplateApi {
 
     private final ExerciseService exerciseService;
 
 
     @Override
-    @GetMapping()
     public Page<ExerciseTemplateResponse> getTemplates(Pageable pageable) {
         return exerciseService.getTemplates(pageable);
     }
 
     @Override
-    @GetMapping(params = {"q"})
-    public List<ExerciseTemplateResponse> searchTemplates(@RequestParam("q") String query) {
+    public List<ExerciseTemplateResponse> searchTemplates(String query) {
         return exerciseService.searchTemplates(query);
     }
 
     @Override
-    @PostMapping()
-    public UUID createTemplate(@RequestBody ExerciseTemplateRequest templateRequest) {
+    public UUID createTemplate(ExerciseTemplateRequest templateRequest) {
         return exerciseService.createTemplate(templateRequest);
     }
 
     @Override
-    @PutMapping("/{templateId}")
-    public void updateTemplate(@PathVariable("templateId") UUID templateId, @RequestBody ExerciseTemplateRequest templateRequest) {
+    public void updateTemplate(UUID templateId, ExerciseTemplateRequest templateRequest) {
         exerciseService.updateTemplate(templateId, templateRequest);
     }
 
 
     @Override
-    @DeleteMapping("/{templateId}")
-    public void deleteTemplate(@PathVariable("templateId") UUID templateId) {
+    public void deleteTemplate(UUID templateId) {
         exerciseService.deleteTemplate(templateId);
     }
 }
