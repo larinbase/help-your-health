@@ -2,6 +2,8 @@ package ru.itis.healthserviceimpl.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import ru.itis.healthserviceapi.dto.request.DrinkingWaterRequest;
 import ru.itis.healthserviceapi.dto.response.DrinkingWaterResponse;
@@ -27,6 +29,7 @@ public class DrinkingWaterServiceImpl implements DrinkingWaterService {
     private final DrinkingWaterMapper drinkingWaterMapper;
 
     @Override
+    @Cacheable(value = "water")
     public DrinkingWaterResponse findDrinkingWaterById(UUID id) {
         return drinkingWaterRepository.findById(id)
                 .map(drinkingWaterMapper::toResponse)
@@ -34,6 +37,7 @@ public class DrinkingWaterServiceImpl implements DrinkingWaterService {
     }
 
     @Override
+    @Cacheable(value = "water")
     public DrinkingWaterResponse findLastDrinkingWaterByUser(UUID userId) {
         return drinkingWaterRepository.findLastDrinkingWaterByUserId(userId)
                 .map(drinkingWaterMapper::toResponse)
@@ -41,6 +45,7 @@ public class DrinkingWaterServiceImpl implements DrinkingWaterService {
     }
 
     @Override
+    @Cacheable(value = "water")
     public List<DrinkingWaterResponse> findAllDrinkingWaterByUser(UUID userId) {
         return drinkingWaterRepository.findAllByUserId(userId)
                 .stream()
@@ -48,6 +53,7 @@ public class DrinkingWaterServiceImpl implements DrinkingWaterService {
     }
 
     @Override
+    @CachePut(value = "water")
     public void save(DrinkingWaterRequest request) {
 
         DrinkingWater drinkingWater = drinkingWaterMapper.toEntity(request);
@@ -66,6 +72,7 @@ public class DrinkingWaterServiceImpl implements DrinkingWaterService {
     }
 
     @Override
+    @Cacheable(value = "water")
     public List<DrinkingWaterResponse> findAllDrinkingWaterByTimePeriod(UUID userId, Instant from, Instant to) {
         return drinkingWaterRepository.findAllByUserIdAndCreateDateBetween(userId, from, to)
                 .stream().map(drinkingWaterMapper::toResponse).toList();

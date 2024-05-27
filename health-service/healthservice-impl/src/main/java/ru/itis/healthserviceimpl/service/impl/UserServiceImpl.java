@@ -1,6 +1,9 @@
 package ru.itis.healthserviceimpl.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import ru.itis.healthserviceapi.dto.request.UserSave;
 import ru.itis.healthserviceapi.dto.request.UserUpdate;
@@ -23,6 +26,7 @@ public class UserServiceImpl implements UserService {
     private final UserMapper mapper;
 
     @Override
+    @CachePut(value = "users", key = "#userSave.username")
     public void create(UserSave userSave) {
         if (repository.findByUsername(userSave.username()).isPresent()) {
             throw new IllegalArgumentException("User already exist"); // ToDo: Custom exception
@@ -33,6 +37,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Cacheable(value = "users")
     public UserResponse findByUsername(String username) {
         return mapper.toResponse(
                 repository.findByUsername(username)
@@ -41,6 +46,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @CachePut(value = "users")
     public void update(UserUpdate userUpdate, UUID id) {
         User user = repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
@@ -55,6 +61,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @CacheEvict(value = "accounts")
     public void deleteById(UUID id) {
         if (repository.findById(id).isEmpty()){
             throw new IllegalArgumentException("User not found");
