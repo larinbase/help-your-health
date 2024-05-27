@@ -29,13 +29,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Cacheable(value = "users", key = "#userSave.username")
-    public void create(UserSave userSave) {
+    public UserResponse create(UserSave userSave) {
         if (repository.findByUsername(userSave.username()).isPresent()) {
             throw new IllegalArgumentException("User already exist"); // ToDo: Custom exception
         }
         User user = mapper.fromRequest(userSave);
         setNutritionalNorm(user);
-        repository.save(user);
+        return mapper.toResponse(repository.save(user));
     }
 
     @Override
@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @CachePut(value = "users", key = "#id")
-    public void update(UserUpdate userUpdate, UUID id) {
+    public UserResponse update(UserUpdate userUpdate, UUID id) {
         User user = repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
         user.setFirstname(userUpdate.firstname());
@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService {
         user.setWeight(user.getWeight());
         user.setActivityCoefficient(ActivityCoefficient.valueOf(userUpdate.activityCoefficient()));
         setNutritionalNorm(user);
-        repository.save(user);
+        return mapper.toResponse(repository.save(user));
     }
 
     @Override

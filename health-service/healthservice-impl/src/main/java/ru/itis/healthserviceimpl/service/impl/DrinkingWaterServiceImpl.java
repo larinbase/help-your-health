@@ -55,7 +55,7 @@ public class DrinkingWaterServiceImpl implements DrinkingWaterService {
 
     @Override
     @Cacheable(value = "water")
-    public void save(DrinkingWaterRequest request) {
+    public DrinkingWaterResponse save(DrinkingWaterRequest request) {
 
         DrinkingWater drinkingWater = drinkingWaterMapper.toEntity(request);
 
@@ -64,7 +64,7 @@ public class DrinkingWaterServiceImpl implements DrinkingWaterService {
                         .orElseThrow(() -> new UserNotFoundException(request.accountId()))
         );
 
-        drinkingWaterRepository.save(drinkingWater);
+        return drinkingWaterMapper.toResponse(drinkingWaterRepository.save(drinkingWater));
     }
 
     @Override
