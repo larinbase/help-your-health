@@ -22,11 +22,13 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
+
     private final UserRepository repository;
+
     private final UserMapper mapper;
 
     @Override
-    @CachePut(value = "users", key = "#userSave.username")
+    @Cacheable(value = "users", key = "#userSave.username")
     public void create(UserSave userSave) {
         if (repository.findByUsername(userSave.username()).isPresent()) {
             throw new IllegalArgumentException("User already exist"); // ToDo: Custom exception
@@ -37,7 +39,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Cacheable(value = "users")
+    @Cacheable(value = "users", key = "#username")
     public UserResponse findByUsername(String username) {
         return mapper.toResponse(
                 repository.findByUsername(username)
@@ -46,7 +48,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @CachePut(value = "users")
+    @CachePut(value = "users", key = "#id")
     public void update(UserUpdate userUpdate, UUID id) {
         User user = repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
@@ -61,7 +63,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @CacheEvict(value = "accounts")
+    @CacheEvict(value = "accounts", key = "#id")
     public void deleteById(UUID id) {
         if (repository.findById(id).isEmpty()){
             throw new IllegalArgumentException("User not found");

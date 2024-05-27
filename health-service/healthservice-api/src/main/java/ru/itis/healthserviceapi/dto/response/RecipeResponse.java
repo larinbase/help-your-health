@@ -6,6 +6,8 @@ import java.util.List;
 
 public record RecipeResponse(
 
+        String id,
+
         // TODO: автор - дто юзера
         ObjectId author,
 

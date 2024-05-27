@@ -14,6 +14,7 @@ import ru.itis.healthserviceapi.dto.request.RecipeRequest;
 import ru.itis.healthserviceapi.dto.response.RecipeResponse;
 import ru.itis.healthserviceimpl.exception.RecipeNotFoundException;
 import ru.itis.healthserviceimpl.mapper.RecipeMapper;
+import ru.itis.healthserviceimpl.model.MyPageImpl;
 import ru.itis.healthserviceimpl.model.Recipe;
 import ru.itis.healthserviceimpl.repository.RecipeRepository;
 import ru.itis.healthserviceimpl.service.RecipeService;
@@ -27,57 +28,57 @@ public class RecipeServiceImpl implements RecipeService {
     private final RecipeMapper mapper;
 
     @Override
-    @CachePut(value = "recipes")
-    public void create(RecipeRequest request) {
-        repository.save(mapper.toEntity(request));
+    @Cacheable(value = "recipes")
+    public RecipeResponse create(RecipeRequest request) {
+        return mapper.toResponse(repository.save(mapper.toEntity(request)));
     }
 
     @Override
     @Cacheable(value = "recipes")
     public Page<RecipeResponse> findAll(int offset, int limit) {
-        return mapper.toResponse(repository.findAll(PageRequest.of(offset, limit,
-                Sort.by(Sort.Direction.ASC, "title"))));
+        return new MyPageImpl<>(mapper.toResponse(repository.findAll(PageRequest.of(offset, limit,
+                Sort.by(Sort.Direction.ASC, "title")))));
     }
 
     @Override
-    @Cacheable(value = "recipes")
+    @Cacheable(value = "recipes", key = "#id")
     public RecipeResponse findById(ObjectId id) {
         return mapper.toResponse(repository.findById(id)
                 .orElseThrow(() -> new RecipeNotFoundException(id)));
     }
 
     @Override
-    @Cacheable(value = "recipes")
+    @Cacheable(value = "recipes", key = "#title")
     public Page<RecipeResponse> findByTitle(String title, int offset, int limit) {
         Pageable pageable = PageRequest.of(offset, limit);
         return mapper.toResponse(repository.findAllByTitleRegex(title, pageable));
     }
 
     @Override
-    @Cacheable(value = "recipes")
+    @Cacheable(value = "recipes", key = "#category")
     public Page<RecipeResponse> findByCategory(String category, int offset, int limit) {
         Pageable pageable = PageRequest.of(offset, limit);
         return mapper.toResponse(repository.findAllByCategoriesContaining(category, pageable));
     }
 
     @Override
-    @Cacheable(value = "recipes")
+    @Cacheable(value = "recipes", key = "#cookingTime")
     public Page<RecipeResponse> findByCookingTime(int cookingTime, int offset, int limit) {
         Pageable pageable = PageRequest.of(offset, limit);
         return mapper.toResponse(repository.findAllByCookingTime(cookingTime, pageable));
     }
 
     @Override
-    @CachePut(value = "recipes")
-    public void update(ObjectId id, RecipeRequest request) {
+    @CachePut(value = "recipes", key = "#id")
+    public RecipeResponse update(ObjectId id, RecipeRequest request) {
         repository.findById(id).orElseThrow(() -> new RecipeNotFoundException(id));
         Recipe recipe = mapper.toEntity(request);
         recipe.setId(id);
-        repository.save(recipe);
+        return mapper.toResponse(repository.save(recipe));
     }
 
     @Override
-    @CacheEvict(value = "recipes")
+    @CacheEvict(value = "recipes", key = "#id")
     public void deleteById(ObjectId id) {
         repository.delete(repository.findById(id).orElseThrow(() -> new RecipeNotFoundException(id)));
     }

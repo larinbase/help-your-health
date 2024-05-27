@@ -2,6 +2,7 @@ package ru.itis.healthserviceimpl.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,7 @@ public class DrinkingWaterServiceImpl implements DrinkingWaterService {
     private final DrinkingWaterMapper drinkingWaterMapper;
 
     @Override
-    @Cacheable(value = "water")
+    @Cacheable(value = "water", key = "#id")
     public DrinkingWaterResponse findDrinkingWaterById(UUID id) {
         return drinkingWaterRepository.findById(id)
                 .map(drinkingWaterMapper::toResponse)
@@ -37,7 +38,7 @@ public class DrinkingWaterServiceImpl implements DrinkingWaterService {
     }
 
     @Override
-    @Cacheable(value = "water")
+    @Cacheable(value = "water", key = "#userId")
     public DrinkingWaterResponse findLastDrinkingWaterByUser(UUID userId) {
         return drinkingWaterRepository.findLastDrinkingWaterByUserId(userId)
                 .map(drinkingWaterMapper::toResponse)
@@ -45,7 +46,7 @@ public class DrinkingWaterServiceImpl implements DrinkingWaterService {
     }
 
     @Override
-    @Cacheable(value = "water")
+    @Cacheable(value = "water", key = "#userId")
     public List<DrinkingWaterResponse> findAllDrinkingWaterByUser(UUID userId) {
         return drinkingWaterRepository.findAllByUserId(userId)
                 .stream()
@@ -53,7 +54,7 @@ public class DrinkingWaterServiceImpl implements DrinkingWaterService {
     }
 
     @Override
-    @CachePut(value = "water")
+    @Cacheable(value = "water")
     public void save(DrinkingWaterRequest request) {
 
         DrinkingWater drinkingWater = drinkingWaterMapper.toEntity(request);
@@ -67,12 +68,13 @@ public class DrinkingWaterServiceImpl implements DrinkingWaterService {
     }
 
     @Override
+    @CacheEvict(value = "water", key = "#id")
     public void delete(UUID id) {
         drinkingWaterRepository.deleteById(id);
     }
 
     @Override
-    @Cacheable(value = "water")
+    @Cacheable(value = "water", key = "#userId")
     public List<DrinkingWaterResponse> findAllDrinkingWaterByTimePeriod(UUID userId, Instant from, Instant to) {
         return drinkingWaterRepository.findAllByUserIdAndCreateDateBetween(userId, from, to)
                 .stream().map(drinkingWaterMapper::toResponse).toList();
