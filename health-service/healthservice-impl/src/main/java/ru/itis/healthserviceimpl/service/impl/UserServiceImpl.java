@@ -6,10 +6,14 @@ import ru.itis.healthserviceapi.dto.request.UserSave;
 import ru.itis.healthserviceapi.dto.request.UserUpdate;
 import ru.itis.healthserviceapi.dto.response.UserResponse;
 import ru.itis.healthserviceimpl.mapper.UserMapper;
+import ru.itis.healthserviceimpl.model.ActivityCoefficient;
+import ru.itis.healthserviceimpl.model.Nutrition;
 import ru.itis.healthserviceimpl.model.User;
 import ru.itis.healthserviceimpl.repository.UserRepository;
 import ru.itis.healthserviceimpl.service.UserService;
+import ru.itis.healthserviceimpl.util.CalculateNutritionalInfoAndWaterNorm;
 
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -21,9 +25,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public void create(UserSave userSave) {
         if (repository.findByUsername(userSave.username()).isPresent()) {
-            throw new IllegalArgumentException("User alreay exist"); // ToDo: Custom exception
+            throw new IllegalArgumentException("User already exist"); // ToDo: Custom exception
         }
-        repository.save(mapper.fromRequest(userSave));
+        User user = mapper.fromRequest(userSave);
+        setNutritionalNorm(user);
+        repository.save(user);
     }
 
     @Override
@@ -43,6 +49,8 @@ public class UserServiceImpl implements UserService {
         user.setAge(userUpdate.age());
         user.setHeight(userUpdate.height());
         user.setWeight(user.getWeight());
+        user.setActivityCoefficient(ActivityCoefficient.valueOf(userUpdate.activityCoefficient()));
+        setNutritionalNorm(user);
         repository.save(user);
     }
 
@@ -52,5 +60,15 @@ public class UserServiceImpl implements UserService {
             throw new IllegalArgumentException("User not found");
         }
         repository.deleteById(id);
+    }
+
+    private void setNutritionalNorm(User user) {
+        Map<Nutrition, Integer> nutritionalInfo = CalculateNutritionalInfoAndWaterNorm.calculateNutritionalInfo(
+                user.getSex(), user.getWeight(), user.getHeight(), user.getAge(), user.getActivityCoefficient());
+        user.setCalorieAllowance(nutritionalInfo.get(Nutrition.CALORIES));
+        user.setProteins(nutritionalInfo.get(Nutrition.PROTEINS));
+        user.setFats(nutritionalInfo.get(Nutrition.FATS));
+        user.setCarbohydrates(nutritionalInfo.get(Nutrition.CARBOHYDRATES));
+        user.setWaterNorm(nutritionalInfo.get(Nutrition.WATER_NORM));
     }
 }
