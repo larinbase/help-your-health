@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: health-auth-impl
+
+jwt:
+  expiration:
+    access:
+      mills: 3600000
+  secret: 32wADAS1vnn2321fvsGENbsnbdnskbESFEGVESBVSBFEREAWEVDVEGEVETEVESGESFSEGVSGESF23w32423423432
