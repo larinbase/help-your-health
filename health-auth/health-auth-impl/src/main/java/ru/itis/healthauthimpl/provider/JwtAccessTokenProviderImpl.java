@@ -1,20 +1,21 @@
 package ru.itis.healthauthimpl.provider;
 
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import ru.itis.healthauthapi.dto.AccountRequest;
+import ru.itis.healthauthapi.dto.Role;
+import ru.itis.healthauthimpl.exception.AuthenticationException;
 
 import javax.crypto.spec.SecretKeySpec;
 import java.security.Key;
 import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -56,9 +57,45 @@ public class JwtAccessTokenProviderImpl implements JwtAccessTokenProvider {
         }
     }
 
+    @Override
+    public AccountRequest userInfoByToken(String token) {
+        try {
+            Claims claims = parseAccessToken(token);
+            log.info("claims: {}", claims);
+            List<Role> roles = getRolesFromAccessToken(token);
+            log.info("roles: {}", roles);
+            String subject = claims.getSubject();
+            log.info("subject: {}", subject);
+//            AccountService accountService = accountProvider.getAccountService(roles);
+            return new AccountRequest(subject, roles);
+        } catch (ExpiredJwtException e) {
+            throw new AuthenticationException("Token expired"); //TODO: AuthenticationException
+        }
+    }
 
+    @Override
+    public Claims parseAccessToken(String accessToken) {
+        Key secretKey = new SecretKeySpec(jwtSecret.getBytes(), "HmacSHA512");
+        return Jwts
+                .parserBuilder()
+                .setSigningKey(secretKey)
+                .build()
+                .parseClaimsJws(accessToken)
+                .getBody();
+    }
 
-
+    @Override
+    public List<Role> getRolesFromAccessToken(String accessToken) {
+        try {
+            Key secretKey = new SecretKeySpec(jwtSecret.getBytes(), "HmacSHA512");
+            return (List<Role>) Jwts.parserBuilder()
+                    .setSigningKey(secretKey)
+                    .build()
+                    .parseClaimsJws(accessToken).getBody().get("role");
+        } catch (ExpiredJwtException e) {
+            return (List<Role>) e.getClaims().get("role");
+        }
+    }
 
 
 }

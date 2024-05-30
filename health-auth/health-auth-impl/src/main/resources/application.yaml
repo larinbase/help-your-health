@@ -2,8 +2,24 @@ spring:
   application:
     name: health-auth-impl
 
+  datasource:
+    url: jdbc:postgresql://localhost:5432/test-health-agona-db
+    hikari:
+      password: 1234
+      username: postgres
+      maximum-pool-size: 20
+      jdbc-url: jdbc:postgresql://localhost:5432/test-health-agona-db
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    database: postgresql
+
 jwt:
   expiration:
     access:
       mills: 3600000
+    refresh:
+      mills: 360000000
   secret: 32wADAS1vnn2321fvsGENbsnbdnskbESFEGVESBVSBFEREAWEVDVEGEVETEVESGESFSEGVSGESF23w32423423432

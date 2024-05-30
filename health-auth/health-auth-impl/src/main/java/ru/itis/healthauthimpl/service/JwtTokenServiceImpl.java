@@ -1,16 +1,18 @@
 package ru.itis.healthauthimpl.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.itis.healthauthapi.dto.AccountRequest;
 import ru.itis.healthauthapi.dto.TokenCoupleRequest;
 import ru.itis.healthauthapi.dto.TokenCoupleResponse;
+import ru.itis.healthauthimpl.exception.AuthenticationException;
 import ru.itis.healthauthimpl.provider.JwtAccessTokenProvider;
 import ru.itis.healthauthimpl.provider.JwtRefreshTokenProvider;
 
-import java.util.Collection;
 import java.util.Collections;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class JwtTokenServiceImpl implements JwtTokenService {
@@ -19,37 +21,43 @@ public class JwtTokenServiceImpl implements JwtTokenService {
 
     private final JwtRefreshTokenProvider jwtRefreshTokenProvider;
 
+    private final SessionService sessionService;
+
 
     @Override
     public TokenCoupleResponse generateTokenCouple(AccountRequest accountRequest) {
+        log.info("generateTokenCouple: {}", accountRequest);
 
-        // TODO: нужно аккаунт реквест данные спарсить в Map<String, Object>
-        //                 Collections.singletonMap(ROLE, accountResponse
-        //                        .getRole())
         String accessToken = jwtAccessTokenProvider.generateAccessToken(
                 accountRequest.subject(),
                 Collections.singletonMap("role", accountRequest.roles())
         );
 
-        String refreshToken = jwtRefreshTokenProvider.generateRefreshToken(accountRequest);
+        String refreshToken = jwtRefreshTokenProvider.generateRefreshToken();
+
+        sessionService.save(refreshToken, accountRequest.subject());
 
         return new TokenCoupleResponse(accessToken, refreshToken); // TODO: надо ли BEARER.concat(" ").concat(accessToken))
     }
 
     @Override
     public TokenCoupleResponse refreshAccessToken(TokenCoupleRequest tokenCoupleRequest) {
+        if (!jwtRefreshTokenProvider.isRefreshTokenExpired(tokenCoupleRequest.refreshToken())) {
+            AccountRequest accountRequest = jwtAccessTokenProvider.userInfoByToken(tokenCoupleRequest.accessToken());
+            String accessToken = jwtAccessTokenProvider.generateAccessToken(
+                    accountRequest.subject(),
+                    Collections.singletonMap("role", accountRequest.roles())
+            );
 
-        String refreshToken = tokenCoupleRequest.refreshToken();
+            String newRefreshToken = jwtRefreshTokenProvider.generateRefreshToken();
 
-//        if (!jwtRefreshTokenProvider.isRefreshTokenExpired(refreshToken)) {
-//            String accessToken = jwtAccessTokenProvider.generateAccessToken();
-//            String refreshToken = jwtRefreshTokenProvider.generateRefreshToken();
-//            return new TokenCoupleResponse(accessToken, refreshToken);
-//        } else {
-//            throw new RuntimeException("Refresh token expired");
-//        }
+            sessionService.updateRefreshToken(tokenCoupleRequest.refreshToken(), newRefreshToken);
 
-        return null;
-
+            return new TokenCoupleResponse(accessToken, newRefreshToken);
+        } else {
+            throw new AuthenticationException("Refresh token expired");
+        }
     }
+
+
 }
