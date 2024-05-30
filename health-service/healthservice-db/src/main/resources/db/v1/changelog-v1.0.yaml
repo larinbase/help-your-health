@@ -6,6 +6,9 @@ databaseChangeLog:
       file: DDL/20240510-init-user-db.yml
       relativeToChangelogFile: true
   - include:
+      file: DDL/20240509-init-mongodb.xml
+      relativeToChangelogFile: true
+  - include:
       file: DDL/20240517-12-init-community-role-type-db.yml
       relativeToChangelogFile: true
   - include:
