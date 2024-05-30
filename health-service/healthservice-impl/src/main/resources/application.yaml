@@ -7,20 +7,24 @@ spring:
     enabled: true
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/agona
+    url: jdbc:postgresql://localhost:5432/test-health-agona-db
     hikari:
-      password: password
+      password: 1234
       username: postgres
       maximum-pool-size: 20
-      jdbc-url: jdbc:postgresql://localhost:5432/agona
+      jdbc-url: jdbc:postgresql://localhost:5432/test-health-agona-db
 
   data:
     mongodb:
       host: localhost
       port: 27017
       database: healthservice
-      
+
 server:
   port: 8081
 
 
+jwt:
+  expiration:
+      millis: 3600000
+  secret: 32wADAS1vnn2321fvsGENbsnbdnskbESFEGVESBVSBFEREAWEVDVEGEVETEVESGESFSEGVSGESF23w32423423432

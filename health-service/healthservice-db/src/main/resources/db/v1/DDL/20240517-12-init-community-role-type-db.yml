@@ -1,0 +1,28 @@
+databaseChangeLog:
+  - changeSet:
+      id: 5
+      author: salyukov
+      changes:
+        - createTable:
+            tableName: community_role_type
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  defaultValueComputed: uuid_generate_v4()
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: community_role_pk
+              - column:
+                  name: type
+                  type: varchar(40)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: create_date
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: update_date
+                  type: date

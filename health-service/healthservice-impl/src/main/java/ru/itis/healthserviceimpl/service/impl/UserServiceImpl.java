@@ -1,74 +1,74 @@
 package ru.itis.healthserviceimpl.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.itis.healthserviceapi.dto.request.UserSave;
 import ru.itis.healthserviceapi.dto.request.UserUpdate;
 import ru.itis.healthserviceapi.dto.response.UserResponse;
+import ru.itis.healthserviceimpl.exception.CommunityRoleNotFoundException;
+import ru.itis.healthserviceimpl.exception.UserAlreadyExistException;
+import ru.itis.healthserviceimpl.exception.UserNotFoundException;
 import ru.itis.healthserviceimpl.mapper.UserMapper;
-import ru.itis.healthserviceimpl.model.ActivityCoefficient;
-import ru.itis.healthserviceimpl.model.Nutrition;
+import ru.itis.healthserviceimpl.model.CommunityRole;
 import ru.itis.healthserviceimpl.model.User;
+import ru.itis.healthserviceimpl.model.roles.CommunityRoleType;
+import ru.itis.healthserviceimpl.repository.CommunityRoleRepository;
 import ru.itis.healthserviceimpl.repository.UserRepository;
 import ru.itis.healthserviceimpl.service.UserService;
-import ru.itis.healthserviceimpl.util.CalculateNutritionalInfoAndWaterNorm;
 
-import java.util.Map;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserServiceImpl implements UserService {
-    private final UserRepository repository;
+    private final UserRepository userRepository;
     private final UserMapper mapper;
+    private final CommunityRoleRepository communityRoleRepository;
 
     @Override
     public void create(UserSave userSave) {
-        if (repository.findByUsername(userSave.username()).isPresent()) {
-            throw new IllegalArgumentException("User already exist"); // ToDo: Custom exception
+        log.info("check user in database by not existing");
+        if (userRepository.findByUsername(userSave.username()).isPresent()) {
+            throw new UserAlreadyExistException(userSave.username()); // ToDo: Custom exception
         }
+        CommunityRoleType roleType = CommunityRoleType.valueOf(userSave.role());
+        log.info("Find role id by type");
+        CommunityRole role = communityRoleRepository.findByType(roleType)
+                .orElseThrow(()-> new CommunityRoleNotFoundException(roleType.name()));
+        log.info("mapping entity from dto");
         User user = mapper.fromRequest(userSave);
-        setNutritionalNorm(user);
-        repository.save(user);
+        user.setRole(role);
+        log.info("create user in database");
+        userRepository.save(user);
     }
 
     @Override
     public UserResponse findByUsername(String username) {
         return mapper.toResponse(
-                repository.findByUsername(username)
-                        .orElseThrow(() -> new IllegalArgumentException("User not found"))
+                userRepository.findByUsername(username)
+                        .orElseThrow(() -> new UserNotFoundException(username))
         );
     }
 
     @Override
     public void update(UserUpdate userUpdate, UUID id) {
-        User user = repository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(id));
         user.setFirstname(userUpdate.firstname());
         user.setLastname(userUpdate.lastname());
         user.setAge(userUpdate.age());
         user.setHeight(userUpdate.height());
         user.setWeight(user.getWeight());
-        user.setActivityCoefficient(ActivityCoefficient.valueOf(userUpdate.activityCoefficient()));
-        setNutritionalNorm(user);
-        repository.save(user);
+        userRepository.save(user);
     }
 
     @Override
     public void deleteById(UUID id) {
-        if (repository.findById(id).isEmpty()){
-            throw new IllegalArgumentException("User not found");
+        if (userRepository.findById(id).isEmpty()){
+            throw new UserNotFoundException(id);
         }
-        repository.deleteById(id);
-    }
-
-    private void setNutritionalNorm(User user) {
-        Map<Nutrition, Integer> nutritionalInfo = CalculateNutritionalInfoAndWaterNorm.calculateNutritionalInfo(
-                user.getSex(), user.getWeight(), user.getHeight(), user.getAge(), user.getActivityCoefficient());
-        user.setCalorieAllowance(nutritionalInfo.get(Nutrition.CALORIES));
-        user.setProteins(nutritionalInfo.get(Nutrition.PROTEINS));
-        user.setFats(nutritionalInfo.get(Nutrition.FATS));
-        user.setCarbohydrates(nutritionalInfo.get(Nutrition.CARBOHYDRATES));
-        user.setWaterNorm(nutritionalInfo.get(Nutrition.WATER_NORM));
+        userRepository.deleteById(id);
     }
 }
