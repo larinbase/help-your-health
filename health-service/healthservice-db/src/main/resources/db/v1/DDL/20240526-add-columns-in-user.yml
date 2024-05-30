@@ -1,0 +1,33 @@
+databaseChangeLog:
+  - changeSet:
+      id: 5
+      author: labinochka
+      changes:
+        - addColumn:
+            tableName: account
+            columns:
+              - column:
+                  name: sex
+                  type: varchar(6)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: activity_coefficient
+                  type: varchar(15)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: proteins
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: fats
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: carbohydrates
+                  type: int
+                  constraints:
+                    nullable: false

@@ -7,7 +7,7 @@ import ru.itis.healthserviceapi.dto.response.RecipeResponse;
 
 public interface RecipeService {
 
-    void create(RecipeRequest request);
+    RecipeResponse create(RecipeRequest request);
 
     Page<RecipeResponse> findAll(int offset, int limit);
 
@@ -19,7 +19,7 @@ public interface RecipeService {
 
     Page<RecipeResponse> findByCookingTime(int cookingTime, int offset, int limit);
 
-    void update(ObjectId id, RecipeRequest request);
+    RecipeResponse update(ObjectId id, RecipeRequest request);
 
     void deleteById(ObjectId id);
 }
