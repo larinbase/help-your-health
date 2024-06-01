@@ -14,23 +14,23 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AuthService {
 
-//    private final UserService userService;
-
     private final JwtTokenService jwtTokenService;
 
     private final SessionService sessionService;
 
     private final PasswordEncoder passwordEncoder;
 
+    private final UserService userService;
+
     public TokenCoupleResponse signIn(AuthenticationRequest authenticationRequest) {
         String username = authenticationRequest.username();
-//        UserResponse user = userService.findByUsername(username);
-//        checkPassword(passwordEncoder.encode(authenticationRequest.password()), user.password());
+        UserResponse user = userService.findByUsername(username);
+        checkPassword(authenticationRequest.password(), user.password());
         return jwtTokenService.generateTokenCouple(new AccountRequest(username, List.of(Role.USER)));
     }
 
-    private void checkPassword(final String presentedPassword, final String currentPassword) {
-        if (!presentedPassword.equals(currentPassword)) {
+    private void checkPassword(final String presentedPassword, final String currentHashPassword) {
+        if (!passwordEncoder.matches(presentedPassword, currentHashPassword)) {
             log.debug("Failed to authenticate since password does not match stored value");
             throw new BadCredentialsException("Bad credentials");
         }
