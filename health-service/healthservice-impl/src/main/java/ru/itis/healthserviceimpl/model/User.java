@@ -17,6 +17,8 @@ public class User extends AbstractModel {
 
     private String username;
 
+    private String password;
+
     private String firstname;
 
     private String lastname;
@@ -30,8 +32,6 @@ public class User extends AbstractModel {
     private int height;
 
     private ActivityCoefficient activityCoefficient;
-
-    private String password;
 
     @Column(name = "calorie_allowance")
     private int calorieAllowance;

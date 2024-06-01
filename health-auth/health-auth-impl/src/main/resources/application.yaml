@@ -23,3 +23,6 @@ jwt:
     refresh:
       mills: 360000000
   secret: 32wADAS1vnn2321fvsGENbsnbdnskbESFEGVESBVSBFEREAWEVDVEGEVETEVESGESFSEGVSGESF23w32423423432
+
+server:
+  port: 8082

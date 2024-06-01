@@ -3,6 +3,7 @@ package ru.itis.healthserviceimpl.security.provider;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.SignatureException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import ru.itis.healthserviceimpl.security.property.JwtProperty;
 
@@ -12,6 +13,7 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.Map;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class JwtTokenProvider {
@@ -50,6 +52,7 @@ public class JwtTokenProvider {
                     .setSigningKey(secretKey)
                     .build()
                     .parseClaimsJws(token);
+            log.info("isValidToken claims : {}", claims);
             return true;
         } catch (ExpiredJwtException |
                  UnsupportedJwtException |

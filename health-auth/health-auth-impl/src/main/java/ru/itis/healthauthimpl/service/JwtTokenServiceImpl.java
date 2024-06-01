@@ -29,15 +29,15 @@ public class JwtTokenServiceImpl implements JwtTokenService {
         log.info("generateTokenCouple: {}", accountRequest);
 
         String accessToken = jwtAccessTokenProvider.generateAccessToken(
-                accountRequest.subject(),
+                accountRequest.username(),
                 Collections.singletonMap("role", accountRequest.roles())
         );
 
         String refreshToken = jwtRefreshTokenProvider.generateRefreshToken();
 
-        sessionService.save(refreshToken, accountRequest.subject());
+        sessionService.save(refreshToken, accountRequest.username());
 
-        return new TokenCoupleResponse(accessToken, refreshToken); // TODO: надо ли BEARER.concat(" ").concat(accessToken))
+        return new TokenCoupleResponse(accessToken, refreshToken);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
         if (!jwtRefreshTokenProvider.isRefreshTokenExpired(tokenCoupleRequest.refreshToken())) {
             AccountRequest accountRequest = jwtAccessTokenProvider.userInfoByToken(tokenCoupleRequest.accessToken());
             String accessToken = jwtAccessTokenProvider.generateAccessToken(
-                    accountRequest.subject(),
+                    accountRequest.username(),
                     Collections.singletonMap("role", accountRequest.roles())
             );
 
