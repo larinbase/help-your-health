@@ -1,6 +1,9 @@
 package ru.itis.healthserviceimpl.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import ru.itis.healthserviceapi.dto.request.UserSave;
 import ru.itis.healthserviceapi.dto.request.UserUpdate;
@@ -19,20 +22,24 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
+
     private final UserRepository repository;
+
     private final UserMapper mapper;
 
     @Override
-    public void create(UserSave userSave) {
+    @Cacheable(value = "users", key = "#userSave.username")
+    public UserResponse create(UserSave userSave) {
         if (repository.findByUsername(userSave.username()).isPresent()) {
             throw new IllegalArgumentException("User already exist"); // ToDo: Custom exception
         }
         User user = mapper.fromRequest(userSave);
         setNutritionalNorm(user);
-        repository.save(user);
+        return mapper.toResponse(repository.save(user));
     }
 
     @Override
+    @Cacheable(value = "users", key = "#username")
     public UserResponse findByUsername(String username) {
         return mapper.toResponse(
                 repository.findByUsername(username)
@@ -41,7 +48,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void update(UserUpdate userUpdate, UUID id) {
+    @CachePut(value = "users", key = "#id")
+    public UserResponse update(UserUpdate userUpdate, UUID id) {
         User user = repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
         user.setFirstname(userUpdate.firstname());
@@ -51,10 +59,11 @@ public class UserServiceImpl implements UserService {
         user.setWeight(user.getWeight());
         user.setActivityCoefficient(ActivityCoefficient.valueOf(userUpdate.activityCoefficient()));
         setNutritionalNorm(user);
-        repository.save(user);
+        return mapper.toResponse(repository.save(user));
     }
 
     @Override
+    @CacheEvict(value = "accounts", key = "#id")
     public void deleteById(UUID id) {
         if (repository.findById(id).isEmpty()){
             throw new IllegalArgumentException("User not found");

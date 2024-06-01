@@ -16,7 +16,7 @@ public interface DrinkingWaterService {
 
     List<DrinkingWaterResponse> findAllDrinkingWaterByUser(@PathVariable UUID userId);
 
-    void save(DrinkingWaterRequest request);
+    DrinkingWaterResponse save(DrinkingWaterRequest request);
 
     void delete(UUID id);
 

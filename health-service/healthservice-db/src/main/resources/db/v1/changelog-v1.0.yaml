@@ -17,3 +17,9 @@ databaseChangeLog:
   - include:
       file: DDL/20240527-init-food-entities.yml
       relativeToChangelogFile: true
+  - include:
+      file: DDL/20240517-init-exercise-sessions.yml
+      relativeToChangelogFile: true
+  - include:
+      file: DDL/20240517-init-exercise-templates.yml
+      relativeToChangelogFile: true

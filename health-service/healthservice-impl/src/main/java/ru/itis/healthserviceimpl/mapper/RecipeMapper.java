@@ -1,7 +1,9 @@
 package ru.itis.healthserviceimpl.mapper;
 
+import org.bson.types.ObjectId;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Named;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import ru.itis.healthserviceapi.dto.request.RecipeRequest;
@@ -16,9 +18,15 @@ public interface RecipeMapper {
     @Mapping(target = "id", ignore = true)
     Recipe toEntity(RecipeRequest request);
 
+    @Mapping(source = "id", target = "id", qualifiedByName = "mapId")
     RecipeResponse toResponse(Recipe recipe);
 
     default Page<RecipeResponse> toResponse(Page<Recipe> recipe) {
         return recipe.map(this::toResponse);
+    }
+
+    @Named("mapId")
+    default String mapId(ObjectId id) {
+        return id.toString();
     }
 }
