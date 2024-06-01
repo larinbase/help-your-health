@@ -23,11 +23,11 @@ public class AuthController implements AuthApi {
 
     @Override
     public TokenCoupleResponse refreshToken(TokenCoupleRequest tokenCoupleRequest) {
-        return null;
+        return authService.refreshToken(tokenCoupleRequest);
     }
 
     @Override
     public void logout(TokenCoupleRequest tokenCoupleRequest) {
-
+        authService.logout(tokenCoupleRequest);
     }
 }

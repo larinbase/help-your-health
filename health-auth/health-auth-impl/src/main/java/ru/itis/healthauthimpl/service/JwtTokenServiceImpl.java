@@ -52,7 +52,8 @@ public class JwtTokenServiceImpl implements JwtTokenService {
             String newRefreshToken = jwtRefreshTokenProvider.generateRefreshToken();
 
             sessionService.updateRefreshToken(tokenCoupleRequest.refreshToken(), newRefreshToken);
-
+            log.info("newRefreshToken: {}", newRefreshToken);
+            log.info("accessToken: {}", accessToken);
             return new TokenCoupleResponse(accessToken, newRefreshToken);
         } else {
             throw new AuthenticationException("Refresh token expired");
