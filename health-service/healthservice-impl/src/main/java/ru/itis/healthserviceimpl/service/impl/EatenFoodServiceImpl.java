@@ -63,5 +63,7 @@ public class EatenFoodServiceImpl implements EatenFoodService {
         }
         else {
             throw new EatenFoodNotFoundException(id);
-        }    }
+        }    
+    }
+    
 }

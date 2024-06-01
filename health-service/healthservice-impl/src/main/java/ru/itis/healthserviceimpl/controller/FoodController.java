@@ -17,7 +17,6 @@ public class FoodController implements FoodApi {
 
     private final FoodService service;
 
-
     @Override
     public UUID save(FoodRequest foodRequest) {
         return service.save(foodRequest);

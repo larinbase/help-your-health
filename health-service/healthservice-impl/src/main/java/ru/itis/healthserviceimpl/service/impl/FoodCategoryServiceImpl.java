@@ -64,6 +64,7 @@ public class FoodCategoryServiceImpl implements FoodCategoryService {
         }
         else {
             throw new FoodCategoryNotFoundException(id);
-        }    }
+        }
+    }
 
 }
