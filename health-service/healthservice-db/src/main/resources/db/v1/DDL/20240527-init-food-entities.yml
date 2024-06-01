@@ -1,0 +1,103 @@
+databaseChangeLog:
+  - changeSet:
+      id: 8
+      author: Eldar
+      changes:
+        - createTable:
+            tableName: food_categories
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: created_date
+                  type: timestamp
+              - column:
+                  name: updated_date
+                  type: timestamp
+              - column:
+                  name: name
+                  type: varchar(50)
+
+        - createTable:
+            tableName: foods
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: created_date
+                  type: timestamp
+              - column:
+                  name: updated_date
+                  type: timestamp
+              - column:
+                  name: name
+                  type: varchar(50)
+              - column:
+                  name: proteins
+                  type: smallint
+                  constraints:
+                    checkConstraint: "proteins >= 0"
+              - column:
+                  name: fats
+                  type: smallint
+                  constraints:
+                    checkConstraint: "fats >= 0"
+              - column:
+                  name: carbohydrates
+                  type: smallint
+                  constraints:
+                    checkConstraint: "carbohydrates >= 0 and (proteins + fats + carbohydrates) <= 100"
+              - column:
+                  name: calories_number
+                  type: smallint
+                  constraints:
+                    checkConstraint: "calories_number >= 0"
+              - column:
+                  name: type_of_food
+                  type: smallint
+                  constraints:
+                    checkConstraint: "type_of_food between 0 and 2"
+              - column:
+                  name: category_id
+                  type: uuid
+                  constraints:
+                    references: food_categories(id)
+                    foreignKeyName: fk_category_id
+
+        - createTable:
+            tableName: eaten_foods
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: created_date
+                  type: timestamp
+              - column:
+                  name: updated_date
+                  type: timestamp
+              - column:
+                  name: user_id
+                  type: uuid
+                  constraints:
+                    references: users(id)
+                    foreignKeyName: fk_user_id
+              - column:
+                  name: food_id
+                  type: uuid
+                  constraints:
+                    references: foods(id)
+                    foreignKeyName: fk_food_id
+              - column:
+                  name: weight
+                  type: smallint
+                  constraints:
+                    checkConstraint: "weight between 5 and 999"

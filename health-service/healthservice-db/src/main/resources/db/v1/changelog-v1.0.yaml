@@ -15,6 +15,9 @@ databaseChangeLog:
       file: DDL/20240526-add-columns-in-user.yml
       relativeToChangelogFile: true
   - include:
+      file: DDL/20240527-init-food-entities.yml
+      relativeToChangelogFile: true
+  - include:
       file: DDL/20240517-init-exercise-sessions.yml
       relativeToChangelogFile: true
   - include:
