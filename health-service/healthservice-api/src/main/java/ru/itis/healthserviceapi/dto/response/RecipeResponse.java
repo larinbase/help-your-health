@@ -3,13 +3,14 @@ package ru.itis.healthserviceapi.dto.response;
 import org.bson.types.ObjectId;
 
 import java.util.List;
+import java.util.UUID;
 
 public record RecipeResponse(
 
-        String id,
+        UUID id,
 
         // TODO: автор - дто юзера
-        ObjectId author,
+        UUID author,
 
         String title,
 

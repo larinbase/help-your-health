@@ -1,3 +1,4 @@
+/*
 package ru.itis.healthserviceimpl.service.impl;
 
 import lombok.RequiredArgsConstructor;
@@ -24,3 +25,4 @@ public class CacheServiceImpl implements CacheService {
                         Objects.requireNonNull(cacheManager.getCache(cacheName)).clear());
     }
 }
+*/

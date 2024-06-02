@@ -1,14 +1,19 @@
 package ru.itis.healthserviceimpl.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.Convert;
+import jakarta.persistence.Converter;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import ru.itis.healthserviceimpl.util.UuidConvertor;
+import ru.itis.healthserviceimpl.util.UuidToObjectIdConverter;
 
 import java.util.List;
+import java.util.UUID;
 
 @Document(collection = "recipes")
 @Data
@@ -17,10 +22,11 @@ import java.util.List;
 public class Recipe {
 
     @Id
-    private ObjectId id;
+    //@Convert(converter = UuidConvertor.class)
+    private UUID id;
 
-    // TODO: тут должна быть сущность юзера
-    private ObjectId author;
+    //@Convert(converter = UuidConvertor.class)
+    private UUID author;
 
     @Indexed
     private String title;

@@ -3,7 +3,7 @@ package ru.itis.healthserviceimpl.model.roles;
 import java.util.HashSet;
 import java.util.Set;
 
-public enum TrainingRoleType implements Role {
+public enum ExerciseTemplateRoleType implements Role {
     VIEWER, REPORTER, EDITOR;
 
     private final Set<Role> children = new HashSet<>();
@@ -15,6 +15,6 @@ public enum TrainingRoleType implements Role {
 
     @Override
     public boolean isIncludes(Role role) {
-        return this.equals(role) || children.stream().anyMatch(this::isIncludes);
+        return this.equals(role) || children.stream().anyMatch(l -> l.isIncludes(role));
     }
 }

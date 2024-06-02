@@ -8,8 +8,10 @@ import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 import ru.itis.healthserviceimpl.model.Recipe;
 
+import java.util.UUID;
+
 @Repository
-public interface RecipeRepository extends MongoRepository<Recipe, ObjectId> {
+public interface RecipeRepository extends MongoRepository<Recipe, UUID> {
 
     @Query(value = "{'title': {$regex : ?0, $options: 'i'}}")
     Page<Recipe> findAllByTitleRegex(String title, Pageable pageable);

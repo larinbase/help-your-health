@@ -3,6 +3,7 @@ package ru.itis.healthserviceimpl.controller.handler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -65,6 +66,16 @@ public class GlobalExceptionHandler {
                 )
                 .toList();
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public final ResponseEntity<ExceptionMessage> handleAccessDeniedException(AccessDeniedException exception) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(ExceptionMessage.builder()
+                        .exceptionName(exception.getClass().getSimpleName())
+                        .message(exception.getMessage())
+                        .build()
+                );
     }
 
 }

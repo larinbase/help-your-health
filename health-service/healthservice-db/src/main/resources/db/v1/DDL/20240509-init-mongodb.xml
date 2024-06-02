@@ -16,7 +16,7 @@
                                     "cookingTime", "nutritionalInfo"],
                         properties: {
                             _id: {
-                                bsonType: "objectId",
+                                bsonType: "string",
                                 description: "The unique identifier for the recipe"
                             },
                             title: {
@@ -24,7 +24,7 @@
                                 description: "The Title"
                             },
                             author: {
-                                bsonType: "objectId",
+                                bsonType: "string",
                                 description: "The author"
                             },
                             category: {
