@@ -88,7 +88,7 @@ databaseChangeLog:
                   name: user_id
                   type: uuid
                   constraints:
-                    references: users(id)
+                    references: account(id)
                     foreignKeyName: fk_user_id
               - column:
                   name: food_id

@@ -11,6 +11,7 @@ import ru.itis.healthserviceapi.dto.response.RecipeResponse;
 import ru.itis.healthserviceimpl.model.Recipe;
 
 import java.util.List;
+import java.util.UUID;
 
 @Mapper(componentModel = "spring", uses = {NutritionalInfoMapper.class, IngredientMapper.class})
 public interface RecipeMapper {
@@ -26,7 +27,7 @@ public interface RecipeMapper {
     }
 
     @Named("mapId")
-    default String mapId(ObjectId id) {
+    default String mapId(UUID id) {
         return id.toString();
     }
 }
