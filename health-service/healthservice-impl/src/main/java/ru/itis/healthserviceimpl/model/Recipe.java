@@ -3,12 +3,12 @@ package ru.itis.healthserviceimpl.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
+import java.util.UUID;
 
 @Document(collection = "recipes")
 @Data
@@ -17,10 +17,10 @@ import java.util.List;
 public class Recipe {
 
     @Id
-    private ObjectId id;
+    private UUID id;
 
     // TODO: тут должна быть сущность юзера
-    private ObjectId author;
+    private UUID author;
 
     @Indexed
     private String title;
@@ -36,4 +36,8 @@ public class Recipe {
     private List<String> images;
 
     private int cookingTime;
+
+    public Recipe() {
+        this.id = UUID.randomUUID();
+    }
 }
