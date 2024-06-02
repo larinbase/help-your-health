@@ -30,10 +30,10 @@ databaseChangeLog:
                   constraints:
                     primaryKey: true
               - column:
-                  name: created_date
+                  name: create_date
                   type: timestamp
               - column:
-                  name: updated_date
+                  name: update_date
                   type: timestamp
               - column:
                   name: name
@@ -79,10 +79,10 @@ databaseChangeLog:
                   constraints:
                     primaryKey: true
               - column:
-                  name: created_date
+                  name: create_date
                   type: timestamp
               - column:
-                  name: updated_date
+                  name: update_date
                   type: timestamp
               - column:
                   name: user_id

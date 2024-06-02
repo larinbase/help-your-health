@@ -12,6 +12,7 @@ import ru.itis.healthserviceimpl.model.Food;
 public interface FoodMapper {
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "food", ignore = true)
     Food toEntity(FoodRequest foodRequest);
 
     FoodResponse toResponse(Food foodEntity);
