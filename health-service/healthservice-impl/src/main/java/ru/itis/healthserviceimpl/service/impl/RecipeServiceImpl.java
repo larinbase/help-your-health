@@ -17,7 +17,6 @@ import ru.itis.healthserviceimpl.model.MyPageImpl;
 import ru.itis.healthserviceimpl.model.Recipe;
 import ru.itis.healthserviceimpl.repository.RecipeRepository;
 import ru.itis.healthserviceimpl.service.RecipeService;
-import ru.itis.logger.config.LoggerConfig;
 
 import java.util.UUID;
 
