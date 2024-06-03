@@ -24,6 +24,12 @@ spring:
       host: localhost
       port: 32768
 
+  rabbitmq:
+    host: localhost
+    virtual-host: vhost
+    username: health
+    password: 1234
+
 server:
   port: 8081
 
