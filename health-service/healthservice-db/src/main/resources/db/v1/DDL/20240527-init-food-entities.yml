@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 8
+      id: 12
       author: Eldar
       changes:
         - createTable:

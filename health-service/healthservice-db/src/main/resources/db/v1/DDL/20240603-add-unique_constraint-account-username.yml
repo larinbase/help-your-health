@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 12
+      id: 18
       author: salyukov
       changes:
         - addUniqueConstraint:

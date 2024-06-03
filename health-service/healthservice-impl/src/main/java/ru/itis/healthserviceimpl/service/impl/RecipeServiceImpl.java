@@ -62,6 +62,8 @@ public class RecipeServiceImpl implements RecipeService {
     @Cacheable(value = "recipes", key = "#id")
     public RecipeResponse findById(UUID id) {
         return mapper.toResponse(recipeRepository.findById(id)
+                .orElseThrow(() -> new RecipeNotFoundException(id))
+        );
     }
 
     @Override
