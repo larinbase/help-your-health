@@ -4,6 +4,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-cache'
     implementation 'org.mapstruct:mapstruct:1.5.5.Final'
     implementation project(':healthservice-api')
+    implementation 'ru.itis:logger-starter:1.0.0-SNAPSHOT'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
     implementation 'org.liquibase:liquibase-core:4.27.0'
     implementation 'org.mongodb:mongodb-driver-sync:4.11.1'

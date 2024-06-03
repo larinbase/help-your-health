@@ -1,7 +1,6 @@
 package ru.itis.healthserviceimpl.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.bson.types.ObjectId;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -63,7 +62,6 @@ public class RecipeServiceImpl implements RecipeService {
     @Cacheable(value = "recipes", key = "#id")
     public RecipeResponse findById(UUID id) {
         return mapper.toResponse(recipeRepository.findById(id)
-                .orElseThrow(() -> new RecipeNotFoundException(id)));
     }
 
     @Override

@@ -1,7 +1,5 @@
 package ru.itis.healthserviceapi.dto.response;
 
-import org.bson.types.ObjectId;
-
 import java.util.List;
 import java.util.UUID;
 

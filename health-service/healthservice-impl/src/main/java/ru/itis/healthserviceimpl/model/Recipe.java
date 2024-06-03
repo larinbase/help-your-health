@@ -5,7 +5,6 @@ import jakarta.persistence.Convert;
 import jakarta.persistence.Converter;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -22,10 +21,8 @@ import java.util.UUID;
 public class Recipe {
 
     @Id
-    //@Convert(converter = UuidConvertor.class)
     private UUID id;
 
-    //@Convert(converter = UuidConvertor.class)
     private UUID author;
 
     @Indexed
@@ -42,4 +39,8 @@ public class Recipe {
     private List<String> images;
 
     private int cookingTime;
+
+    public Recipe() {
+        this.id = UUID.randomUUID();
+    }
 }

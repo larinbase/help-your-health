@@ -2,6 +2,8 @@ package ru.itis.healthserviceimpl.exception;
 
 import java.util.UUID;
 
+import java.util.UUID;
+
 public class RecipeNotFoundException extends NotFoundException {
 
     public RecipeNotFoundException(UUID id) {
