@@ -15,7 +15,10 @@ import java.util.List;
 @ToString
 public class User extends AbstractModel {
 
+    @Column(name = "username", unique = true, nullable = false)
     private String username;
+
+    private String password;
 
     private String firstname;
 
@@ -30,8 +33,6 @@ public class User extends AbstractModel {
     private int height;
 
     private ActivityCoefficient activityCoefficient;
-
-    private String password;
 
     @Column(name = "calorie_allowance")
     private int calorieAllowance;
@@ -48,7 +49,4 @@ public class User extends AbstractModel {
     @ManyToOne
     @JoinColumn(name = "role_id", nullable = false)
     private CommunityRole role;
-
-    @OneToMany
-    private List<RecipeRole> receiptRoles;
 }

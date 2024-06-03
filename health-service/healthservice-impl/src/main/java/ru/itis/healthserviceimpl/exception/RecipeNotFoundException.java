@@ -1,6 +1,6 @@
 package ru.itis.healthserviceimpl.exception;
 
-import org.bson.types.ObjectId;
+import java.util.UUID;
 
 import java.util.UUID;
 

@@ -16,15 +16,9 @@ public interface RecipeMapper {
     @Mapping(target = "id", ignore = true)
     Recipe toEntity(RecipeRequest request);
 
-    @Mapping(source = "id", target = "id", qualifiedByName = "mapId")
     RecipeResponse toResponse(Recipe recipe);
 
     default Page<RecipeResponse> toResponse(Page<Recipe> recipe) {
         return recipe.map(this::toResponse);
-    }
-
-    @Named("mapId")
-    default String mapId(UUID id) {
-        return id.toString();
     }
 }

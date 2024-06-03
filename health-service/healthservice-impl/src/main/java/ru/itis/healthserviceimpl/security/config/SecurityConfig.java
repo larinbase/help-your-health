@@ -1,6 +1,5 @@
 package ru.itis.healthserviceimpl.security.config;
 
-import jakarta.servlet.Filter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,14 +10,15 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.*;
+import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HttpBasicConfigurer;
+import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.preauth.RequestHeaderAuthenticationFilter;
 import ru.itis.healthserviceimpl.security.filter.JwtTokenFilter;
 import ru.itis.healthserviceimpl.security.service.JwtTokenService;
 
@@ -32,7 +32,7 @@ public class SecurityConfig {
     private final JwtTokenService jwtTokenService;
     private static final String[] SWAGGER_URLS = { "/swagger-ui/**", "/v3/api-docs/**", "/v2/api-docs/**",
             "/swagger-resources/**", "/swagger-ui.html", "/webjars/**" };
-    private static final String[] PERMIT_ALL = {};
+    private static final String[] PERMIT_ALL = {"/auth/**"};
     private static final String[] AUTHENTICATED = {"/api/v1/**"};
 
     @Bean

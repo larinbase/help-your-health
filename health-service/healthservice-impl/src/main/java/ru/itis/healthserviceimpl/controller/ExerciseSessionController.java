@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.itis.healthserviceapi.api.ExerciseSessionApi;
 import ru.itis.healthserviceapi.dto.request.ExerciseSessionRequest;
@@ -23,6 +24,7 @@ public class ExerciseSessionController implements ExerciseSessionApi {
     private final ExerciseService exerciseService;
 
     @Override
+    @PreAuthorize("@ExerciseSessionRoleService.hasAnyRoleByExerciseSessionId(null, @ExerciseSessionRoleType.VIEWER)")
     public List<ExerciseSessionResponse> getExercisesAtDay(String date) {
         return exerciseService.getExercisesAtDay(date);
     }
@@ -33,11 +35,13 @@ public class ExerciseSessionController implements ExerciseSessionApi {
     }
 
     @Override
+    @PreAuthorize("@ExerciseSessionRoleService.hasAnyRoleByExerciseSessionId(#id, @ExerciseSessionRoleType.EDITOR)")
     public void updateExercise(UUID id, ExerciseSessionRequest request) {
         exerciseService.updateExercise(id, request);
     }
 
     @Override
+    @PreAuthorize("@ExerciseSessionRoleService.hasAnyRoleByExerciseSessionId(#id, @ExerciseSessionRoleType.EDITOR)")
     public void deleteExercise(UUID id) {
         exerciseService.deleteExercise(id);
     }

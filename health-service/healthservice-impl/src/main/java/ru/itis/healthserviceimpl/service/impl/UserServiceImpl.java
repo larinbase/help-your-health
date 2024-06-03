@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.itis.healthserviceapi.dto.request.UserSave;
 import ru.itis.healthserviceapi.dto.request.UserUpdate;
@@ -33,6 +35,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper mapper;
     private final CommunityRoleRepository communityRoleRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     @Cacheable(value = "users", key = "#userSave.username")
@@ -47,6 +50,7 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(()-> new CommunityRoleNotFoundException(roleType.name()));
         log.info("mapping entity from dto");
         User user = mapper.fromRequest(userSave);
+        user.setPassword(passwordEncoder.encode(userSave.password()));
         user.setRole(role);
         setNutritionalNorm(user);
         log.info("create user in database");
@@ -64,9 +68,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @CachePut(value = "users", key = "#id")
-    public UserResponse update(UserUpdate userUpdate, UUID id) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException(id));
+    public UserResponse update(UserUpdate userUpdate) {
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException(username));
         user.setFirstname(userUpdate.firstname());
         user.setLastname(userUpdate.lastname());
         user.setAge(userUpdate.age());

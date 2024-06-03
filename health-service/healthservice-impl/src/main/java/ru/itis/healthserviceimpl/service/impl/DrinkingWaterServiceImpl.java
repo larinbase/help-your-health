@@ -12,8 +12,10 @@ import ru.itis.healthserviceimpl.exception.DrinkingWaterNotFoundServiceException
 import ru.itis.healthserviceimpl.exception.UserNotFoundException;
 import ru.itis.healthserviceimpl.mapper.DrinkingWaterMapper;
 import ru.itis.healthserviceimpl.model.DrinkingWater;
+import ru.itis.healthserviceimpl.model.DrinkingWaterRole;
 import ru.itis.healthserviceimpl.repository.DrinkingWaterRepository;
 import ru.itis.healthserviceimpl.repository.UserRepository;
+import ru.itis.healthserviceimpl.service.DrinkingWaterRoleService;
 import ru.itis.healthserviceimpl.service.DrinkingWaterService;
 
 import java.time.Instant;
@@ -28,6 +30,7 @@ public class DrinkingWaterServiceImpl implements DrinkingWaterService {
     private final DrinkingWaterRepository drinkingWaterRepository;
     private final UserRepository userRepository;
     private final DrinkingWaterMapper drinkingWaterMapper;
+    private final DrinkingWaterRoleService roleService;
 
     @Override
     @Cacheable(value = "water", key = "#id")
@@ -56,15 +59,14 @@ public class DrinkingWaterServiceImpl implements DrinkingWaterService {
     @Override
     @Cacheable(value = "water")
     public DrinkingWaterResponse save(DrinkingWaterRequest request) {
-
         DrinkingWater drinkingWater = drinkingWaterMapper.toEntity(request);
-
         drinkingWater.setUser(
                 userRepository.findById(request.accountId())
                         .orElseThrow(() -> new UserNotFoundException(request.accountId()))
         );
-
-        return drinkingWaterMapper.toResponse(drinkingWaterRepository.save(drinkingWater));
+        drinkingWater = drinkingWaterRepository.save(drinkingWater);
+        roleService.create(drinkingWater.getUser().getId(), drinkingWater.getId());
+        return drinkingWaterMapper.toResponse(drinkingWater);
     }
 
     @Override
