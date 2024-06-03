@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 5
+      id: 3
       author: salyukov
       changes:
         - createTable:
