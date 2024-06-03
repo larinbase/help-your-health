@@ -1,7 +1,6 @@
 package ru.itis.healthserviceimpl.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.bson.types.ObjectId;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -18,6 +17,8 @@ import ru.itis.healthserviceimpl.model.MyPageImpl;
 import ru.itis.healthserviceimpl.model.Recipe;
 import ru.itis.healthserviceimpl.repository.RecipeRepository;
 import ru.itis.healthserviceimpl.service.RecipeService;
+
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -42,7 +43,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     @Cacheable(value = "recipes", key = "#id")
-    public RecipeResponse findById(ObjectId id) {
+    public RecipeResponse findById(UUID id) {
         return mapper.toResponse(repository.findById(id)
                 .orElseThrow(() -> new RecipeNotFoundException(id)));
     }
@@ -70,7 +71,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     @CachePut(value = "recipes", key = "#id")
-    public RecipeResponse update(ObjectId id, RecipeRequest request) {
+    public RecipeResponse update(UUID id, RecipeRequest request) {
         repository.findById(id).orElseThrow(() -> new RecipeNotFoundException(id));
         Recipe recipe = mapper.toEntity(request);
         recipe.setId(id);
@@ -79,7 +80,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     @CacheEvict(value = "recipes", key = "#id")
-    public void deleteById(ObjectId id) {
+    public void deleteById(UUID id) {
         repository.delete(repository.findById(id).orElseThrow(() -> new RecipeNotFoundException(id)));
     }
 }

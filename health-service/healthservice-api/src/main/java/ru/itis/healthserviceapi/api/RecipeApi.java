@@ -6,11 +6,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
-import org.bson.types.ObjectId;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Page;
 import ru.itis.healthserviceapi.dto.request.RecipeRequest;
 import ru.itis.healthserviceapi.dto.response.RecipeResponse;
+
+import java.util.UUID;
 
 @Tags(value = {
         @Tag(name = "RecipeApi")
@@ -51,7 +52,7 @@ public interface RecipeApi {
             @ApiResponse(responseCode = "500", description = "Ведутся технические работы")
     })
     @GetMapping("/findById/{id}")
-    RecipeResponse findById(@PathVariable("id") ObjectId id);
+    RecipeResponse findById(@PathVariable("id") UUID id);
 
     @Operation(summary = "Получение рецепта по названию")
     @ApiResponses(value = {
@@ -101,7 +102,7 @@ public interface RecipeApi {
             @ApiResponse(responseCode = "500", description = "Ведутся технические работы")
     })
     @PutMapping("/{id}")
-    void update(@PathVariable("id") ObjectId id, @RequestBody RecipeRequest request);
+    void update(@PathVariable("id") UUID id, @RequestBody RecipeRequest request);
 
     @Operation(summary = "Удаление рецепта по id")
     @ApiResponses(value = {
@@ -112,5 +113,5 @@ public interface RecipeApi {
             @ApiResponse(responseCode = "500", description = "Ведутся технические работы")
     })
     @DeleteMapping("/{id}")
-    void deleteById(@PathVariable("id") ObjectId id);
+    void deleteById(@PathVariable("id") UUID id);
 }

@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: 9
+      author: labinochka
+      changes:
+        - addColumn:
+            tableName: eaten_foods
+            columns:
+              - column:
+                  name: recipe_id
+                  type: uuid

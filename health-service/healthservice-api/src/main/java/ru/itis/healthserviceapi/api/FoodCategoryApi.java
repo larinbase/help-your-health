@@ -8,19 +8,20 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import ru.itis.healthserviceapi.dto.request.FoodRequest;
-import ru.itis.healthserviceapi.dto.response.FoodResponse;
+import ru.itis.healthserviceapi.dto.request.FoodCategoryRequest;
+import ru.itis.healthserviceapi.dto.response.FoodCategoryResponse;
+
 
 import java.util.Set;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/foods")
-public interface FoodApi {
+@RequestMapping("/api/v1/food-categories")
+public interface FoodCategoryApi {
 
-    @Operation(summary = "Создание продукта питания")
+    @Operation(summary = "Создание категории продуктов питания")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Продукт питания создан",
+            @ApiResponse(responseCode = "201", description = "Категория продуктов питания создана",
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = UUID.class))}),
             @ApiResponse(responseCode = "400", description = "Ошибка валидации"),
@@ -29,55 +30,55 @@ public interface FoodApi {
     })
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    UUID save(@RequestBody FoodRequest foodRequest);
+    UUID save(@RequestBody FoodCategoryRequest foodCategoryRequest);
 
-    @Operation(summary = "Получение продукта питания по Id")
+    @Operation(summary = "Получение категории продукта питания по Id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Продукт питания найден",
+            @ApiResponse(responseCode = "200", description = "Категория продукта питания найдена",
                     content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = FoodResponse.class))}),
+                            schema = @Schema(implementation = FoodCategoryResponse.class))}),
             @ApiResponse(responseCode = "400", description = "Ошибка валидации"),
             @ApiResponse(responseCode = "403", description = "Недостаточно прав пользователя"),
-            @ApiResponse(responseCode = "404", description = "Продукт питания с данным Id не найден"),
+            @ApiResponse(responseCode = "404", description = "Категория продукта питания с данным Id не найдена"),
             @ApiResponse(responseCode = "500", description = "Серверная ошибка")
     })
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    FoodResponse getById(@PathVariable("id") UUID uuid);
+    FoodCategoryResponse getById(@PathVariable("id") UUID uuid);
 
-    @Operation(summary = "Получение набора всех продуктов питания")
+    @Operation(summary = "Получение набора всех категорий продуктов питания")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Набор продуктов питания успешно предоставлен",
+            @ApiResponse(responseCode = "200", description = "Набор категорий продуктов питания успешно предоставлен",
                     content = {@Content(mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = FoodResponse.class)))}),
+                            array = @ArraySchema(schema = @Schema(implementation = FoodCategoryResponse.class)))}),
             @ApiResponse(responseCode = "403", description = "Недостаточно прав пользователя"),
             @ApiResponse(responseCode = "500", description = "Серверная ошибка")
     })
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    Set<FoodResponse> getAll();
+    Set<FoodCategoryResponse> getAll();
 
-    @Operation(summary = "Удаление продукта питания по Id")
+    @Operation(summary = "Удаление категории продукта питания по Id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Продукт питания успешно удален"),
+            @ApiResponse(responseCode = "204", description = "Категория продукта питания успешно удалена"),
             @ApiResponse(responseCode = "400", description = "Ошибка валидации"),
             @ApiResponse(responseCode = "403", description = "Недостаточно прав пользователя"),
-            @ApiResponse(responseCode = "404", description = "Продукт питания с данным Id не найден"),
+            @ApiResponse(responseCode = "404", description = "Категория продукта питания с данным Id не найдена"),
             @ApiResponse(responseCode = "500", description = "Серверная ошибка")
     })
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void deleteById(@PathVariable("id") UUID uuid);
 
-    @Operation(summary = "Полное обновление продукта питания по Id")
+    @Operation(summary = "Полное обновление категории продукта питания по Id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Продукт питания успешно обновлен"),
+            @ApiResponse(responseCode = "204", description = "Категория продукта питания успешно обновлена"),
             @ApiResponse(responseCode = "400", description = "Ошибка валидации"),
             @ApiResponse(responseCode = "403", description = "Недостаточно прав пользователя"),
-            @ApiResponse(responseCode = "404", description = "Продукт питания с данным Id не найден"),
+            @ApiResponse(responseCode = "404", description = "Категория продукта питания с данным Id не найдена"),
             @ApiResponse(responseCode = "500", description = "Серверная ошибка")
     })
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    void putById(@PathVariable("id") UUID uuid, @RequestBody FoodRequest foodRequest);
+    void putById(@PathVariable("id") UUID uuid, @RequestBody FoodCategoryRequest foodCategoryRequest);
 }
