@@ -1,0 +1,30 @@
+databaseChangeLog:
+  - changeSet:
+      id: 3
+      author: salyukov
+      changes:
+        - createTable:
+            tableName: recipe_role
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  defaultValueComputed: uuid_generate_v4()
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: recipe_role_pk
+              - column:
+                  name: type
+                  type: varchar(40)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: recipe_id
+                  type: uuid
+                  constraints:
+                    nullable: false

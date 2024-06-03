@@ -7,5 +7,6 @@ public record UserSave(String username,
                        int age,
                        int weight,
                        int height,
-                       String activityCoefficient) {
+                       String activityCoefficient,
+                       String role) {
 }
