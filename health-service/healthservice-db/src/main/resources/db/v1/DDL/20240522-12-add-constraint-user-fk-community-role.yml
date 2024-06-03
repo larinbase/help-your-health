@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: 7
+      author: salyukov
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: role_id
+            baseTableName: account
+            constraintName: account_roleid_fk_communityroletype_constraint
+            referencedColumnNames: id
+            referencedTableName: community_role_type

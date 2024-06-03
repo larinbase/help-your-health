@@ -13,6 +13,7 @@ import ru.itis.healthserviceimpl.model.User;
 @Mapper(componentModel = "spring")
 public interface UserMapper {
 
+    @Mapping(target = "role", ignore = true)
     @Mapping(source = "sex", target = "sex", qualifiedByName = "mapSex")
     @Mapping(source = "activityCoefficient", target = "activityCoefficient",
             qualifiedByName = "mapActivityCoefficient")

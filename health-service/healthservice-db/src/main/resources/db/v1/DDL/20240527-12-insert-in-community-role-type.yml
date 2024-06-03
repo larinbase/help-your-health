@@ -1,0 +1,41 @@
+databaseChangeLog:
+  - changeSet:
+      id: 8
+      author: salyukov
+      changes:
+        - insert:
+            tableName: community_role_type
+            columns:
+              - column:
+                  name: type
+                  value: USER
+              - column:
+                  name: create_date
+                  value: 22.05.2024
+        - insert:
+            tableName: community_role_type
+            columns:
+              - column:
+                  name: type
+                  value: ADMIN
+              - column:
+                  name: create_date
+                  value: 22.05.2024
+        - insert:
+            tableName: community_role_type
+            columns:
+              - column:
+                  name: type
+                  value: MODERATOR
+              - column:
+                  name: create_date
+                  value: 22.05.2024
+        - insert:
+            tableName: community_role_type
+            columns:
+              - column:
+                  name: type
+                  value: PRIVILEGED_USER
+              - column:
+                  name: create_date
+                  value: 22.05.2024
