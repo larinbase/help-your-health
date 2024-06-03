@@ -22,6 +22,7 @@ import ru.itis.healthserviceimpl.model.User;
 import ru.itis.healthserviceimpl.model.roles.CommunityRoleType;
 import ru.itis.healthserviceimpl.repository.CommunityRoleRepository;
 import ru.itis.healthserviceimpl.repository.UserRepository;
+import ru.itis.healthserviceimpl.security.userdetails.BaseUserDetails;
 import ru.itis.healthserviceimpl.service.UserService;
 import ru.itis.healthserviceimpl.util.CalculateNutritionalInfoAndWaterNorm;
 
@@ -69,9 +70,11 @@ public class UserServiceImpl implements UserService {
     @Override
     @CachePut(value = "users", key = "#id")
     public UserResponse update(UserUpdate userUpdate) {
-        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UserNotFoundException(username));
+        BaseUserDetails principal = (BaseUserDetails) SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getPrincipal();
+        User user = userRepository.findByUsername(principal.getUsername())
+                .orElseThrow(() -> new UserNotFoundException(principal.getUsername()));
         user.setFirstname(userUpdate.firstname());
         user.setLastname(userUpdate.lastname());
         user.setAge(userUpdate.age());

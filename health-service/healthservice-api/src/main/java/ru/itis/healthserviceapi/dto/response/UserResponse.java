@@ -1,7 +1,6 @@
 package ru.itis.healthserviceapi.dto.response;
 
 public record UserResponse(String username,
-                           String password,
                            String firstname,
                            String lastname,
                            String sex,

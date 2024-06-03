@@ -12,6 +12,7 @@ import ru.itis.healthserviceimpl.repository.DrinkingWaterRoleRepository;
 import ru.itis.healthserviceimpl.repository.UserRepository;
 import ru.itis.healthserviceimpl.security.service.CommunityRoleService;
 import ru.itis.healthserviceimpl.security.service.DrinkingWaterRoleService;
+import ru.itis.healthserviceimpl.security.userdetails.BaseUserDetails;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +22,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class DrinkingWaterRoleServiceImpl implements DrinkingWaterRoleService {
 
-    private final UserRepository userRepository;
     private final DrinkingWaterRoleRepository roleRepository;
     private final CommunityRoleService communityRoleService;
 
@@ -33,11 +33,11 @@ public class DrinkingWaterRoleServiceImpl implements DrinkingWaterRoleService {
         if (drinkingWaterId == null) {
             return false;
         }
-        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UserNotFoundException(username));
+        BaseUserDetails principal = (BaseUserDetails) SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getPrincipal();
         List<DrinkingWaterRole> drinkingWaterRoles =
-                roleRepository.findByDrinkingWaterIdAndUserId(drinkingWaterId, user.getId());
+                roleRepository.findByDrinkingWaterIdAndUserId(drinkingWaterId, principal.getId());
         if (drinkingWaterRoles.isEmpty()) {
             for (Role role : roles) {
                 if (DrinkingWaterRoleType.VIEWER.equals(role)) {

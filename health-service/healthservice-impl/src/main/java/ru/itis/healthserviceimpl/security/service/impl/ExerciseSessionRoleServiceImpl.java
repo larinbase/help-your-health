@@ -12,6 +12,7 @@ import ru.itis.healthserviceimpl.repository.ExerciseSessionRoleRepository;
 import ru.itis.healthserviceimpl.repository.UserRepository;
 import ru.itis.healthserviceimpl.security.service.CommunityRoleService;
 import ru.itis.healthserviceimpl.security.service.ExerciseSessionRoleService;
+import ru.itis.healthserviceimpl.security.userdetails.BaseUserDetails;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +22,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ExerciseSessionRoleServiceImpl implements ExerciseSessionRoleService {
 
-    private final UserRepository userRepository;
     private final ExerciseSessionRoleRepository roleRepository;
     private final CommunityRoleService communityRoleService;
 
@@ -33,11 +33,11 @@ public class ExerciseSessionRoleServiceImpl implements ExerciseSessionRoleServic
         if (sessionId == null) {
             return false;
         }
-        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UserNotFoundException(username));
+        BaseUserDetails principal = (BaseUserDetails) SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getPrincipal();
         List<ExerciseSessionRole> exerciseSessionRoles =
-                roleRepository.findByExerciseSessionEntityIdAndUserId(sessionId, user.getId());
+                roleRepository.findByExerciseSessionEntityIdAndUserId(sessionId, principal.getId());
         if (exerciseSessionRoles.isEmpty()) {
             for (Role role : roles) {
                 if (ExerciseTemplateRoleType.VIEWER.equals(role)) {

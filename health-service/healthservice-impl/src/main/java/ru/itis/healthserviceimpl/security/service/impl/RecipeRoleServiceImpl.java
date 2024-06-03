@@ -12,6 +12,7 @@ import ru.itis.healthserviceimpl.repository.RecipeRoleRepository;
 import ru.itis.healthserviceimpl.repository.UserRepository;
 import ru.itis.healthserviceimpl.security.service.CommunityRoleService;
 import ru.itis.healthserviceimpl.security.service.RecipeRoleService;
+import ru.itis.healthserviceimpl.security.userdetails.BaseUserDetails;
 
 import java.util.List;
 import java.util.UUID;
@@ -20,7 +21,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class RecipeRoleServiceImpl implements RecipeRoleService {
 
-    private final UserRepository userRepository;
     private final RecipeRoleRepository recipeRoleRepository;
     private final CommunityRoleService communityRoleService;
 
@@ -32,11 +32,11 @@ public class RecipeRoleServiceImpl implements RecipeRoleService {
         if (recipeId == null) {
             return false;
         }
-        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UserNotFoundException(username));
+        BaseUserDetails principal = (BaseUserDetails) SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getPrincipal();
         List<RecipeRole> recipeRoles =
-                recipeRoleRepository.findByRecipeIdAndUserId(recipeId, user.getId());
+                recipeRoleRepository.findByRecipeIdAndUserId(recipeId, principal.getId());
         if (recipeRoles.isEmpty()) {
             for (Role role : roles) {
                 if (RecipeRoleType.VIEWER.equals(role)) {
