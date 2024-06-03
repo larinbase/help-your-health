@@ -20,6 +20,10 @@ spring:
       port: 27017
       database: healthservice
 
+    redis:
+      host: localhost
+      port: 32768
+
 server:
   port: 8081
 

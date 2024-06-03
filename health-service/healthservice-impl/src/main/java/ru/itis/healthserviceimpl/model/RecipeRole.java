@@ -3,6 +3,7 @@ package ru.itis.healthserviceimpl.model;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.GenericGenerator;
 import ru.itis.healthserviceimpl.model.roles.RecipeRoleType;
 
 import java.util.UUID;
@@ -15,7 +16,13 @@ import java.util.UUID;
 @Getter
 @Setter
 @ToString
-public class RecipeRole extends AbstractModel {
+public class RecipeRole {
+
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", type = org.hibernate.id.UUIDGenerator.class)
+    protected UUID id;
+
     private RecipeRoleType type;
 
     @Column(name = "recipe_id")

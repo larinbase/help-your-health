@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -35,17 +36,18 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         try {
             log.info("New request in JwtTokenFilter");
             String authHeader = request.getHeader("AUTHORIZATION");
-            log.info("Get AUTHORIZATION header");
-            if (authHeader == null || authHeader.startsWith(SecurityConstants.BEARER)) {
-                //throw new AuthenticationHeaderException("Invalid authentication scheme found in Authorization header");
+            log.info("Get AUTHORIZATION header {}", authHeader);
+            if (authHeader == null || !authHeader.startsWith(SecurityConstants.BEARER)) {
+//                throw new AuthenticationHeaderException("Invalid authentication scheme found in Authorization header");
                 doFilter(request,response,filterChain);
                 return;
             }
             String jwtToken = StringUtils.delete(authHeader, SecurityConstants.BEARER);
             log.info("Get JWT token payload");
             JwtTokenPayloadResponse payload = jwtTokenService.parseToken(jwtToken);
+            log.info("payload {}", payload);
             if (payload.username() == null) {
-                //throw new AuthenticationHeaderException("username in token is null");
+//                throw new AuthenticationHeaderException("username in token is null");
                 doFilter(request,response,filterChain);
                 return;
             }

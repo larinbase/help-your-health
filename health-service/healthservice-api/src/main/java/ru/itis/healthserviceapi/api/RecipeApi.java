@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Page;
 import ru.itis.healthserviceapi.dto.request.RecipeRequest;
@@ -102,6 +103,7 @@ public interface RecipeApi {
             @ApiResponse(responseCode = "500", description = "Ведутся технические работы")
     })
     @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     void update(@PathVariable("id") UUID id, @RequestBody RecipeRequest request);
 
     @Operation(summary = "Удаление рецепта по id")

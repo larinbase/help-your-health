@@ -11,7 +11,7 @@ public interface UserService {
 
     UserResponse findByUsername(String username);
 
-    UserResponse update(UserUpdate userUpdate, UUID id);
+    UserResponse update(UserUpdate userUpdate);
 
     void deleteById(UUID id);
 }

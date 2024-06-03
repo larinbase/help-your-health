@@ -10,6 +10,8 @@ import ru.itis.healthserviceapi.dto.request.UserSave;
 import ru.itis.healthserviceapi.dto.request.UserUpdate;
 import ru.itis.healthserviceapi.dto.response.UserResponse;
 
+import java.util.UUID;
+
 @Tag(name = "UserApi")
 @Schema(description = "Работа с пользователем")
 @RequestMapping("/api/v1/user")
@@ -55,6 +57,6 @@ public interface UserApi {
             @ApiResponse(responseCode = "403", description = "Не достаточно прав"),
             @ApiResponse(responseCode = "500", description = "Ведутся технические работы")
     })
-    @DeleteMapping
-    void deleteById();
+    @DeleteMapping("/{id}")
+    void deleteById(@PathVariable("id") UUID id);
 }

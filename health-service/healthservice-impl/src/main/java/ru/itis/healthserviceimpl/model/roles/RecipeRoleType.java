@@ -1,5 +1,8 @@
 package ru.itis.healthserviceimpl.model.roles;
 
+import lombok.Getter;
+import org.springframework.stereotype.Component;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,6 +18,14 @@ public enum RecipeRoleType implements Role {
 
     @Override
     public boolean isIncludes(Role role) {
-        return this.equals(role) || children.stream().anyMatch(this::isIncludes);
+        return this.equals(role) || children.stream().anyMatch(l -> l.isIncludes(role));
+    }
+
+    @Component("RecipeRoleType")
+    @Getter
+    static class SpringComponent {
+        private final RecipeRoleType VIEWER = RecipeRoleType.VIEWER;
+        private final RecipeRoleType EDITOR = RecipeRoleType.EDITOR;
+        private final RecipeRoleType REPORTER = RecipeRoleType.REPORTER;
     }
 }

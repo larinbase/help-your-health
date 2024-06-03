@@ -10,10 +10,11 @@ dependencies {
     implementation 'org.mongodb:mongodb-driver-sync:4.11.1'
     implementation 'org.liquibase.ext:liquibase-mongodb:4.24.0'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
-
+    implementation 'ru.itis:logger-starter:1.0.0-SNAPSHOT'
     implementation("io.jsonwebtoken:jjwt-api:0.11.5")
     implementation("io.jsonwebtoken:jjwt-gson:0.11.5")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
+    implementation 'ru.itis:logger-starter:1.0.0-SNAPSHOT'
 }
 
 tasks.named('test') {

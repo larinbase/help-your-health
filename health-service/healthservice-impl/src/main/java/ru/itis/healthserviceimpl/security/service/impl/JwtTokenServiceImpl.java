@@ -2,6 +2,7 @@ package ru.itis.healthserviceimpl.security.service.impl;
 
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.itis.healthserviceimpl.security.provider.JwtTokenProvider;
 import ru.itis.healthserviceimpl.security.dto.request.JwtTokenCreateRequest;
@@ -11,6 +12,7 @@ import ru.itis.healthserviceimpl.security.service.JwtTokenService;
 import java.time.Instant;
 import java.util.*;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class JwtTokenServiceImpl implements JwtTokenService {
@@ -20,7 +22,8 @@ public class JwtTokenServiceImpl implements JwtTokenService {
     @Override
     public JwtTokenPayloadResponse parseToken(String token) {
         Claims claims = jwtTokenProvider.parseToken(token);
-        String username = (String) claims.get("username");
+        log.info("claims {}", claims);
+        String username = (String) claims.get("sub");
         Date expiredDate = claims.getExpiration();
         Date now = Date.from(Instant.now());
         boolean isExpired = now.after(expiredDate);
