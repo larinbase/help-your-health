@@ -8,6 +8,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 @Getter
+@Setter
 @Entity
 @Table(name = "telegram_info")
 @SuperBuilder
