@@ -19,6 +19,7 @@ import ru.itis.healthserviceimpl.model.User;
 import ru.itis.healthserviceimpl.repository.ExerciseSessionRepository;
 import ru.itis.healthserviceimpl.repository.ExerciseTemplateRepository;
 import ru.itis.healthserviceimpl.repository.UserRepository;
+import ru.itis.healthserviceimpl.security.userdetails.BaseUserDetails;
 import ru.itis.healthserviceimpl.service.ExerciseService;
 import ru.itis.healthserviceimpl.service.ExerciseSessionRoleService;
 
@@ -79,9 +80,10 @@ public class ExerciseServiceImpl implements ExerciseService {
         templateRepository.deleteById(templateId);
     }
 
-    @Override // ToDo: пользак должен поулчаать только свои сессии
+    @Override
     public List<ExerciseSessionResponse> getExercisesAtDay(String date) {
-        return sessionRepository.findAllByDate(Date.valueOf(date)).stream()
+        BaseUserDetails user = (BaseUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return sessionRepository.findAllByDateAndUserId(Date.valueOf(date), user.getId()).stream()
                 .map(exerciseMapper::toResponse)
                 .collect(Collectors.toList());
     }
@@ -89,9 +91,7 @@ public class ExerciseServiceImpl implements ExerciseService {
     @Override
     public void addExercise(ExerciseSessionRequest request) {
         ExerciseSessionEntity session = new ExerciseSessionEntity();
-        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(()-> new UserNotFoundException(username));
+        BaseUserDetails user = (BaseUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         session.setUserId(user.getId());
         session.setTemplateId(request.templateId());
         session.setMetricAmount(request.metricAmount());
