@@ -22,6 +22,7 @@ import ru.itis.healthserviceimpl.model.Recipe;
 import ru.itis.healthserviceimpl.model.User;
 import ru.itis.healthserviceimpl.repository.RecipeRepository;
 import ru.itis.healthserviceimpl.repository.UserRepository;
+import ru.itis.healthserviceimpl.security.userdetails.BaseUserDetails;
 import ru.itis.healthserviceimpl.service.RecipeRoleService;
 import ru.itis.healthserviceimpl.service.RecipeService;
 
@@ -41,13 +42,14 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     @Cacheable(value = "recipes")
     public RecipeResponse create(RecipeRequest request) {
-        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = userRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundException(username));
+        BaseUserDetails principal = (BaseUserDetails) SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getPrincipal();
         Recipe recipe = mapper.toEntity(request);
-        recipe.setAuthor(user.getId());
+        recipe.setAuthor(principal.getId());
         recipe.setId(UUID.randomUUID());
         recipe = recipeRepository.save(recipe);
-        recipeRoleService.create(user.getId(), recipe.getId());
+        recipeRoleService.create(principal.getId(), recipe.getId());
         return mapper.toResponse(recipe);
     }
 

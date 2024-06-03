@@ -54,7 +54,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             log.info("Get userdetails by username - %s".formatted(payload.username()));
             UserDetails userDetails = userDetailsService.loadUserByUsername(payload.username());
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                    payload.username(), null, userDetails.getAuthorities()
+                    userDetails, null, userDetails.getAuthorities()
             );
             log.info("Set authentication in security context");
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);

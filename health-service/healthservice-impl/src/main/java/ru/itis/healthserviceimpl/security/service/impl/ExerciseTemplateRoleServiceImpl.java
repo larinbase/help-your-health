@@ -16,6 +16,7 @@ import ru.itis.healthserviceimpl.repository.UserRepository;
 import ru.itis.healthserviceimpl.security.service.CommunityRoleService;
 import ru.itis.healthserviceimpl.security.service.ExerciseTemplateRoleService;
 import ru.itis.healthserviceimpl.security.service.RecipeRoleService;
+import ru.itis.healthserviceimpl.security.userdetails.BaseUserDetails;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +26,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ExerciseTemplateRoleServiceImpl implements ExerciseTemplateRoleService {
 
-    private final UserRepository userRepository;
     private final ExerciseTemplateRoleRepository roleRepository;
     private final CommunityRoleService communityRoleService;
 
@@ -37,11 +37,11 @@ public class ExerciseTemplateRoleServiceImpl implements ExerciseTemplateRoleServ
         if (exerciseTemplateEntityId == null) {
             return false;
         }
-        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UserNotFoundException(username));
+        BaseUserDetails principal = (BaseUserDetails) SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getPrincipal();
         List<ExerciseTemplateRole> exerciseTemplateRoles =
-                roleRepository.findByExerciseTemplateEntityIdAndUserId(exerciseTemplateEntityId, user.getId());
+                roleRepository.findByExerciseTemplateEntityIdAndUserId(exerciseTemplateEntityId, principal.getId());
         if (exerciseTemplateRoles.isEmpty()) {
             for (Role role : roles) {
                 if (ExerciseTemplateRoleType.VIEWER.equals(role)) {
