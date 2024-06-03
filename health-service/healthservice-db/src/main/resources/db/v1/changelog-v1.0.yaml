@@ -41,4 +41,15 @@ databaseChangeLog:
   - include:
       file: DDL/20240517-init-exercise-templates.yml
       relativeToChangelogFile: true
-
+  - include:
+      file: DDL/20240602-init-drinking_water_role-db.yml
+      relativeToChangelogFile: true
+  - include:
+      file: DDL/20240602-init-exercise_session_role-db.yml
+      relativeToChangelogFile: true
+  - include:
+      file: DDL/20240602-init-exercise_template_role-db.yml
+      relativeToChangelogFile: true
+  - include:
+      file: DDL/20240603-add-unique_constraint-account-username.yml
+      relativeToChangelogFile: true

@@ -10,5 +10,5 @@ import java.util.UUID;
 
 @Repository
 public interface RecipeRoleRepository extends JpaRepository<RecipeRole, UUID> {
-    Optional<List<RecipeRole>> findByRecipeIdAndUserId(UUID recipeId, UUID userId);
+    List<RecipeRole> findByRecipeIdAndUserId(UUID recipeId, UUID userId);
 }

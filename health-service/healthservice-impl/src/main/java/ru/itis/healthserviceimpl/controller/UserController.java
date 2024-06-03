@@ -1,6 +1,7 @@
 package ru.itis.healthserviceimpl.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RestController;
 import ru.itis.healthserviceapi.api.UserApi;
 import ru.itis.healthserviceapi.dto.request.UserSave;
@@ -21,17 +22,22 @@ public class UserController implements UserApi {
     }
 
     @Override
+    @PreAuthorize("@CommunityRoleService.hasAnyRole(@CommunityRoleType.MODERATOR) || " +
+            "@UserCheckService.hasUserName(#username)")
     public UserResponse findByUsername(String username) {
         return service.findByUsername(username);
     }
 
     @Override
-    public void update(UserUpdate userUpdate) { // ToDO: получать id пользователя, который шлет запрос через UserDetails
-        service.update(userUpdate, UUID.fromString("f8afcc99-ffd0-454e-b679-944d5ff5c7d5"));
+    @PreAuthorize("@CommunityRoleService.hasAnyRole(@CommunityRoleType.USER)")
+    public void update(UserUpdate userUpdate) {
+        service.update(userUpdate);
     }
 
     @Override
-    public void deleteById() { // ToDO: получать id пользователя, который шлет запрос через UserDetails
-        service.deleteById(UUID.fromString("f8afcc99-ffd0-454e-b679-944d5ff5c7d5"));
+    @PreAuthorize("@CommunityRoleService.hasAnyRole(@CommunityRoleType.MODERATOR) || " +
+            "@UserCheckService.hasUserId(#id)")
+    public void deleteById(UUID id) {
+        service.deleteById(id);
     }
 }

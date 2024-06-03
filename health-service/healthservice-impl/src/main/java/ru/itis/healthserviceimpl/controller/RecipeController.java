@@ -24,26 +24,31 @@ public class RecipeController implements RecipeApi {
     }
 
     @Override
+    @PreAuthorize("@RecipeRoleService.hasAnyRoleByRecipeId(null, @RecipeRoleType.VIEWER)")
     public Page<RecipeResponse> findAll(int offset, int limit) {
         return service.findAll(offset, limit);
     }
 
     @Override
+    @PreAuthorize("@RecipeRoleService.hasAnyRoleByRecipeId(#id, @RecipeRoleType.VIEWER)")
     public RecipeResponse findById(UUID id) {
         return service.findById(id);
     }
 
     @Override
+    @PreAuthorize("@RecipeRoleService.hasAnyRoleByRecipeId(null, @RecipeRoleType.VIEWER)")
     public Page<RecipeResponse> findByTitle(String title, int offset, int limit) {
         return service.findByTitle(title, offset, limit);
     }
 
     @Override
+    @PreAuthorize("@RecipeRoleService.hasAnyRoleByRecipeId(null, @RecipeRoleType.VIEWER)")
     public Page<RecipeResponse> findByCategory(String category, int offset, int limit) {
         return service.findByCategory(category, offset, limit);
     }
 
     @Override
+    @PreAuthorize("@RecipeRoleService.hasAnyRoleByRecipeId(null, @RecipeRoleType.VIEWER)")
     public Page<RecipeResponse> findByCookingTime(int category, int offset, int limit) {
         return service.findByCookingTime(category, offset, limit);
     }
@@ -54,6 +59,7 @@ public class RecipeController implements RecipeApi {
         service.update(id, request);
     }
 
+    @PreAuthorize("@RecipeRoleService.hasAnyRoleByRecipeId(#id, @RecipeRoleType.EDITOR)")
     @Override
     public void deleteById(UUID id) {
         service.deleteById(id);

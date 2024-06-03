@@ -10,7 +10,7 @@ import ru.itis.healthserviceimpl.model.roles.Role;
 import ru.itis.healthserviceimpl.repository.UserRepository;
 import ru.itis.healthserviceimpl.security.service.CommunityRoleService;
 
-@Service
+@Service("CommunityRoleService")
 @RequiredArgsConstructor
 @Slf4j
 public class CommunityRoleServiceImpl implements CommunityRoleService {

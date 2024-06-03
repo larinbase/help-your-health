@@ -28,7 +28,7 @@ public class ExerciseTemplateRoleServiceImpl implements ExerciseTemplateRoleServ
 
     @Override
     public void create(UUID userId, UUID exerciseTemplateEntityId) {
-        if (roleRepository.findByUserIdAndExerciseTemplateEntityId(userId, exerciseTemplateEntityId).isPresent()){
+        if (!roleRepository.findByExerciseTemplateEntityIdAndUserId(exerciseTemplateEntityId, userId).isEmpty()) {
             String message = "Role for user %s in exercise template %s already exist";
             throw new ServiceException(message.formatted(userId, exerciseTemplateEntityId), HttpStatus.CONFLICT);
         }

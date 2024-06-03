@@ -19,13 +19,20 @@ public enum CommunityRoleType implements Role {
                 RecipeRoleType.VIEWER,
                 RecipeRoleType.REPORTER,
                 ExerciseTemplateRoleType.VIEWER,
-                ExerciseTemplateRoleType.REPORTER)
+                ExerciseTemplateRoleType.REPORTER,
+                ExerciseSessionRoleType.VIEWER,
+                ExerciseSessionRoleType.REPORTER,
+                DrinkingWaterRoleType.VIEWER,
+                DrinkingWaterRoleType.REPORTER)
         );
         PRIVILEGED_USER.children.add(USER);
         MODERATOR.children.addAll(List.of(
                 PRIVILEGED_USER,
                 ExerciseTemplateRoleType.EDITOR,
-                RecipeRoleType.EDITOR)
+                RecipeRoleType.EDITOR,
+                DrinkingWaterRoleType.SUPER_VIEWER,
+                DrinkingWaterRoleType.EDITOR,
+                ExerciseSessionRoleType.EDITOR)
         );
         ADMIN.children.add(MODERATOR);
     }
@@ -38,7 +45,7 @@ public enum CommunityRoleType implements Role {
 
     @Component("CommunityRoleType")
     @Getter
-    static class SpringComponent {
+    static class SpringComponent1 {
         private final CommunityRoleType ADMIN = CommunityRoleType.ADMIN;
         private final CommunityRoleType MODERATOR = CommunityRoleType.MODERATOR;
         private final CommunityRoleType PRIVILEGED_USER = CommunityRoleType.PRIVILEGED_USER;

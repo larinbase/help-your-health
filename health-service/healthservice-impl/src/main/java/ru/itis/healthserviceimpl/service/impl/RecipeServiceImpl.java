@@ -15,6 +15,8 @@ import ru.itis.healthserviceapi.dto.request.RecipeRequest;
 import ru.itis.healthserviceapi.dto.response.RecipeResponse;
 import ru.itis.healthserviceimpl.exception.RecipeNotFoundException;
 import ru.itis.healthserviceimpl.exception.UserNotFoundException;
+import ru.itis.healthserviceimpl.mapper.IngredientMapper;
+import ru.itis.healthserviceimpl.mapper.NutritionalInfoMapper;
 import ru.itis.healthserviceimpl.mapper.RecipeMapper;
 import ru.itis.healthserviceimpl.model.MyPageImpl;
 import ru.itis.healthserviceimpl.model.Recipe;
@@ -34,6 +36,8 @@ public class RecipeServiceImpl implements RecipeService {
     private final UserRepository userRepository;
     private final RecipeMapper mapper;
     private final RecipeRoleService recipeRoleService;
+    private final NutritionalInfoMapper nutritionalInfoMapper;
+    private final IngredientMapper ingredientMapper;
 
     @Override
     @Cacheable(value = "recipes")
@@ -86,8 +90,14 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     @CachePut(value = "recipes", key = "#id")
     public RecipeResponse update(UUID id, RecipeRequest request) {
-        recipeRepository.findById(id).orElseThrow(() -> new RecipeNotFoundException(id));
-        Recipe recipe = mapper.toEntity(request);
+        Recipe recipe = recipeRepository.findById(id).orElseThrow(() -> new RecipeNotFoundException(id));
+        recipe.setTitle(request.title());
+        recipe.setCategories(request.categories());
+        recipe.setCookingTime(request.cookingTime());
+        recipe.setIngredients(ingredientMapper.toEntity(request.ingredients()));
+        recipe.setInstructions(request.instructions());
+        recipe.setImages(request.images());
+        recipe.setNutritionalInfo(nutritionalInfoMapper.toEntity(request.nutritionalInfo()));
         recipe.setId(id);
         return mapper.toResponse(recipeRepository.save(recipe));
     }

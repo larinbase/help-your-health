@@ -15,6 +15,7 @@ import java.util.List;
 @ToString
 public class User extends AbstractModel {
 
+    @Column(name = "username", unique = true, nullable = false)
     private String username;
 
     private String password;
@@ -48,7 +49,4 @@ public class User extends AbstractModel {
     @ManyToOne
     @JoinColumn(name = "role_id", nullable = false)
     private CommunityRole role;
-
-    @OneToMany
-    private List<RecipeRole> receiptRoles;
 }
