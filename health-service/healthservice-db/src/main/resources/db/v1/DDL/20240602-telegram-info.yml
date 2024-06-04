@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 19
+      id: 20
       author: Eldar
       changes:
         - createTable:
@@ -32,3 +32,11 @@ databaseChangeLog:
                   type: boolean
                   constraints:
                     nullable: false
+              - column:
+                  name: create_date
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: update_date
+                  type: date

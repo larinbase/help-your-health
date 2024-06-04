@@ -1,9 +1,6 @@
 package ru.itis.healthserviceimpl.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -17,7 +14,7 @@ import lombok.experimental.SuperBuilder;
 public class TelegramInfo extends AbstractModel {
 
 	@OneToOne
-	@Column(name = "user_id")
+	@JoinColumn(referencedColumnName = "id", name = "user_id")
 	private User user;
 
 	@Column(name = "nickname")

@@ -5,11 +5,16 @@ spring:
 
   datasource:
     url: jdbc:postgresql://localhost:5432/agona
-    username: admin
-    password: admin
+    username: postgres
+    password: password
     driver-class-name: org.postgresql.Driver
     hikari:
       maximum-pool-size: 10
+
+  rabbitmq:
+    host: localhost
+    username: health
+    password: 1234
 
 telegram:
   bot:

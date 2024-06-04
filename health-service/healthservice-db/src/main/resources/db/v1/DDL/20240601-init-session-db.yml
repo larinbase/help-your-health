@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 9
+      id: 21
       author: DmitriyLarin
       changes:
         - createTable:
@@ -14,7 +14,7 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: refreshToken
+                  name: refresh_token
                   type: VARCHAR(255)
                   constraints:
                     nullable: false
@@ -24,13 +24,13 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: createdAt
+                  name: created_at
                   type: TIMESTAMP
                   defaultValueComputed: CURRENT_TIMESTAMP
                   constraints:
                     nullable: false
               - column:
-                  name: expiresIn
+                  name: expires_in
                   type: TIMESTAMP
                   constraints:
                     nullable: true
