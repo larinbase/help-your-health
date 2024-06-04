@@ -19,11 +19,15 @@ public class TelegramConsumer {
 	public void telegramHandler (String message) {
 
 		if (message.equals("parse")) {
+			log.info("Parsing has started");
 			telegramService.parsing();
+			log.info("Parsing has finished");
 		}
 
 		if (message.equals("send")) {
+			log.info("Sending has started");
 			telegramService.sendNotification();
+			log.info("Sending has finished");
 		}
 
 	}

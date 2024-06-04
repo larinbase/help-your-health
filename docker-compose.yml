@@ -18,8 +18,8 @@ services:
     restart: always
     environment:
       POSTGRES_DB: agona
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
     volumes:
       - ./postgresql:/var/lib/postgresql/data
     ports:

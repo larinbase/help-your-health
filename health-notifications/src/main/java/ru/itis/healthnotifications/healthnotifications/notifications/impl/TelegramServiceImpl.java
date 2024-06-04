@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -19,6 +20,7 @@ import ru.itis.healthnotifications.healthnotifications.service.impl.TelegramInfo
 import java.util.HashMap;
 import java.util.HashSet;
 
+@Log4j2
 @Service
 @RequiredArgsConstructor
 public class TelegramServiceImpl implements TelegramService {
@@ -27,14 +29,16 @@ public class TelegramServiceImpl implements TelegramService {
 
 	private final TelegramInfoService telegramInfoService;
 
-	private final String MESSAGE_TEXT = "Привет! Прошло еще 2 часа, пришло время немного освежиться)";
+	private final String MESSAGE_TEXT = "ДА ИСПРАВИЛ МОЖНО БЕЗ АГРЕССИИ";
+//	private final String MESSAGE_TEXT = "Привет! Прошло еще 2 часа, пришло время немного освежиться)";
 
-	@Value("telegram.bot.token")
+	@Value("${telegram.bot.token}")
 	private String token;
 
 	private HashMap<String, Long> getInfo() {
 		HashMap<String, Long> info = new HashMap<>();
 		String url = "https://api.telegram.org/bot" + token + "/getUpdates";
+		log.info(url);
 		ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 		if (response.getBody() == null)
 			return new HashMap<>();
@@ -72,6 +76,7 @@ public class TelegramServiceImpl implements TelegramService {
 		for (Long chatId : telegramInfoService.getSubscribers()) {
 
 			String body = "{\"chat_id\": \"%d\", \"text\": \"%s\"}".formatted(chatId, MESSAGE_TEXT);
+			log.info(body);
 			HttpHeaders headers = new HttpHeaders();
 			headers.setContentType(MediaType.APPLICATION_JSON);
 			HttpEntity<String> request = new HttpEntity<>(body, headers);

@@ -11,7 +11,7 @@ databaseChangeLog:
                   value: USER
               - column:
                   name: create_date
-                  value: 22.05.2024
+                  value: 2024-05-22
         - insert:
             tableName: community_role_type
             columns:
@@ -20,7 +20,7 @@ databaseChangeLog:
                   value: ADMIN
               - column:
                   name: create_date
-                  value: 22.05.2024
+                  value: 2024-05-22
         - insert:
             tableName: community_role_type
             columns:
@@ -29,7 +29,7 @@ databaseChangeLog:
                   value: MODERATOR
               - column:
                   name: create_date
-                  value: 22.05.2024
+                  value: 2024-05-22
         - insert:
             tableName: community_role_type
             columns:
@@ -38,4 +38,4 @@ databaseChangeLog:
                   value: PRIVILEGED_USER
               - column:
                   name: create_date
-                  value: 22.05.2024
+                  value: 2024-05-22
