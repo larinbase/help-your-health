@@ -18,13 +18,13 @@ public class TelegramNotificationSendler {
 	private final String waterNotificationRK = "telegram-rk";
 
 	// Метод будет выполняться каждые 2 часа
-	@Scheduled(fixedRate = 6000)
+	@Scheduled(cron = "0 0 */2 * * *")
 	private void sendWaterNotifications() {
 		rabbitTemplate.convertAndSend(baseExchange, waterNotificationRK, "send");
 	}
 
 	// Метод будет выполняться каждые 2 часа
-	@Scheduled(fixedRate = 6000)
+	@Scheduled(cron = "0 0 */2 * * *")
 	private void parseTelegramSubscribers() {
 		rabbitTemplate.convertAndSend(baseExchange, waterNotificationRK, "parse");
 	}
