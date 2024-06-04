@@ -35,6 +35,13 @@ public class UserController implements UserApi {
     }
 
     @Override
+    @PreAuthorize("@CommunityRoleService.hasAnyRole(@CommunityRoleType.MODERATOR) && " +
+            "@CommunityRoleService.canUpdateRole(#id, #roleType)")
+    public void updateRole(UUID id, String roleType) {
+        service.updateRole(id, roleType);
+    }
+
+    @Override
     @PreAuthorize("@CommunityRoleService.hasAnyRole(@CommunityRoleType.MODERATOR) || " +
             "@UserCheckService.hasUserId(#id)")
     public void deleteById(UUID id) {

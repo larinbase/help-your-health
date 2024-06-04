@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.itis.healthserviceapi.dto.request.ExerciseTemplateRequest;
 import ru.itis.healthserviceapi.dto.response.ExerciseTemplateResponse;
@@ -28,6 +29,7 @@ public interface ExerciseTemplateApi {
             @ApiResponse(responseCode = "403", description = "Не достаточно прав"),
             @ApiResponse(responseCode = "500", description = "Ведутся технические работы")
     })
+    @ResponseStatus(HttpStatus.OK)
     Page<ExerciseTemplateResponse> getTemplates(Pageable pageable);
 
     @GetMapping(params = {"q"})
@@ -39,6 +41,7 @@ public interface ExerciseTemplateApi {
             @ApiResponse(responseCode = "403", description = "Не достаточно прав"),
             @ApiResponse(responseCode = "500", description = "Ведутся технические работы")
     })
+    @ResponseStatus(HttpStatus.OK)
     List<ExerciseTemplateResponse> searchTemplates(@RequestParam("q") String query);
 
     @PostMapping()
@@ -50,6 +53,7 @@ public interface ExerciseTemplateApi {
             @ApiResponse(responseCode = "403", description = "Не достаточно прав"),
             @ApiResponse(responseCode = "500", description = "Ведутся технические работы")
     })
+    @ResponseStatus(HttpStatus.CREATED)
     UUID createTemplate(@RequestBody ExerciseTemplateRequest templateRequest);
 
     @PutMapping("/{templateId}")
@@ -61,6 +65,7 @@ public interface ExerciseTemplateApi {
             @ApiResponse(responseCode = "403", description = "Не достаточно прав"),
             @ApiResponse(responseCode = "500", description = "Ведутся технические работы")
     })
+    @ResponseStatus(HttpStatus.OK)
     void updateTemplate(@PathVariable("templateId") UUID templateId, @RequestBody  ExerciseTemplateRequest templateRequest);
 
     @DeleteMapping("/{templateId}")
@@ -72,5 +77,6 @@ public interface ExerciseTemplateApi {
             @ApiResponse(responseCode = "403", description = "Не достаточно прав"),
             @ApiResponse(responseCode = "500", description = "Ведутся технические работы")
     })
+    @ResponseStatus(HttpStatus.OK)
     void deleteTemplate(@PathVariable("templateId")  UUID templateId);
 }

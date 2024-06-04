@@ -14,4 +14,6 @@ public interface UserService {
     UserResponse update(UserUpdate userUpdate);
 
     void deleteById(UUID id);
+
+    void updateRole(UUID id, String role);
 }
