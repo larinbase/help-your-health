@@ -12,3 +12,32 @@ services:
     ports:
       - 15672:15672
       - 5672:5672
+
+  postgres:
+    image: postgres:16.3
+    restart: always
+    environment:
+      POSTGRES_DB: agona
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    volumes:
+      - ./postgresql:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+  mongodb:
+    image: mongo:4.4
+    restart: always
+    volumes:
+      - ./mongodb:/data/db
+    ports:
+      - 27017:27017
+
+  redis:
+    image: redis:6
+    restart: always
+    ports:
+      - 32768:6379
+
+# Для запуска сервисов используйте команду:
+# docker-compose up -d
