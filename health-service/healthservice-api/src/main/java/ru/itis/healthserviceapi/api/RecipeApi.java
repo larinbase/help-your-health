@@ -30,6 +30,7 @@ public interface RecipeApi {
             @ApiResponse(responseCode = "500", description = "Ведутся технические работы")
     })
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     void create(@RequestBody RecipeRequest request);
 
     @Operation(summary = "Получение всех рецептов")
@@ -41,6 +42,7 @@ public interface RecipeApi {
             @ApiResponse(responseCode = "500", description = "Ведутся технические работы")
     })
     @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     Page<RecipeResponse> findAll(@RequestParam(defaultValue = "0") int offset,
                                  @RequestParam(defaultValue = "10") int limit);
 
@@ -53,6 +55,7 @@ public interface RecipeApi {
             @ApiResponse(responseCode = "500", description = "Ведутся технические работы")
     })
     @GetMapping("/findById/{id}")
+    @ResponseStatus(HttpStatus.OK)
     RecipeResponse findById(@PathVariable("id") UUID id);
 
     @Operation(summary = "Получение рецепта по названию")
@@ -64,6 +67,7 @@ public interface RecipeApi {
             @ApiResponse(responseCode = "500", description = "Ведутся технические работы")
     })
     @GetMapping("/findByTitle/{title}")
+    @ResponseStatus(HttpStatus.OK)
     Page<RecipeResponse> findByTitle(@PathVariable("title") String title,
                                @RequestParam(defaultValue = "0") int offset,
                                @RequestParam(defaultValue = "10") int limit);
@@ -77,6 +81,7 @@ public interface RecipeApi {
             @ApiResponse(responseCode = "500", description = "Ведутся технические работы")
     })
     @GetMapping("/findByCategory/{category}")
+    @ResponseStatus(HttpStatus.OK)
     Page<RecipeResponse> findByCategory(@PathVariable("category") String category,
                                         @RequestParam(defaultValue = "0") int offset,
                                         @RequestParam(defaultValue = "10") int limit);
@@ -90,6 +95,7 @@ public interface RecipeApi {
             @ApiResponse(responseCode = "500", description = "Ведутся технические работы")
     })
     @GetMapping("/findByCookingTime/{cookingTime}")
+    @ResponseStatus(HttpStatus.OK)
     Page<RecipeResponse> findByCookingTime(@PathVariable("cookingTime") int cookingTime,
                                         @RequestParam(defaultValue = "0") int offset,
                                         @RequestParam(defaultValue = "10") int limit);
@@ -115,5 +121,6 @@ public interface RecipeApi {
             @ApiResponse(responseCode = "500", description = "Ведутся технические работы")
     })
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     void deleteById(@PathVariable("id") UUID id);
 }
