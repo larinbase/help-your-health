@@ -21,5 +21,6 @@ public record EatenFoodRequest(
         @Schema(description = "Вес")
         @Positive
         @NotNull
-        Short weight) {
+        Short weight
+) {
 }
