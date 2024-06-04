@@ -9,8 +9,8 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/agona
     hikari:
-      password: admin
-      username: admin
+      username: postgres
+      password: 1234
       maximum-pool-size: 20
       jdbc-url: jdbc:postgresql://localhost:5432/agona
 
@@ -23,6 +23,11 @@ spring:
     redis:
       host: localhost
       port: 32768
+
+  rabbitmq:
+    host: localhost
+    username: health
+    password: 1234
 
 server:
   port: 8081
