@@ -29,8 +29,7 @@ public class TelegramServiceImpl implements TelegramService {
 
 	private final TelegramInfoService telegramInfoService;
 
-	private final String MESSAGE_TEXT = "ДА ИСПРАВИЛ МОЖНО БЕЗ АГРЕССИИ";
-//	private final String MESSAGE_TEXT = "Привет! Прошло еще 2 часа, пришло время немного освежиться)";
+	private final String MESSAGE_TEXT = "Привет! Прошло еще 2 часа, пришло время немного освежиться)";
 
 	@Value("${telegram.bot.token}")
 	private String token;
