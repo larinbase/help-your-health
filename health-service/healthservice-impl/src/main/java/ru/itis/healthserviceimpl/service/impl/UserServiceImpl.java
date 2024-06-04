@@ -45,10 +45,10 @@ public class UserServiceImpl implements UserService {
         if (userRepository.findByUsername(userSave.username()).isPresent()) {
             throw new UserAlreadyExistException(userSave.username());
         }
-        CommunityRoleType roleType = CommunityRoleType.valueOf(userSave.role());
+        CommunityRoleType roleType = CommunityRoleType.USER;
         log.info("Find role id by type");
         CommunityRole role = communityRoleRepository.findByType(roleType)
-                .orElseThrow(()-> new CommunityRoleNotFoundException(roleType.name()));
+                .orElseThrow(() -> new CommunityRoleNotFoundException(roleType.name()));
         log.info("mapping entity from dto");
         User user = mapper.fromRequest(userSave);
         user.setPassword(passwordEncoder.encode(userSave.password()));
@@ -68,7 +68,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @CachePut(value = "users", key = "#id")
     public UserResponse update(UserUpdate userUpdate) {
         BaseUserDetails principal = (BaseUserDetails) SecurityContextHolder.getContext()
                 .getAuthentication()
@@ -88,10 +87,22 @@ public class UserServiceImpl implements UserService {
     @Override
     @CacheEvict(value = "accounts", key = "#id")
     public void deleteById(UUID id) {
-        if (userRepository.findById(id).isEmpty()){
+        if (userRepository.findById(id).isEmpty()) {
             throw new UserNotFoundException(id);
         }
         userRepository.deleteById(id);
+    }
+
+    @Override
+    @CacheEvict(value = "accounts", key = "#id")
+    public void updateRole(UUID id, String roleType) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(id));
+        CommunityRoleType communityRoleType = CommunityRoleType.valueOf(roleType);
+        CommunityRole role = communityRoleRepository.findByType(communityRoleType)
+                .orElseThrow(() -> new CommunityRoleNotFoundException(communityRoleType.name()));
+        user.setRole(role);
+        userRepository.save(user);
     }
 
     private void setNutritionalNorm(User user) {
