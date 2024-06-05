@@ -49,12 +49,11 @@ public class DrinkingWaterServiceImpl implements DrinkingWaterService {
     @Override
     public List<DrinkingWaterResponse> findDrinkingByDate(String date) {
         BaseUserDetails user = (BaseUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
         Date sqlDate = Date.valueOf(date);
         LocalDate localDate = sqlDate.toLocalDate();
         Instant startOfDay = localDate.atStartOfDay().toInstant(ZoneOffset.UTC);
         Instant endOfDay = startOfDay.plus(1, ChronoUnit.DAYS).minus(1, ChronoUnit.MILLIS);
-
+        
         return drinkingWaterRepository.findAllByAccountIdAndCreateDateBetween(user.getId(), startOfDay, endOfDay)
                 .stream()
                 .map(drinkingWaterMapper::toResponse)

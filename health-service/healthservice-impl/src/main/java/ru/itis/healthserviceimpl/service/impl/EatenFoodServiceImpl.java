@@ -32,10 +32,8 @@ import java.util.UUID;
 public class EatenFoodServiceImpl implements EatenFoodService {
 
     private final EatenFoodRepository eatenFoodRepository;
-
     private final FoodRepository foodRepository;
     private final RecipeRepository recipeRepository;
-
     private final EatenFoodMapper mapper;
 
     @Override
@@ -71,12 +69,10 @@ public class EatenFoodServiceImpl implements EatenFoodService {
     @Override
     public List<EatenFoodResponse> getByDate(String date) {
         BaseUserDetails user = (BaseUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
         Date sqlDate = Date.valueOf(date);
         LocalDate localDate = sqlDate.toLocalDate();
         Instant startOfDay = localDate.atStartOfDay().toInstant(ZoneOffset.UTC);
         Instant endOfDay = startOfDay.plus(1, ChronoUnit.DAYS).minus(1, ChronoUnit.MILLIS);
-
         return eatenFoodRepository
                         .findAllByUserIdAndCreateDateBetween(user.getId(), startOfDay, endOfDay)
                         .stream().map(e -> {
@@ -87,8 +83,7 @@ public class EatenFoodServiceImpl implements EatenFoodService {
                             return mapper.toResponse(
                                     e, recipe
                             );
-                })
-                        .toList();
+                }).toList();
     }
 
     @Override
