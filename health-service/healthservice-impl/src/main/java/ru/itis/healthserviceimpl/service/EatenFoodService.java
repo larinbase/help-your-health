@@ -12,6 +12,7 @@ public interface EatenFoodService {
     UUID save(EatenFoodRequest eatenFoodRequest);
 
     EatenFoodResponse getById(UUID id);
+    
     List<EatenFoodResponse> getByDate(String date);
 
     Set<EatenFoodResponse> getAll();
