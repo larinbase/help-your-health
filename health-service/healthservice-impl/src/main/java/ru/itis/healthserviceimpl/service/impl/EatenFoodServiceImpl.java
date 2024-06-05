@@ -55,10 +55,10 @@ public class EatenFoodServiceImpl implements EatenFoodService {
     public EatenFoodResponse getById(UUID id) {
         EatenFood eatenFood =   eatenFoodRepository.findById(id)
                 .orElseThrow(() -> new EatenFoodNotFoundException(id));
-
         Recipe recipe = null;
         if(eatenFood.getRecipeId() != null){
-            recipe = recipeRepository.findById(eatenFood.getRecipeId()).orElseThrow(() -> new RecipeNotFoundException(eatenFood.getRecipeId()));
+            recipe = recipeRepository.findById(eatenFood.getRecipeId())
+                        .orElseThrow(() -> new RecipeNotFoundException(eatenFood.getRecipeId()));
         }
         return mapper.toResponse(
              eatenFood,
@@ -78,7 +78,8 @@ public class EatenFoodServiceImpl implements EatenFoodService {
                         .stream().map(e -> {
                             Recipe recipe = null;
                             if(e.getRecipeId() != null){
-                                recipe = recipeRepository.findById(e.getRecipeId()).orElseThrow(() -> new RecipeNotFoundException(e.getRecipeId()));
+                                recipe = recipeRepository.findById(e.getRecipeId())
+                                            .orElseThrow(() -> new RecipeNotFoundException(e.getRecipeId()));
                             }
                             return mapper.toResponse(
                                     e, recipe
@@ -92,7 +93,8 @@ public class EatenFoodServiceImpl implements EatenFoodService {
         for (EatenFood eatenFood : eatenFoodRepository.findAll()) {
             Recipe recipe = null;
             if(eatenFood.getRecipeId() != null){
-                recipe = recipeRepository.findById(eatenFood.getRecipeId()).orElseThrow(() -> new RecipeNotFoundException(eatenFood.getRecipeId()));
+                recipe = recipeRepository.findById(eatenFood.getRecipeId())
+                            .orElseThrow(() -> new RecipeNotFoundException(eatenFood.getRecipeId()));
             }
             eatenFoods.add(mapper.toResponse(eatenFood, recipe));
         }
