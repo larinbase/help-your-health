@@ -27,7 +27,10 @@ public class DrinkingWater {
     @Column(name = "milliliters")
     private int milliliters;
 
-    @JoinColumn(name = "account_id")
+    @Column(name = "account_id")
+    private UUID accountId;
+
+    @JoinColumn(name = "account_id", insertable = false, updatable = false)
     @ManyToOne
     private User user;
 

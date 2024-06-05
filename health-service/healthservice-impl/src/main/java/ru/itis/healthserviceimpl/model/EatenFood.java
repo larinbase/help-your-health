@@ -18,16 +18,20 @@ import java.util.UUID;
 @NoArgsConstructor
 public class EatenFood extends AbstractModel {
 
-    @ManyToOne
-    @JoinColumn(referencedColumnName = "id", name = "user_id")
-    private User user;
+    @Column(nullable = false, unique = false, name = "user_id")
+    private UUID userId;
 
     @ManyToOne
     @JoinColumn(referencedColumnName = "id", name = "food_id")
     private Food food;
 
+    @JoinColumn(referencedColumnName = "id", name = "food_id")
     private UUID recipeId;
 
     @Column(nullable = false, unique = false)
     private Short weight;
+
+    @ManyToOne
+    @JoinColumn(referencedColumnName = "id", name = "user_id", updatable = false, insertable = false)
+    private User user;
 }
