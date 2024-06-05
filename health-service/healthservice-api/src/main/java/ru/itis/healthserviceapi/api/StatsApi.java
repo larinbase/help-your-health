@@ -15,7 +15,6 @@ import ru.itis.healthserviceapi.dto.response.DateStatsResponse;
 @RequestMapping("/api/v1/stats")
 public interface StatsApi {
 
-
     @Operation(summary = "получение дневной статистики")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Статистика собрана"),
@@ -25,6 +24,5 @@ public interface StatsApi {
     })
     @GetMapping("/day")
     DateStatsResponse getDateStats(DayStatsRequest dayStatsRequest);
-
-
+    
 }
