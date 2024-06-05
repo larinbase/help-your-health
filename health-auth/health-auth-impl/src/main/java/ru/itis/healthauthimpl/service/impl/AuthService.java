@@ -1,4 +1,4 @@
-package ru.itis.healthauthimpl.service;
+package ru.itis.healthauthimpl.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -6,6 +6,8 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.itis.healthauthapi.dto.*;
+import ru.itis.healthauthimpl.service.JwtTokenService;
+import ru.itis.healthauthimpl.service.UserService;
 
 import java.util.List;
 
@@ -15,11 +17,8 @@ import java.util.List;
 public class AuthService {
 
     private final JwtTokenService jwtTokenService;
-
     private final SessionService sessionService;
-
     private final PasswordEncoder passwordEncoder;
-
     private final UserService userService;
 
     public TokenCoupleResponse signIn(AuthenticationRequest authenticationRequest) {
@@ -43,5 +42,4 @@ public class AuthService {
     public void logout(TokenCoupleRequest tokenCoupleRequest) {
         sessionService.deleteByRefreshToken(tokenCoupleRequest.refreshToken());
     }
-
 }

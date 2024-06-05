@@ -1,4 +1,4 @@
-package ru.itis.healthauthimpl.service;
+package ru.itis.healthauthimpl.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
