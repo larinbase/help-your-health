@@ -34,7 +34,6 @@ public class ExerciseTemplateController implements ExerciseTemplateApi {
     }
 
     @Override
-    @PreAuthorize("@ExerciseTemplateRoleService.hasAnyRoleByExerciseTemplateId(null, @ExerciseTemplateRoleType.EDITOR)")
     public UUID createTemplate(ExerciseTemplateRequest templateRequest) {
         return exerciseService.createTemplate(templateRequest);
     }
