@@ -38,10 +38,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class RecipeControllerTest {
 
     @Autowired
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @MockBean
-    RecipeService service;
+    private RecipeService service;
 
     private final String TOKEN_ATTR_NAME =
             "org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository.CSRF_TOKEN";
