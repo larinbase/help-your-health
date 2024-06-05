@@ -59,3 +59,9 @@ databaseChangeLog:
   - include:
       file: DDL/20240602-add-recipe-id-column-in-eaten-food.yml # 19
       relativeToChangelogFile: true
+  - include:
+      file: DDL/20240602-telegram-info.yml #20
+      relativeToChangelogFile: true
+  - include:
+      file: DDL/20240601-init-session-db.yml #21
+      relativeToChangelogFile: true

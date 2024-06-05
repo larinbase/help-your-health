@@ -1,0 +1,21 @@
+spring:
+
+  application:
+    name: health-notifications
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/agona
+    username: postgres
+    password: 1234
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+
+  rabbitmq:
+    host: localhost
+    username: health
+    password: 1234
+
+telegram:
+  bot:
+    token: 7472735512:AAFjWV_GRD6bPrNFjZHBR2mJwKakE_3JspA
