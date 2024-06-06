@@ -14,7 +14,7 @@ import ru.itis.healthserviceapi.dto.response.ExerciseSessionResponse;
 import java.util.List;
 import java.util.UUID;
 
-@Tag(name = "exerciseSessionsApi")
+@Tag(name = "Exercise sessions")
 @Schema(description = "Выполненные упражнения")
 @RequestMapping("/api/v1/exercises/sessions")
 public interface ExerciseSessionApi {

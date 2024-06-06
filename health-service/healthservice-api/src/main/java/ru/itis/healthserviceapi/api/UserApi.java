@@ -13,7 +13,7 @@ import ru.itis.healthserviceapi.dto.response.UserResponse;
 
 import java.util.UUID;
 
-@Tag(name = "UserApi")
+@Tag(name = "Users")
 @Schema(description = "Работа с пользователем")
 @RequestMapping("/api/v1/user")
 public interface UserApi {
