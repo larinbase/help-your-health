@@ -13,7 +13,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
-@Tag(name = "drinking-water-api")
+@Tag(name = "Drinking water")
 @RequestMapping("api/v1/drinking-water")
 public interface DrinkingWaterApi {
 

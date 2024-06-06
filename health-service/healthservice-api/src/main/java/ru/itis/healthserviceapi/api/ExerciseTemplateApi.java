@@ -15,7 +15,7 @@ import ru.itis.healthserviceapi.dto.response.ExerciseTemplateResponse;
 import java.util.List;
 import java.util.UUID;
 
-@Tag(name = "exerciseTemplatesApi")
+@Tag(name = "Exercise templates")
 @Schema(description = "Упражнения")
 @RequestMapping("/api/v1/exercises/templates")
 public interface ExerciseTemplateApi {
