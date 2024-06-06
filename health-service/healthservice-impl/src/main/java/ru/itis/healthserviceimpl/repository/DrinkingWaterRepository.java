@@ -16,5 +16,7 @@ public interface DrinkingWaterRepository extends JpaRepository<DrinkingWater, UU
 
     List<DrinkingWater> findAllByUserId(UUID userId);
 
+    List<DrinkingWater> findAllByAccountIdAndCreateDateBetween(UUID userId, Instant from, Instant to);
+
     List<DrinkingWater> findAllByUserIdAndCreateDateBetween(UUID userId, Instant from, Instant to);
 }

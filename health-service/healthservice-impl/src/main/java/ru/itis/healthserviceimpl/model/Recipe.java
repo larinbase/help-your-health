@@ -18,7 +18,7 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Recipe {
+public class Recipe implements Consumable{
 
     @Id
     private UUID id;
@@ -42,5 +42,10 @@ public class Recipe {
 
     public Recipe() {
         this.id = UUID.randomUUID();
+    }
+
+    @Override
+    public NutritionalInfo getNutrients() {
+       return nutritionalInfo;
     }
 }

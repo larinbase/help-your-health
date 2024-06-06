@@ -13,5 +13,5 @@ public record EatenFoodResponse(@Schema(description = "Id") UUID id,
                                 @Schema(description = "Id пользователя") UUID userId,
                                 @Schema(description = "Id продукта питания") UUID foodId,
 								@Schema(description = "Id рецепта") UUID recipeId,
-                                @Schema(description = "Вес") Short weight) {
-}
+								@Schema(description = "Вес") Short weight,
+								@Schema(description = "Потребленные нутриенты") NutritionalInfoResponse nutrients) { }
