@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: 5
+      author: salyukov
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: user_id
+            baseTableName: recipe_role
+            constraintName: reciperole_userid_fk_account_constraint
+            referencedColumnNames: id
+            referencedTableName: account

@@ -1,0 +1,40 @@
+databaseChangeLog:
+  - changeSet:
+      id: 13
+      author: KhairulinDanil
+      changes:
+        - createTable:
+            tableName: exercise_session
+            columns:
+              - column:
+                - name: id
+                  type: uuid
+                  defaultValueComputed: uuid_generate_v4()
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                - name: user_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                - name: template_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                - name: metric_amount
+                  type: numeric(8,2)
+                  constraints:
+                    nullable: false
+              - column:
+                - name: date
+                  type: date
+                  defaultValue: now()
+        - addForeignKeyConstraint:
+            constraintName: FK_es_user
+            baseTableName: exercise_session
+            baseColumnNames: user_id
+            referencedTableName: account
+            referencedColumnNames: id

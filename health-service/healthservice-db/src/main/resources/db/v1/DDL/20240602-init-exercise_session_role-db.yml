@@ -1,0 +1,36 @@
+databaseChangeLog:
+  - changeSet:
+      id: 16
+      author: salyukov
+      changes:
+        - createTable:
+            tableName: exercise_session_role
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  defaultValueComputed: uuid_generate_v4()
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: exercise_session_role_pk
+              - column:
+                  name: type
+                  type: varchar(40)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: exercise_session_entity_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            constraintName: exercise_session_role_userid_fk_constraint
+            baseTableName: exercise_session_role
+            baseColumnNames: user_id
+            referencedTableName: account
+            referencedColumnNames: id
