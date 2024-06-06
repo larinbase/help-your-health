@@ -1,6 +1,9 @@
 package ru.itis.healthserviceimpl.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import ru.itis.healthserviceapi.dto.request.FoodCategoryRequest;
@@ -25,6 +28,7 @@ public class FoodCategoryServiceImpl implements FoodCategoryService {
     private final FoodCategoryMapper mapper;
 
     @Override
+    @Cacheable(value = "foodCategory")
     public UUID save(FoodCategoryRequest foodCategoryRequest) {
         try {
             return repository.save(mapper.toEntity(foodCategoryRequest)).getId();
@@ -34,6 +38,7 @@ public class FoodCategoryServiceImpl implements FoodCategoryService {
     }
 
     @Override
+    @Cacheable(value = "foodCategory", key = "#id")
     public FoodCategoryResponse getById(UUID id) {
         return mapper.toResponse(
                 repository.findById(id)
@@ -42,6 +47,7 @@ public class FoodCategoryServiceImpl implements FoodCategoryService {
     }
 
     @Override
+    @Cacheable(value = "foodCategory")
     public Set<FoodCategoryResponse> getAll() {
         Set<FoodCategoryResponse> foodCategories = new HashSet<>();
         for (FoodCategory foodCategory : repository.findAll()) {
@@ -51,11 +57,13 @@ public class FoodCategoryServiceImpl implements FoodCategoryService {
     }
 
     @Override
+    @CacheEvict(value = "foodCategory", key = "#id")
     public void deleteById(UUID id) {
         repository.deleteById(id);
     }
 
     @Override
+    @CachePut(value = "foodCategory", key = "#id")
     public void putById(UUID id, FoodCategoryRequest foodCategoryRequest) {
         if (repository.findById(id).isPresent()) {
             FoodCategory category = mapper.toEntity(foodCategoryRequest);

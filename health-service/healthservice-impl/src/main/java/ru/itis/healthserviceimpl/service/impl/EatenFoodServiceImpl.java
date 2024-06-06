@@ -1,6 +1,9 @@
 package ru.itis.healthserviceimpl.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import ru.itis.healthserviceapi.dto.request.EatenFoodRequest;
 import ru.itis.healthserviceapi.dto.response.EatenFoodResponse;
@@ -27,6 +30,7 @@ public class EatenFoodServiceImpl implements EatenFoodService {
     private final EatenFoodMapper mapper;
 
     @Override
+    @Cacheable(value = "eatenFood")
     public UUID save(EatenFoodRequest eatenFoodRequest) {
         try {
             EatenFood eatenFood = mapper.toEntity(eatenFoodRequest);
@@ -42,6 +46,7 @@ public class EatenFoodServiceImpl implements EatenFoodService {
     }
 
     @Override
+    @Cacheable(value = "eatenFood", key = "#id")
     public EatenFoodResponse getById(UUID id) {
         return mapper.toResponse(
                 eatenFoodRepository.findById(id)
@@ -50,6 +55,7 @@ public class EatenFoodServiceImpl implements EatenFoodService {
     }
 
     @Override
+    @Cacheable(value = "eatenFood")
     public Set<EatenFoodResponse> getAll() {
         Set<EatenFoodResponse> eatenFoods = new HashSet<>();
         for (EatenFood eatenFood : eatenFoodRepository.findAll()) {
@@ -59,12 +65,14 @@ public class EatenFoodServiceImpl implements EatenFoodService {
     }
 
     @Override
+    @CacheEvict(value = "eatenFood", key = "#id")
     public void deleteById(UUID id) {
         eatenFoodRepository.deleteById(eatenFoodRepository.findById(id)
                 .orElseThrow(() -> new EatenFoodNotFoundException(id)).getId());
     }
 
     @Override
+    @CachePut(value = "eatenFood", key = "#id")
     public void putById(UUID id, EatenFoodRequest eatenFoodRequest) {
         if (eatenFoodRepository.findById(id).isPresent()) {
             EatenFood eatenFood = mapper.toEntity(eatenFoodRequest);

@@ -1,6 +1,9 @@
 package ru.itis.healthserviceimpl.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -39,11 +42,13 @@ public class ExerciseServiceImpl implements ExerciseService {
     private final UserRepository userRepository;
 
     @Override
+    @Cacheable(value = "templates")
     public Page<ExerciseTemplateResponse> getTemplates(Pageable pageable) {
         return templateRepository.findAll(pageable).map(exerciseMapper::toResponse);
     }
 
     @Override
+    @Cacheable(value = "templates", key = "#query")
     public List<ExerciseTemplateResponse> searchTemplates(String query) {
         return templateRepository.findAll().stream()
                 .filter(template -> template.getDescription().toLowerCase().contains(query.toLowerCase()))
@@ -52,6 +57,7 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
+    @Cacheable(value = "templates")
     public UUID createTemplate(ExerciseTemplateRequest templateRequest) {
         ExerciseTemplateEntity template = new ExerciseTemplateEntity();
         template.setDescription(templateRequest.description());
@@ -63,6 +69,7 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
+    @CachePut(value = "templates", key = "#templateId")
     public void updateTemplate(UUID templateId, ExerciseTemplateRequest templateRequest) {
         ExerciseTemplateEntity template = templateRepository.findById(templateId)
                 .orElseThrow(() -> new NotFoundException("Template not found"));
@@ -75,11 +82,13 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
+    @CacheEvict(value = "templates", key = "#templateId")
     public void deleteTemplate(UUID templateId) {
         templateRepository.deleteById(templateId);
     }
 
     @Override // ToDo: пользак должен поулчаать только свои сессии
+    @Cacheable(value = "sessions", key = "#date")
     public List<ExerciseSessionResponse> getExercisesAtDay(String date) {
         return sessionRepository.findAllByDate(Date.valueOf(date)).stream()
                 .map(exerciseMapper::toResponse)
@@ -87,6 +96,7 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
+    @Cacheable(value = "sessions")
     public void addExercise(ExerciseSessionRequest request) {
         ExerciseSessionEntity session = new ExerciseSessionEntity();
         String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -101,6 +111,7 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
+    @Cacheable(value = "sessions", key = "#id")
     public void updateExercise(UUID id, ExerciseSessionRequest request) {
         ExerciseSessionEntity session = sessionRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Session not found"));
@@ -109,6 +120,7 @@ public class ExerciseServiceImpl implements ExerciseService {
         sessionRepository.save(session);
     }
 
+    @CacheEvict(value = "sessions", key = "#id")
     public void deleteExercise(UUID id) {
         sessionRepository.deleteById(id);
     }
