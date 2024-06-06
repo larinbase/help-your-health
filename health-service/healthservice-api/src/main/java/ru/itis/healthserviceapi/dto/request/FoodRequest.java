@@ -33,7 +33,7 @@ public record FoodRequest(
         @Schema(description = "Количество калорий в 100 граммах")
         @NotNull
         @Positive
-        Short caloriesNumber,
+        Short calories,
 
         @Schema(description = "Тип питания")
         @NotNull
