@@ -18,8 +18,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class StatsServiceImpl implements StatsService {
 
-    // ну такое
-    private static final int WATER_GOAL = 2000; // ml
+    private static final int WATER_NORM_PER_KG = 30; // ml
 
     private final ExerciseService exerciseService;
     private final EatenFoodService eatenFoodService;
@@ -72,7 +71,11 @@ public class StatsServiceImpl implements StatsService {
                 goal,
                 exerciseCalories,
                 waterDrunk,
-                WATER_GOAL
+                calculateWaterGoal(user.weight())
         );
+    }
+
+    private static int calculateWaterGoal(float userWeightKg){
+        return Math.round(WATER_NORM_PER_KG * userWeightKg);
     }
 }
