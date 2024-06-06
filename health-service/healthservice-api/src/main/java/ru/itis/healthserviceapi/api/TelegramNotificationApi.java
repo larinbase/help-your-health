@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import ru.itis.healthserviceapi.dto.request.RecipeRequest;
 
 @Tags(value = {
-		@Tag(name = "TelegramNotificationApi")
+		@Tag(name = "Telegram notifications")
 })
 @Schema(description = "Обработка подключения уведомлений")
 @RequestMapping("/api/v1/tg")

@@ -15,7 +15,7 @@ import ru.itis.healthserviceapi.dto.response.RecipeResponse;
 import java.util.UUID;
 
 @Tags(value = {
-        @Tag(name = "RecipeApi")
+        @Tag(name = "Recipes")
 })
 @Schema(description = "Работа с рецептами")
 @RequestMapping("/api/v1/recipe")
