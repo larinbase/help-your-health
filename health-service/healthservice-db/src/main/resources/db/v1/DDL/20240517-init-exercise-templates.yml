@@ -1,0 +1,44 @@
+databaseChangeLog:
+  - changeSet:
+      id: 14
+      author: KhairulinDanil
+      changes:
+        - createTable:
+            tableName: exercise_template
+            columns:
+              - column:
+                - name: id
+                  type: uuid
+                  defaultValueComputed: uuid_generate_v4()
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                - name: description
+                  type: varchar
+                  constraints:
+                    nullable: false
+              - column:
+                - name: image
+                  type: varchar
+              - column:
+                - name: calories_per_unit
+                  type: numeric(8,2)
+                  constraints:
+                    nullable: false
+              - column:
+                - name: metric_unit
+                  type: varchar
+                  constraints:
+                    nullable: false
+              - column:
+                - name: is_custom
+                  type: boolean
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            constraintName: FK_es_template
+            baseTableName: exercise_session
+            baseColumnNames: template_id
+            referencedTableName: exercise_template
+            referencedColumnNames: id

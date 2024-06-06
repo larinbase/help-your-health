@@ -1,0 +1,42 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20
+      author: Eldar
+      changes:
+        - createTable:
+            tableName: telegram_info
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: user_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: nickname
+                  type: varchar(30)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: chat_id
+                  type: bigint
+                  constraints:
+                    nullable: true
+              - column:
+                  name: send
+                  type: boolean
+                  constraints:
+                    nullable: false
+              - column:
+                  name: create_date
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: update_date
+                  type: date

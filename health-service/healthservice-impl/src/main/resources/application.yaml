@@ -1,0 +1,39 @@
+spring:
+  application:
+    name: healthservice-impl
+
+  liquibase:
+    change-log: classpath:db/database-changelog-master.yaml
+    enabled: true
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/agona
+    hikari:
+      username: postgres
+      password: 1234
+      maximum-pool-size: 20
+      jdbc-url: jdbc:postgresql://localhost:5432/agona
+
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: healthservice
+
+    redis:
+      host: localhost
+      port: 32768
+
+  rabbitmq:
+    host: localhost
+    username: health
+    password: 1234
+
+server:
+  port: 8081
+
+
+jwt:
+  expiration:
+      millis: 3600000
+  secret: 32wADAS1vnn2321fvsGENbsnbdnskbESFEGVESBVSBFEREAWEVDVEGEVETEVESGESFSEGVSGESF23w32423423432

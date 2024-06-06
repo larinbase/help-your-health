@@ -1,0 +1,30 @@
+databaseChangeLog:
+  - changeSet:
+      id: 22
+      author: salyukov
+      changes:
+        - createTable:
+            tableName: eaten_food_role
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  defaultValueComputed: uuid_generate_v4()
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: eaten_food_role_pk
+              - column:
+                  name: user_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: type
+                  type: varchar(40)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: eaten_food_id
+                  type: uuid
+                  constraints:
+                    nullable: false
