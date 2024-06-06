@@ -81,8 +81,10 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     @Override
     public List<ExerciseSessionResponse> getExercisesAtDay(String date) {
-        BaseUserDetails user = (BaseUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return sessionRepository.findAllByDateAndUserId(Date.valueOf(date), user.getId()).stream()
+        BaseUserDetails principal = (BaseUserDetails) SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getPrincipal();
+        return sessionRepository.findAllByDateAndUserId(Date.valueOf(date), principal.getId()).stream()
                 .map(exerciseMapper::toResponse)
                 .collect(Collectors.toList());
     }
@@ -90,7 +92,12 @@ public class ExerciseServiceImpl implements ExerciseService {
     @Override
     public void addExercise(ExerciseSessionRequest request) {
         ExerciseSessionEntity session = new ExerciseSessionEntity();
-        BaseUserDetails user = (BaseUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        BaseUserDetails principal = (BaseUserDetails) SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getPrincipal();
+        String username = principal.getUsername();
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException(username));
         session.setUserId(user.getId());
         session.setTemplateId(request.templateId());
         session.setMetricAmount(request.metricAmount());
