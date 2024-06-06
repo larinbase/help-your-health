@@ -32,10 +32,8 @@ import java.util.UUID;
 public class EatenFoodServiceImpl implements EatenFoodService {
 
     private final EatenFoodRepository eatenFoodRepository;
-
     private final FoodRepository foodRepository;
     private final RecipeRepository recipeRepository;
-
     private final EatenFoodMapper mapper;
 
     @Override
@@ -57,10 +55,10 @@ public class EatenFoodServiceImpl implements EatenFoodService {
     public EatenFoodResponse getById(UUID id) {
         EatenFood eatenFood =   eatenFoodRepository.findById(id)
                 .orElseThrow(() -> new EatenFoodNotFoundException(id));
-
         Recipe recipe = null;
         if(eatenFood.getRecipeId() != null){
-            recipe = recipeRepository.findById(eatenFood.getRecipeId()).orElseThrow(() -> new RecipeNotFoundException(eatenFood.getRecipeId()));
+            recipe = recipeRepository.findById(eatenFood.getRecipeId())
+                        .orElseThrow(() -> new RecipeNotFoundException(eatenFood.getRecipeId()));
         }
         return mapper.toResponse(
              eatenFood,
@@ -71,24 +69,22 @@ public class EatenFoodServiceImpl implements EatenFoodService {
     @Override
     public List<EatenFoodResponse> getByDate(String date) {
         BaseUserDetails user = (BaseUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
         Date sqlDate = Date.valueOf(date);
         LocalDate localDate = sqlDate.toLocalDate();
         Instant startOfDay = localDate.atStartOfDay().toInstant(ZoneOffset.UTC);
         Instant endOfDay = startOfDay.plus(1, ChronoUnit.DAYS).minus(1, ChronoUnit.MILLIS);
-
         return eatenFoodRepository
                         .findAllByUserIdAndCreateDateBetween(user.getId(), startOfDay, endOfDay)
                         .stream().map(e -> {
                             Recipe recipe = null;
                             if(e.getRecipeId() != null){
-                                recipe = recipeRepository.findById(e.getRecipeId()).orElseThrow(() -> new RecipeNotFoundException(e.getRecipeId()));
+                                recipe = recipeRepository.findById(e.getRecipeId())
+                                            .orElseThrow(() -> new RecipeNotFoundException(e.getRecipeId()));
                             }
                             return mapper.toResponse(
                                     e, recipe
                             );
-                })
-                        .toList();
+                }).toList();
     }
 
     @Override
@@ -97,7 +93,8 @@ public class EatenFoodServiceImpl implements EatenFoodService {
         for (EatenFood eatenFood : eatenFoodRepository.findAll()) {
             Recipe recipe = null;
             if(eatenFood.getRecipeId() != null){
-                recipe = recipeRepository.findById(eatenFood.getRecipeId()).orElseThrow(() -> new RecipeNotFoundException(eatenFood.getRecipeId()));
+                recipe = recipeRepository.findById(eatenFood.getRecipeId())
+                            .orElseThrow(() -> new RecipeNotFoundException(eatenFood.getRecipeId()));
             }
             eatenFoods.add(mapper.toResponse(eatenFood, recipe));
         }

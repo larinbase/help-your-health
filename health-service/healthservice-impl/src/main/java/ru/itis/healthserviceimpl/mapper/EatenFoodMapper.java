@@ -18,9 +18,7 @@ public interface EatenFoodMapper {
     @Mapping(target = "food", ignore = true)
     EatenFood toEntity(EatenFoodRequest eatenFoodRequest);
 
-    default EatenFoodResponse toResponse(EatenFood eatenFoodEntity, @Nullable Recipe recipe){
-
-
+    default EatenFoodResponse toResponse(EatenFood eatenFoodEntity, @Nullable Recipe recipe) {
         Food food = eatenFoodEntity.getFood();
         NutritionalInfo nutritionalInfo = null;
         if(food != null){
@@ -28,11 +26,8 @@ public interface EatenFoodMapper {
         }else if (recipe != null){
             nutritionalInfo= recipe.getNutrients();
         }
-
         float weight100g = eatenFoodEntity.getWeight() / 100f;
-
         NutritionalInfoResponse nutrientsResponse = null;
-
         if(nutritionalInfo != null){
             nutrientsResponse = new NutritionalInfoResponse(
                     Math.round(nutritionalInfo.getCalories() * weight100g),
@@ -41,7 +36,7 @@ public interface EatenFoodMapper {
                     Math.round(nutritionalInfo.getCarbohydrates() * weight100g)
             );
         }
-
+        
         return new EatenFoodResponse(
                 eatenFoodEntity.getId(),
                 eatenFoodEntity.getCreateDate(),

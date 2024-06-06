@@ -30,5 +30,4 @@ public interface ExerciseService {
 
     void deleteExercise(UUID id);
 
-
 }

@@ -11,6 +11,7 @@ import java.util.UUID;
 public interface DrinkingWaterService {
 
     DrinkingWaterResponse findDrinkingWaterById(@PathVariable UUID id);
+    
     List<DrinkingWaterResponse> findDrinkingByDate(String date);
 
     DrinkingWaterResponse findLastDrinkingWaterByUser(@PathVariable UUID userId);

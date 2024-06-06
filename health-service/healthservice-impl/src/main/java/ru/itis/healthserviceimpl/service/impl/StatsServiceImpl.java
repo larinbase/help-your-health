@@ -52,20 +52,16 @@ public class StatsServiceImpl implements StatsService {
                 user.fats(),
                 user.carbohydrates()
         );
-
         NutritionalInfoResponse consumed = new NutritionalInfoResponse(
                 eatenFoodCalories - exerciseCalories,
                 protein,
                 fat,
                 carbohydrate
         );
-
         int waterDrunk = 0;
-
         for(DrinkingWaterResponse water : drinkingWaterService.findDrinkingByDate(dayStatsRequest.date())){
             waterDrunk += water.milliliters();
         }
-
         return new DateStatsResponse(
                 consumed,
                 goal,

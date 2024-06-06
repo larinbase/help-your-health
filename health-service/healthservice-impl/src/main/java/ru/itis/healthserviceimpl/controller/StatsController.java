@@ -1,6 +1,5 @@
 package ru.itis.healthserviceimpl.controller;
 
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 import ru.itis.healthserviceapi.api.StatsApi;
