@@ -24,25 +24,25 @@ public class EatenFoodController implements EatenFoodApi {
     }
 
     @Override
-    @PreAuthorize("@EatenFoodRoleService.hasAnyRoleByEatenFoodId(#id, EatenFoodRoleType.VIEWER)")
+    @PreAuthorize("@EatenFoodRoleService.hasAnyRoleByEatenFoodId(#id, @EatenFoodRoleType.VIEWER)")
     public EatenFoodResponse getById(UUID id) {
         return service.getById(id);
     }
 
     @Override
-    @PreAuthorize("@EatenFoodRoleService.hasAnyRoleByEatenFoodId(null , EatenFoodRoleType.SUPER_VIEWER)")
+    @PreAuthorize("@EatenFoodRoleService.hasAnyRoleByEatenFoodId(null , @EatenFoodRoleType.SUPER_VIEWER)")
     public Set<EatenFoodResponse> getAll() {
         return service.getAll();
     }
 
     @Override
-    @PreAuthorize("@EatenFoodRoleService.hasAnyRoleByEatenFoodId(#id, EatenFoodRoleType.EDITOR)")
+    @PreAuthorize("@EatenFoodRoleService.hasAnyRoleByEatenFoodId(#id, @EatenFoodRoleType.EDITOR)")
     public void deleteById(UUID id) {
         service.deleteById(id);
     }
 
     @Override
-    @PreAuthorize("@EatenFoodRoleService.hasAnyRoleByEatenFoodId(#id, EatenFoodRoleType.EDITOR)")
+    @PreAuthorize("@EatenFoodRoleService.hasAnyRoleByEatenFoodId(#id, @EatenFoodRoleType.EDITOR)")
     public void putById(UUID id, EatenFoodRequest eatenFoodRequest) {
         service.putById(id, eatenFoodRequest);
     }

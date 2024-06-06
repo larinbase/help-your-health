@@ -36,8 +36,7 @@ public class FoodServiceImpl implements FoodService {
     @Override
     public FoodResponse getById(UUID id) {
         return mapper.toResponse(
-                repository.findById(id)
-                        .orElseThrow(() -> new FoodNotFoundException(id))
+                repository.findById(id).orElseThrow()
         );
     }
 

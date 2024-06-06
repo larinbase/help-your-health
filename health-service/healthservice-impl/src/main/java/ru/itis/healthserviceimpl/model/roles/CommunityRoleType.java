@@ -20,7 +20,6 @@ public enum CommunityRoleType implements Role {
                 ExerciseTemplateRoleType.REPORTER,
                 ExerciseSessionRoleType.REPORTER,
                 DrinkingWaterRoleType.REPORTER,
-                EatenFoodRoleType.REPORTER,
                 FoodRoleType.REPORTER)
         );
         PRIVILEGED_USER.children.add(USER);
@@ -32,6 +31,7 @@ public enum CommunityRoleType implements Role {
                 DrinkingWaterRoleType.EDITOR,
                 ExerciseSessionRoleType.EDITOR,
                 EatenFoodRoleType.EDITOR,
+                EatenFoodRoleType.REPORTER,
                 FoodCategoryRoleType.EDITOR,
                 FoodCategoryRoleType.REPORTER,
                 FoodRoleType.EDITOR)

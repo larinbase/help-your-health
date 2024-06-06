@@ -8,7 +8,7 @@ import ru.itis.healthserviceimpl.model.Food;
 
 
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {FoodCategoryMapper.class})
 public interface FoodMapper {
 
     @Mapping(target = "id", ignore = true)

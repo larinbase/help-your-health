@@ -66,5 +66,5 @@ databaseChangeLog:
       file: DDL/20240601-init-session-db.yml #21
       relativeToChangelogFile: true
   - include:
-      file: DDL/20240606-init-eaten-food-db.yml #22
+      file: DDL/20240606-init-eaten-food-role-db.yml #22
       relativeToChangelogFile: true

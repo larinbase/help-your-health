@@ -12,10 +12,10 @@ databaseChangeLog:
                   constraints:
                     primaryKey: true
               - column:
-                  name: created_date
+                  name: create_date
                   type: timestamp
               - column:
-                  name: updated_date
+                  name: update_date
                   type: timestamp
               - column:
                   name: name
@@ -54,10 +54,10 @@ databaseChangeLog:
                   constraints:
                     checkConstraint: "carbohydrates >= 0 and (proteins + fats + carbohydrates) <= 100"
               - column:
-                  name: calories_number
+                  name: calories
                   type: smallint
                   constraints:
-                    checkConstraint: "calories_number >= 0"
+                    checkConstraint: "calories >= 0"
               - column:
                   name: type_of_food
                   type: smallint

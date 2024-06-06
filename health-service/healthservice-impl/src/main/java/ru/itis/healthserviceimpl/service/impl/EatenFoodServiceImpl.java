@@ -34,26 +34,21 @@ public class EatenFoodServiceImpl implements EatenFoodService {
 
     @Override
     public UUID save(EatenFoodRequest eatenFoodRequest) {
-        try {
-            EatenFood eatenFood = mapper.toEntity(eatenFoodRequest);
-            UUID foodId = eatenFoodRequest.foodId();
-            if (foodId != null) {
-                eatenFood.setFood(foodRepository.findById(foodId)
-                        .orElseThrow(() -> new FoodNotFoundException(foodId)));
-            }
-            BaseUserDetails principal = (BaseUserDetails) SecurityContextHolder.getContext()
-                    .getAuthentication()
-                    .getPrincipal();
-            User user = userRepository.findById(principal.getId())
-                    .orElseThrow(() -> new UserNotFoundException(principal.getId()));
-            EatenFood eatenFoodForSave = mapper.toEntity(eatenFoodRequest);
-            eatenFoodForSave.setUser(user);
-            EatenFood eatenFoodAfterSave = eatenFoodRepository.save(eatenFoodForSave);
-            eatenFoodRoleService.create(user.getId(), eatenFoodAfterSave.getId());
-            return eatenFoodAfterSave.getId();
-        } catch (FoodNotFoundException e) {
-            throw new FoodNotFoundException(eatenFoodRequest.foodId());
+        EatenFood eatenFood = mapper.toEntity(eatenFoodRequest);
+        UUID foodId = eatenFoodRequest.foodId();
+        BaseUserDetails principal = (BaseUserDetails) SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getPrincipal();
+        User user = userRepository.findById(principal.getId())
+                .orElseThrow(() -> new UserNotFoundException(principal.getId()));
+        if (foodId != null) {
+            eatenFood.setFood(foodRepository.findById(foodId)
+                    .orElseThrow(() -> new FoodNotFoundException(foodId)));
         }
+        eatenFood.setUser(user);
+        eatenFood = eatenFoodRepository.save(eatenFood);
+        eatenFoodRoleService.create(user.getId(), eatenFood.getId());
+        return eatenFood.getId();
     }
 
     @Override
