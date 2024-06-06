@@ -9,5 +9,5 @@ import java.util.UUID;
 
 public interface ExerciseSessionRepository extends JpaRepository<ExerciseSessionEntity, UUID> {
 
-    List<ExerciseSessionEntity> findAllByDate(Date date);
+    List<ExerciseSessionEntity> findAllByDateAndUserId(Date date, UUID userId);
 }

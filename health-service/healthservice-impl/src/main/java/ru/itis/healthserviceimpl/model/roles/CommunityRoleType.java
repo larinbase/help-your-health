@@ -16,14 +16,12 @@ public enum CommunityRoleType implements Role {
 
     static {
         USER.children.addAll(List.of(
-                RecipeRoleType.VIEWER,
                 RecipeRoleType.REPORTER,
-                ExerciseTemplateRoleType.VIEWER,
                 ExerciseTemplateRoleType.REPORTER,
-                ExerciseSessionRoleType.VIEWER,
                 ExerciseSessionRoleType.REPORTER,
-                DrinkingWaterRoleType.VIEWER,
-                DrinkingWaterRoleType.REPORTER)
+                DrinkingWaterRoleType.REPORTER,
+                EatenFoodRoleType.REPORTER,
+                FoodRoleType.REPORTER)
         );
         PRIVILEGED_USER.children.add(USER);
         MODERATOR.children.addAll(List.of(
@@ -32,7 +30,11 @@ public enum CommunityRoleType implements Role {
                 RecipeRoleType.EDITOR,
                 DrinkingWaterRoleType.SUPER_VIEWER,
                 DrinkingWaterRoleType.EDITOR,
-                ExerciseSessionRoleType.EDITOR)
+                ExerciseSessionRoleType.EDITOR,
+                EatenFoodRoleType.EDITOR,
+                FoodCategoryRoleType.EDITOR,
+                FoodCategoryRoleType.REPORTER,
+                FoodRoleType.EDITOR)
         );
         ADMIN.children.add(MODERATOR);
     }
