@@ -18,9 +18,6 @@ import java.util.UUID;
 @NoArgsConstructor
 public class EatenFood extends AbstractModel {
 
-    @Column(nullable = false, unique = false, name = "user_id")
-    private UUID userId;
-
     @ManyToOne
     @JoinColumn(referencedColumnName = "id", name = "food_id")
     private Food food;
@@ -32,6 +29,6 @@ public class EatenFood extends AbstractModel {
     private Short weight;
 
     @ManyToOne
-    @JoinColumn(referencedColumnName = "id", name = "user_id", updatable = false, insertable = false)
+    @JoinColumn( name = "user_id", updatable = false)
     private User user;
 }
