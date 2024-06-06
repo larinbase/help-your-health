@@ -27,8 +27,10 @@ public class DrinkingWaterController implements DrinkingWaterApi {
     }
 
     @Override
-    @PreAuthorize("@DrinkingWaterRoleService.hasAnyRoleByDrinkingWaterId(null, @DrinkingWaterRoleType.SUPER_VIEWER) || " +
-            "@UserCheckService.hasUserId(#userId)")
+    @PreAuthorize(
+            "@DrinkingWaterRoleService.hasAnyRoleByDrinkingWaterId(null, @DrinkingWaterRoleType.SUPER_VIEWER) || " +
+                    "@UserCheckService.hasUserId(#userId)"
+    )
     public DrinkingWaterResponse getLastDrinkingWaterByUser(UUID userId) {
         return drinkingWaterService.findLastDrinkingWaterByUser(userId);
     }

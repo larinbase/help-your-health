@@ -7,6 +7,17 @@ import ru.itis.healthserviceapi.dto.request.EatenFoodRequest;
 import ru.itis.healthserviceapi.dto.response.EatenFoodResponse;
 import ru.itis.healthserviceimpl.exception.EatenFoodNotFoundException;
 import ru.itis.healthserviceimpl.exception.FoodNotFoundException;
+<<<<<<< health-service/healthservice-impl/src/main/java/ru/itis/healthserviceimpl/service/impl/EatenFoodServiceImpl.java
+import ru.itis.healthserviceimpl.exception.UserNotFoundException;
+import ru.itis.healthserviceimpl.mapper.EatenFoodMapper;
+import ru.itis.healthserviceimpl.model.EatenFood;
+import ru.itis.healthserviceimpl.model.User;
+import ru.itis.healthserviceimpl.repository.EatenFoodRepository;
+import ru.itis.healthserviceimpl.repository.FoodRepository;
+import ru.itis.healthserviceimpl.repository.UserRepository;
+import ru.itis.healthserviceimpl.security.userdetails.BaseUserDetails;
+import ru.itis.healthserviceimpl.service.EatenFoodRoleService;
+=======
 import ru.itis.healthserviceimpl.exception.RecipeNotFoundException;
 import ru.itis.healthserviceimpl.mapper.EatenFoodMapper;
 import ru.itis.healthserviceimpl.model.EatenFood;
@@ -15,6 +26,7 @@ import ru.itis.healthserviceimpl.repository.EatenFoodRepository;
 import ru.itis.healthserviceimpl.repository.FoodRepository;
 import ru.itis.healthserviceimpl.repository.RecipeRepository;
 import ru.itis.healthserviceimpl.security.userdetails.BaseUserDetails;
+>>>>>>> health-service/healthservice-impl/src/main/java/ru/itis/healthserviceimpl/service/impl/EatenFoodServiceImpl.java
 import ru.itis.healthserviceimpl.service.EatenFoodService;
 
 import java.sql.Date;
@@ -33,22 +45,28 @@ public class EatenFoodServiceImpl implements EatenFoodService {
 
     private final EatenFoodRepository eatenFoodRepository;
     private final FoodRepository foodRepository;
+    private final UserRepository userRepository;
     private final RecipeRepository recipeRepository;
     private final EatenFoodMapper mapper;
+    private final EatenFoodRoleService eatenFoodRoleService;
 
     @Override
     public UUID save(EatenFoodRequest eatenFoodRequest) {
-        try {
-            EatenFood eatenFood = mapper.toEntity(eatenFoodRequest);
-            UUID foodId = eatenFoodRequest.foodId();
-            if (foodId != null) {
-                eatenFood.setFood(foodRepository.findById(foodId)
-                        .orElseThrow(() -> new FoodNotFoundException(foodId)));
-            }
-            return eatenFoodRepository.save(mapper.toEntity(eatenFoodRequest)).getId();
-        } catch (FoodNotFoundException e) {
-            throw new FoodNotFoundException(eatenFoodRequest.foodId());
+        EatenFood eatenFood = mapper.toEntity(eatenFoodRequest);
+        UUID foodId = eatenFoodRequest.foodId();
+        BaseUserDetails principal = (BaseUserDetails) SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getPrincipal();
+        User user = userRepository.findById(principal.getId())
+                .orElseThrow(() -> new UserNotFoundException(principal.getId()));
+        if (foodId != null) {
+            eatenFood.setFood(foodRepository.findById(foodId)
+                    .orElseThrow(() -> new FoodNotFoundException(foodId)));
         }
+        eatenFood.setUser(user);
+        eatenFood = eatenFoodRepository.save(eatenFood);
+        eatenFoodRoleService.create(user.getId(), eatenFood.getId());
+        return eatenFood.getId();
     }
 
     @Override
@@ -111,6 +129,12 @@ public class EatenFoodServiceImpl implements EatenFoodService {
     public void putById(UUID id, EatenFoodRequest eatenFoodRequest) {
         if (eatenFoodRepository.findById(id).isPresent()) {
             EatenFood eatenFood = mapper.toEntity(eatenFoodRequest);
+            BaseUserDetails principal = (BaseUserDetails) SecurityContextHolder.getContext()
+                    .getAuthentication()
+                    .getPrincipal();
+            User user = userRepository.findById(principal.getId())
+                    .orElseThrow(() -> new UserNotFoundException(principal.getId()));
+            eatenFood.setUser(user);
             eatenFood.setId(id);
             UUID foodId = eatenFoodRequest.foodId();
             if (foodId != null) {
