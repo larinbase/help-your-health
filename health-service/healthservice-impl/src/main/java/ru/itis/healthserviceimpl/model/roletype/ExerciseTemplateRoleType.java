@@ -1,4 +1,4 @@
-package ru.itis.healthserviceimpl.model.roles;
+package ru.itis.healthserviceimpl.model.roletype;
 
 import lombok.Getter;
 import org.springframework.stereotype.Component;

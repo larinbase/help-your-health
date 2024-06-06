@@ -3,7 +3,9 @@ package ru.itis.healthserviceimpl.model;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import java.util.List;
+import ru.itis.healthserviceimpl.model.additionalinfo.ActivityCoefficient;
+import ru.itis.healthserviceimpl.model.additionalinfo.Sex;
+import ru.itis.healthserviceimpl.model.role.CommunityRole;
 
 @Entity
 @Table(name = "account")

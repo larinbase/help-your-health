@@ -1,10 +1,11 @@
-package ru.itis.healthserviceimpl.model;
+package ru.itis.healthserviceimpl.model.role;
 
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.GenericGenerator;
-import ru.itis.healthserviceimpl.model.roles.RecipeRoleType;
+import ru.itis.healthserviceimpl.model.User;
+import ru.itis.healthserviceimpl.model.roletype.RecipeRoleType;
 
 import java.util.UUID;
 

@@ -7,7 +7,8 @@ import ru.itis.healthserviceimpl.exception.NotFoundException;
 import ru.itis.healthserviceimpl.exception.ServiceException;
 import ru.itis.healthserviceimpl.exception.UserNotFoundException;
 import ru.itis.healthserviceimpl.model.*;
-import ru.itis.healthserviceimpl.model.roles.DrinkingWaterRoleType;
+import ru.itis.healthserviceimpl.model.role.DrinkingWaterRole;
+import ru.itis.healthserviceimpl.model.roletype.DrinkingWaterRoleType;
 import ru.itis.healthserviceimpl.repository.*;
 import ru.itis.healthserviceimpl.service.DrinkingWaterRoleService;
 

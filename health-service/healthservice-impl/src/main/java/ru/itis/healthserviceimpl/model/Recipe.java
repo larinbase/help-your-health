@@ -1,15 +1,13 @@
 package ru.itis.healthserviceimpl.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.persistence.Convert;
-import jakarta.persistence.Converter;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-import ru.itis.healthserviceimpl.util.UuidConvertor;
-import ru.itis.healthserviceimpl.util.UuidToObjectIdConverter;
+import ru.itis.healthserviceimpl.model.additionalinfo.Ingredient;
+import ru.itis.healthserviceimpl.model.additionalinfo.NutritionalInfo;
 
 import java.util.List;
 import java.util.UUID;

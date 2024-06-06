@@ -13,13 +13,11 @@ import org.springframework.stereotype.Service;
 import ru.itis.healthserviceapi.dto.request.RecipeRequest;
 import ru.itis.healthserviceapi.dto.response.RecipeResponse;
 import ru.itis.healthserviceimpl.exception.RecipeNotFoundException;
-import ru.itis.healthserviceimpl.exception.UserNotFoundException;
 import ru.itis.healthserviceimpl.mapper.IngredientMapper;
 import ru.itis.healthserviceimpl.mapper.NutritionalInfoMapper;
 import ru.itis.healthserviceimpl.mapper.RecipeMapper;
-import ru.itis.healthserviceimpl.model.MyPageImpl;
+import ru.itis.healthserviceimpl.model.additionalinfo.BasePage;
 import ru.itis.healthserviceimpl.model.Recipe;
-import ru.itis.healthserviceimpl.model.User;
 import ru.itis.healthserviceimpl.repository.RecipeRepository;
 import ru.itis.healthserviceimpl.repository.UserRepository;
 import ru.itis.healthserviceimpl.security.userdetails.BaseUserDetails;
@@ -56,7 +54,7 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     @Cacheable(value = "recipes")
     public Page<RecipeResponse> findAll(int offset, int limit) {
-        return new MyPageImpl<>(mapper.toResponse(recipeRepository.findAll(PageRequest.of(offset, limit,
+        return new BasePage<>(mapper.toResponse(recipeRepository.findAll(PageRequest.of(offset, limit,
                 Sort.by(Sort.Direction.ASC, "title")))));
     }
 

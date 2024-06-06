@@ -3,7 +3,6 @@ package ru.itis.healthserviceimpl.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import ru.itis.healthserviceapi.dto.request.DrinkingWaterRequest;
@@ -12,7 +11,6 @@ import ru.itis.healthserviceimpl.exception.DrinkingWaterNotFoundServiceException
 import ru.itis.healthserviceimpl.exception.UserNotFoundException;
 import ru.itis.healthserviceimpl.mapper.DrinkingWaterMapper;
 import ru.itis.healthserviceimpl.model.DrinkingWater;
-import ru.itis.healthserviceimpl.model.DrinkingWaterRole;
 import ru.itis.healthserviceimpl.repository.DrinkingWaterRepository;
 import ru.itis.healthserviceimpl.repository.UserRepository;
 import ru.itis.healthserviceimpl.service.DrinkingWaterRoleService;

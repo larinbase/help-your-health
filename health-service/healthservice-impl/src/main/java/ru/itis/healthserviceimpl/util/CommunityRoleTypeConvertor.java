@@ -2,7 +2,7 @@ package ru.itis.healthserviceimpl.util;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
-import ru.itis.healthserviceimpl.model.roles.CommunityRoleType;
+import ru.itis.healthserviceimpl.model.roletype.CommunityRoleType;
 
 @Converter(autoApply = true)
 public class CommunityRoleTypeConvertor implements AttributeConverter<CommunityRoleType, String> {

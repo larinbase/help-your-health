@@ -1,4 +1,4 @@
-package ru.itis.healthserviceimpl.model.roles;
+package ru.itis.healthserviceimpl.model.roletype;
 
 import lombok.Getter;
 import org.springframework.stereotype.Component;
@@ -6,8 +6,8 @@ import org.springframework.stereotype.Component;
 import java.util.HashSet;
 import java.util.Set;
 
-public enum RecipeRoleType implements Role {
-    VIEWER, EDITOR, REPORTER;
+public enum ExerciseSessionRoleType implements Role {
+    VIEWER, REPORTER, EDITOR;
 
     private final Set<Role> children = new HashSet<>();
 
@@ -21,11 +21,11 @@ public enum RecipeRoleType implements Role {
         return this.equals(role) || children.stream().anyMatch(l -> l.isIncludes(role));
     }
 
-    @Component("RecipeRoleType")
+    @Component("ExerciseSessionRoleType")
     @Getter
     static class SpringComponent {
-        private final RecipeRoleType VIEWER = RecipeRoleType.VIEWER;
-        private final RecipeRoleType EDITOR = RecipeRoleType.EDITOR;
-        private final RecipeRoleType REPORTER = RecipeRoleType.REPORTER;
+        private final ExerciseSessionRoleType VIEWER = ExerciseSessionRoleType.VIEWER;
+        private final ExerciseSessionRoleType EDITOR = ExerciseSessionRoleType.EDITOR;
+        private final ExerciseSessionRoleType REPORTER = ExerciseSessionRoleType.REPORTER;
     }
 }

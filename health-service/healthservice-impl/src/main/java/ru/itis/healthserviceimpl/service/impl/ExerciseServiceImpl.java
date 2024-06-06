@@ -13,7 +13,6 @@ import ru.itis.healthserviceimpl.exception.NotFoundException;
 import ru.itis.healthserviceimpl.exception.UserNotFoundException;
 import ru.itis.healthserviceimpl.mapper.ExerciseMapper;
 import ru.itis.healthserviceimpl.model.ExerciseSessionEntity;
-import ru.itis.healthserviceimpl.model.ExerciseSessionRole;
 import ru.itis.healthserviceimpl.model.ExerciseTemplateEntity;
 import ru.itis.healthserviceimpl.model.User;
 import ru.itis.healthserviceimpl.repository.ExerciseSessionRepository;

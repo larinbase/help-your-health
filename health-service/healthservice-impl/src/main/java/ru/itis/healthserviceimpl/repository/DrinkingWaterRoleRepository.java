@@ -1,7 +1,7 @@
 package ru.itis.healthserviceimpl.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import ru.itis.healthserviceimpl.model.DrinkingWaterRole;
+import ru.itis.healthserviceimpl.model.role.DrinkingWaterRole;
 
 import java.util.List;
 import java.util.UUID;

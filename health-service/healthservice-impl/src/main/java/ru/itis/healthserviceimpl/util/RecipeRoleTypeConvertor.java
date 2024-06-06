@@ -2,7 +2,7 @@ package ru.itis.healthserviceimpl.util;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
-import ru.itis.healthserviceimpl.model.roles.RecipeRoleType;
+import ru.itis.healthserviceimpl.model.roletype.RecipeRoleType;
 
 @Converter(autoApply = true)
 public class RecipeRoleTypeConvertor implements AttributeConverter<RecipeRoleType, String> {

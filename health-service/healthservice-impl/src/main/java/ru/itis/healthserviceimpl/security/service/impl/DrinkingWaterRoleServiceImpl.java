@@ -3,19 +3,15 @@ package ru.itis.healthserviceimpl.security.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import ru.itis.healthserviceimpl.exception.UserNotFoundException;
-import ru.itis.healthserviceimpl.model.DrinkingWaterRole;
-import ru.itis.healthserviceimpl.model.User;
-import ru.itis.healthserviceimpl.model.roles.DrinkingWaterRoleType;
-import ru.itis.healthserviceimpl.model.roles.Role;
+import ru.itis.healthserviceimpl.model.role.DrinkingWaterRole;
+import ru.itis.healthserviceimpl.model.roletype.DrinkingWaterRoleType;
+import ru.itis.healthserviceimpl.model.roletype.Role;
 import ru.itis.healthserviceimpl.repository.DrinkingWaterRoleRepository;
-import ru.itis.healthserviceimpl.repository.UserRepository;
 import ru.itis.healthserviceimpl.security.service.CommunityRoleService;
 import ru.itis.healthserviceimpl.security.service.DrinkingWaterRoleService;
 import ru.itis.healthserviceimpl.security.userdetails.BaseUserDetails;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service("DrinkingWaterRoleService")

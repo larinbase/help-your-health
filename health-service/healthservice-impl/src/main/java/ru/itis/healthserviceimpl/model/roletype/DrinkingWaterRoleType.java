@@ -1,20 +1,10 @@
-package ru.itis.healthserviceimpl.model.roles;
+package ru.itis.healthserviceimpl.model.roletype;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RestController;
-import ru.itis.healthserviceapi.api.DrinkingWaterApi;
-import ru.itis.healthserviceapi.dto.request.DrinkingWaterRequest;
-import ru.itis.healthserviceapi.dto.response.DrinkingWaterResponse;
-import ru.itis.healthserviceimpl.service.DrinkingWaterService;
 
-import java.time.Instant;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
 public enum DrinkingWaterRoleType implements Role {
     VIEWER, REPORTER, EDITOR, SUPER_VIEWER;

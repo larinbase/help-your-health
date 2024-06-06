@@ -1,8 +1,8 @@
 package ru.itis.healthserviceimpl.util;
 
-import ru.itis.healthserviceimpl.model.ActivityCoefficient;
-import ru.itis.healthserviceimpl.model.Nutrition;
-import ru.itis.healthserviceimpl.model.Sex;
+import ru.itis.healthserviceimpl.model.additionalinfo.ActivityCoefficient;
+import ru.itis.healthserviceimpl.model.additionalinfo.Nutrition;
+import ru.itis.healthserviceimpl.model.additionalinfo.Sex;
 
 import java.util.HashMap;
 import java.util.Map;

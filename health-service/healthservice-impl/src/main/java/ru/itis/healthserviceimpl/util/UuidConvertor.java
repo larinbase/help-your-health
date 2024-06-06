@@ -2,7 +2,6 @@ package ru.itis.healthserviceimpl.util;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
-import ru.itis.healthserviceimpl.model.roles.RecipeRoleType;
 
 import java.util.UUID;
 

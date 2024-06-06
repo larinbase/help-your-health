@@ -1,9 +1,11 @@
-package ru.itis.healthserviceimpl.model;
+package ru.itis.healthserviceimpl.model.role;
 
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import ru.itis.healthserviceimpl.model.roles.CommunityRoleType;
+import ru.itis.healthserviceimpl.model.AbstractModel;
+import ru.itis.healthserviceimpl.model.User;
+import ru.itis.healthserviceimpl.model.roletype.CommunityRoleType;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package ru.itis.healthserviceimpl.model;
+package ru.itis.healthserviceimpl.model.additionalinfo;
 
 public enum Nutrition {
     CALORIES,

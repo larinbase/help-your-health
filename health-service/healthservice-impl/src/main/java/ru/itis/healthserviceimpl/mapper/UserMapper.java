@@ -6,8 +6,8 @@ import org.mapstruct.Named;
 import ru.itis.healthserviceapi.dto.request.UserSave;
 import ru.itis.healthserviceapi.dto.request.UserUpdate;
 import ru.itis.healthserviceapi.dto.response.UserResponse;
-import ru.itis.healthserviceimpl.model.ActivityCoefficient;
-import ru.itis.healthserviceimpl.model.Sex;
+import ru.itis.healthserviceimpl.model.additionalinfo.ActivityCoefficient;
+import ru.itis.healthserviceimpl.model.additionalinfo.Sex;
 import ru.itis.healthserviceimpl.model.User;
 
 @Mapper(componentModel = "spring")

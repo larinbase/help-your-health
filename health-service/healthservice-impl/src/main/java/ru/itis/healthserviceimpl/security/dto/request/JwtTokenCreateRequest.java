@@ -1,6 +1,6 @@
 package ru.itis.healthserviceimpl.security.dto.request;
 
-import ru.itis.healthserviceimpl.model.roles.Role;
+import ru.itis.healthserviceimpl.model.roletype.Role;
 
 import java.util.List;
 

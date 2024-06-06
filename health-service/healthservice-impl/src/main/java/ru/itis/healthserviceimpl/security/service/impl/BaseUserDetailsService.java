@@ -6,9 +6,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import ru.itis.healthserviceimpl.model.CommunityRole;
+import ru.itis.healthserviceimpl.model.role.CommunityRole;
 import ru.itis.healthserviceimpl.model.User;
-import ru.itis.healthserviceimpl.model.roles.CommunityRoleType;
+import ru.itis.healthserviceimpl.model.roletype.CommunityRoleType;
 import ru.itis.healthserviceimpl.repository.UserRepository;
 import ru.itis.healthserviceimpl.security.userdetails.BaseUserDetails;
 
