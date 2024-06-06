@@ -4,8 +4,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 import ru.itis.healthauthapi.dto.TokenCoupleResponse;
 
-@Tag(name = "OAuth2-api")
-@RequestMapping("gitlab/v1/auth")
+@Tag(name = "OAuth2")
+@RequestMapping("githab/v1/auth")
 public interface OAuth2Api {
 
     @PostMapping("/{code}")
