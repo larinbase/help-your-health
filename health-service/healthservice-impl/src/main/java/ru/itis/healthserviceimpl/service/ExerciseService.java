@@ -29,4 +29,5 @@ public interface ExerciseService {
     void updateExercise(UUID id, ExerciseSessionRequest request);
 
     void deleteExercise(UUID id);
+
 }

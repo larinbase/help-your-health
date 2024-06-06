@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import ru.itis.healthserviceapi.dto.request.DrinkingWaterRequest;
 import ru.itis.healthserviceapi.dto.response.DrinkingWaterResponse;
@@ -15,10 +16,15 @@ import ru.itis.healthserviceimpl.model.DrinkingWater;
 import ru.itis.healthserviceimpl.model.DrinkingWaterRole;
 import ru.itis.healthserviceimpl.repository.DrinkingWaterRepository;
 import ru.itis.healthserviceimpl.repository.UserRepository;
+import ru.itis.healthserviceimpl.security.userdetails.BaseUserDetails;
 import ru.itis.healthserviceimpl.service.DrinkingWaterRoleService;
 import ru.itis.healthserviceimpl.service.DrinkingWaterService;
 
+import java.sql.Date;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.UUID;
 
@@ -38,6 +44,20 @@ public class DrinkingWaterServiceImpl implements DrinkingWaterService {
         return drinkingWaterRepository.findById(id)
                 .map(drinkingWaterMapper::toResponse)
                 .orElseThrow(() -> new DrinkingWaterNotFoundServiceException(id));
+    }
+
+    @Override
+    public List<DrinkingWaterResponse> findDrinkingByDate(String date) {
+        BaseUserDetails user = (BaseUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Date sqlDate = Date.valueOf(date);
+        LocalDate localDate = sqlDate.toLocalDate();
+        Instant startOfDay = localDate.atStartOfDay().toInstant(ZoneOffset.UTC);
+        Instant endOfDay = startOfDay.plus(1, ChronoUnit.DAYS).minus(1, ChronoUnit.MILLIS);
+        
+        return drinkingWaterRepository.findAllByAccountIdAndCreateDateBetween(user.getId(), startOfDay, endOfDay)
+                .stream()
+                .map(drinkingWaterMapper::toResponse)
+                .toList();
     }
 
     @Override
