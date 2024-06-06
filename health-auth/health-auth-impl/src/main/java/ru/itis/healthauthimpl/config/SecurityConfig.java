@@ -24,7 +24,7 @@ public class SecurityConfig {
 
     private static final String[] SWAGGER_URLS = { "/swagger-ui/**", "/v3/api-docs/**", "/v2/api-docs/**",
             "/swagger-resources/**", "/swagger-ui.html", "/webjars/**" };
-    private static final String[] PERMIT_ALL = {"/auth-api/**, gitlab/v1/auth/**", "/oauth2/**"};
+    private static final String[] PERMIT_ALL = {"/auth-api/**, githab/v1/auth/**", "/oauth2/**"};
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http){
@@ -37,7 +37,6 @@ public class SecurityConfig {
                     .authorizeHttpRequests(request -> request
                             .requestMatchers(PERMIT_ALL).permitAll()
                             .requestMatchers(SWAGGER_URLS).permitAll()
-                            .requestMatchers(HttpMethod.POST, "/gitlab/v1/auth/**").permitAll()
                     )
                     .httpBasic(HttpBasicConfigurer::disable)
                     .logout(LogoutConfigurer::disable)
