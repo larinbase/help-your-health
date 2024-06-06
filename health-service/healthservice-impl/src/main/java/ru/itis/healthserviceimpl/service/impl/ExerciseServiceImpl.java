@@ -34,7 +34,6 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     private final ExerciseTemplateRepository templateRepository;
     private final ExerciseSessionRepository sessionRepository;
-
     private final ExerciseMapper exerciseMapper;
     private final ExerciseSessionRoleService roleService;
     private final UserRepository userRepository;
