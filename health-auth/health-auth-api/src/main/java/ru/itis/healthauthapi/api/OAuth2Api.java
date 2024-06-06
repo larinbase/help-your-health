@@ -8,7 +8,7 @@ import ru.itis.healthauthapi.dto.TokenCoupleResponse;
 @RequestMapping("githab/v1/auth")
 public interface OAuth2Api {
 
-    @PostMapping("/{code}")
-    TokenCoupleResponse signIn(@PathVariable("code") String code);
+    @GetMapping
+    TokenCoupleResponse signIn(@RequestParam("code") String code);
 
 }
