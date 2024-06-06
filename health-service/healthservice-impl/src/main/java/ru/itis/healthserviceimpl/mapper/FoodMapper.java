@@ -14,6 +14,7 @@ public interface FoodMapper {
     @Mapping(target = "id", ignore = true)
     Food toEntity(FoodRequest foodRequest);
 
+    @Mapping(source = "category.id", target = "categoryId")
     FoodResponse toResponse(Food foodEntity);
 
 }

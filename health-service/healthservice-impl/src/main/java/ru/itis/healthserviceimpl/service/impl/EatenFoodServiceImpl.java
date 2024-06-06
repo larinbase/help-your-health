@@ -7,7 +7,6 @@ import ru.itis.healthserviceapi.dto.request.EatenFoodRequest;
 import ru.itis.healthserviceapi.dto.response.EatenFoodResponse;
 import ru.itis.healthserviceimpl.exception.EatenFoodNotFoundException;
 import ru.itis.healthserviceimpl.exception.FoodNotFoundException;
-<<<<<<< health-service/healthservice-impl/src/main/java/ru/itis/healthserviceimpl/service/impl/EatenFoodServiceImpl.java
 import ru.itis.healthserviceimpl.exception.UserNotFoundException;
 import ru.itis.healthserviceimpl.mapper.EatenFoodMapper;
 import ru.itis.healthserviceimpl.model.EatenFood;
@@ -17,16 +16,9 @@ import ru.itis.healthserviceimpl.repository.FoodRepository;
 import ru.itis.healthserviceimpl.repository.UserRepository;
 import ru.itis.healthserviceimpl.security.userdetails.BaseUserDetails;
 import ru.itis.healthserviceimpl.service.EatenFoodRoleService;
-=======
 import ru.itis.healthserviceimpl.exception.RecipeNotFoundException;
-import ru.itis.healthserviceimpl.mapper.EatenFoodMapper;
-import ru.itis.healthserviceimpl.model.EatenFood;
 import ru.itis.healthserviceimpl.model.Recipe;
-import ru.itis.healthserviceimpl.repository.EatenFoodRepository;
-import ru.itis.healthserviceimpl.repository.FoodRepository;
 import ru.itis.healthserviceimpl.repository.RecipeRepository;
-import ru.itis.healthserviceimpl.security.userdetails.BaseUserDetails;
->>>>>>> health-service/healthservice-impl/src/main/java/ru/itis/healthserviceimpl/service/impl/EatenFoodServiceImpl.java
 import ru.itis.healthserviceimpl.service.EatenFoodService;
 
 import java.sql.Date;
@@ -71,7 +63,7 @@ public class EatenFoodServiceImpl implements EatenFoodService {
 
     @Override
     public EatenFoodResponse getById(UUID id) {
-        EatenFood eatenFood =   eatenFoodRepository.findById(id)
+        EatenFood eatenFood = eatenFoodRepository.findById(id)
                 .orElseThrow(() -> new EatenFoodNotFoundException(id));
         Recipe recipe = null;
         if(eatenFood.getRecipeId() != null){

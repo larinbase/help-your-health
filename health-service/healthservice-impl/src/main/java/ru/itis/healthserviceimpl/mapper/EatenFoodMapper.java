@@ -18,6 +18,7 @@ public interface EatenFoodMapper {
     @Mapping(target = "food", ignore = true)
     EatenFood toEntity(EatenFoodRequest eatenFoodRequest);
 
+    @Mapping(source = "user.id", target = "userId")
     default EatenFoodResponse toResponse(EatenFood eatenFoodEntity, @Nullable Recipe recipe) {
         Food food = eatenFoodEntity.getFood();
         NutritionalInfo nutritionalInfo = null;
@@ -41,7 +42,7 @@ public interface EatenFoodMapper {
                 eatenFoodEntity.getId(),
                 eatenFoodEntity.getCreateDate(),
                 eatenFoodEntity.getLastUpdateDate(),
-                eatenFoodEntity.getUserId(),
+                eatenFoodEntity.getUser().getId(),
                 food != null ? food.getId() : null,
                 eatenFoodEntity.getRecipeId(),
                 eatenFoodEntity.getWeight(),
