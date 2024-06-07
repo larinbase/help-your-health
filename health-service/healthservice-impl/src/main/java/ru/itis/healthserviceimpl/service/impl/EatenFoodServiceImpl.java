@@ -82,6 +82,7 @@ public class EatenFoodServiceImpl implements EatenFoodService {
     }
 
     @Override
+    @Cacheable(value = "eatenFood", key = "#date")
     public List<EatenFoodResponse> getByDate(String date) {
         BaseUserDetails user = (BaseUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Date sqlDate = Date.valueOf(date);
