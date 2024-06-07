@@ -68,6 +68,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @CachePut(value = "users")
     public UserResponse update(UserUpdate userUpdate) {
         BaseUserDetails principal = (BaseUserDetails) SecurityContextHolder.getContext()
                 .getAuthentication()
