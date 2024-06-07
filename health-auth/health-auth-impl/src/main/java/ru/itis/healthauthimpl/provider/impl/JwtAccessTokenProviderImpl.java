@@ -1,4 +1,4 @@
-package ru.itis.healthauthimpl.provider;
+package ru.itis.healthauthimpl.provider.impl;
 
 
 import io.jsonwebtoken.*;
@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import ru.itis.healthauthapi.dto.AccountRequest;
 import ru.itis.healthauthapi.dto.Role;
 import ru.itis.healthauthimpl.exception.AuthenticationException;
+import ru.itis.healthauthimpl.provider.JwtAccessTokenProvider;
 
 import javax.crypto.spec.SecretKeySpec;
 import java.security.Key;

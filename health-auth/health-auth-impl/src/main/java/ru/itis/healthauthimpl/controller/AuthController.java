@@ -7,7 +7,7 @@ import ru.itis.healthauthapi.api.AuthApi;
 import ru.itis.healthauthapi.dto.AuthenticationRequest;
 import ru.itis.healthauthapi.dto.TokenCoupleRequest;
 import ru.itis.healthauthapi.dto.TokenCoupleResponse;
-import ru.itis.healthauthimpl.service.AuthService;
+import ru.itis.healthauthimpl.service.impl.AuthService;
 
 @Slf4j
 @RestController

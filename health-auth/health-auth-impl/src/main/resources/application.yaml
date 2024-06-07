@@ -5,8 +5,8 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/agona
     hikari:
-      username: postgres
-      password: 1234
+      username: admin
+      password: admin
       maximum-pool-size: 20
       jdbc-url: jdbc:postgresql://localhost:5432/agona
 
@@ -15,6 +15,13 @@ spring:
       ddl-auto: validate
     show-sql: true
     database: postgresql
+
+api:
+  github:
+    clientId: Ov23ctbCAYSQkwYT2Zzm
+    clientSecret: 2611ff36937148d4de1ddcd34c9f2c9b01976918
+    scope: read
+    tokenType: bearer
 
 jwt:
   expiration:
@@ -26,3 +33,4 @@ jwt:
 
 server:
   port: 8082
+
