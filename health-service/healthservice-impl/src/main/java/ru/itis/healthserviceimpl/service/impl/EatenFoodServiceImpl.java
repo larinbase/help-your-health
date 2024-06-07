@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import ru.itis.healthserviceapi.dto.request.EatenFoodRequest;
 import ru.itis.healthserviceapi.dto.response.EatenFoodResponse;
@@ -78,6 +79,27 @@ public class EatenFoodServiceImpl implements EatenFoodService {
              eatenFood,
              recipe
         );
+    }
+
+    @Override
+    public List<EatenFoodResponse> getByDate(String date) {
+        BaseUserDetails user = (BaseUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Date sqlDate = Date.valueOf(date);
+        LocalDate localDate = sqlDate.toLocalDate();
+        Instant startOfDay = localDate.atStartOfDay().toInstant(ZoneOffset.UTC);
+        Instant endOfDay = startOfDay.plus(1, ChronoUnit.DAYS).minus(1, ChronoUnit.MILLIS);
+        return eatenFoodRepository
+                .findAllByUserIdAndCreateDateBetween(user.getId(), startOfDay, endOfDay)
+                .stream().map(e -> {
+                    Recipe recipe = null;
+                    if(e.getRecipeId() != null){
+                        recipe = recipeRepository.findById(e.getRecipeId())
+                                .orElseThrow(() -> new RecipeNotFoundException(e.getRecipeId()));
+                    }
+                    return mapper.toResponse(
+                            e, recipe
+                    );
+                }).toList();
     }
 
     @Override
