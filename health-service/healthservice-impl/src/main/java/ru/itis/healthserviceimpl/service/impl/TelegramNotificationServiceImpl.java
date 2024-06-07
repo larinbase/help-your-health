@@ -3,6 +3,7 @@ package ru.itis.healthserviceimpl.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.itis.healthserviceimpl.exception.TelegramNicknameNotFoundException;
+import ru.itis.healthserviceimpl.exception.UserNotFoundException;
 import ru.itis.healthserviceimpl.model.TelegramInfo;
 import ru.itis.healthserviceimpl.model.User;
 import ru.itis.healthserviceimpl.repository.TelegramInfoRepository;
@@ -17,42 +18,47 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class TelegramNotificationServiceImpl implements TelegramNotificationService {
 
-	private final TelegramInfoRepository telegramRepository;
+    private final TelegramInfoRepository telegramRepository;
 
-	private final UserRepository userRepository;
+    private final UserRepository userRepository;
 
-	@Override
-	public void subscribe(String nickname) {
+    @Override
+    public void subscribe(String nickname) {
+        BaseUserDetails principal = (BaseUserDetails) SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getPrincipal();
+        String username = principal.getUsername();
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException(username));
+        Optional<TelegramInfo> opt = telegramRepository.findByNickname(nickname);
+        if (opt.isPresent()) {
+            TelegramInfo telegramInfo = opt.get();
+            telegramInfo.setSend(true);
+            telegramRepository.save(telegramInfo);
+        } else {
+            telegramRepository.save(TelegramInfo.builder()
+                    .user(user)
+                    .nickname(nickname)
+                    .send(true)
+                    .build()
+            );
+        }
+    }
 
-		String username = ((BaseUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
-		User user = userRepository.findByUsername(username).get();
-		Optional<TelegramInfo> opt = telegramRepository.findByNickname(nickname);
-		if (opt.isPresent()) {
-			TelegramInfo telegramInfo = opt.get();
-			telegramInfo.setSend(true);
-			telegramRepository.save(telegramInfo);
-		} else {
-			telegramRepository.save(TelegramInfo.builder()
-					.user(user)
-					.nickname(nickname)
-					.send(true)
-					.build()
-			);
-		}
-	}
-
-	@Override
-	public void unsubscribe(String nickname) {
-
-		String username = ((BaseUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
-		User user = userRepository.findByUsername(username).get();
-		Optional<TelegramInfo> opt = telegramRepository.findByNickname(nickname);
-		if (opt.isEmpty()) {
-			throw new TelegramNicknameNotFoundException(nickname);
-		}
-		TelegramInfo telegramInfo = opt.get();
-		telegramInfo.setSend(false);
-		telegramRepository.save(telegramInfo);
-
-	}
+    @Override
+    public void unsubscribe(String nickname) {
+        BaseUserDetails principal = (BaseUserDetails) SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getPrincipal();
+        String username = principal.getUsername();
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException(username));
+        Optional<TelegramInfo> opt = telegramRepository.findByNickname(nickname);
+        if (opt.isEmpty()) {
+            throw new TelegramNicknameNotFoundException(nickname);
+        }
+        TelegramInfo telegramInfo = opt.get();
+        telegramInfo.setSend(false);
+        telegramRepository.save(telegramInfo);
+    }
 }

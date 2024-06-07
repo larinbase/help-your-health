@@ -11,11 +11,9 @@ import java.util.UUID;
 public record EatenFoodRequest(
 
         @Schema(description = "Id продукта питания")
-        @NotNull
         UUID foodId,
 
         @Schema(description = "Id рецепта")
-        @NotNull
         UUID recipeId,
 
         @Schema(description = "Вес")

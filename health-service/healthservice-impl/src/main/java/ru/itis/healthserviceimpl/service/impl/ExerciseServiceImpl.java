@@ -22,6 +22,7 @@ import ru.itis.healthserviceimpl.model.User;
 import ru.itis.healthserviceimpl.repository.ExerciseSessionRepository;
 import ru.itis.healthserviceimpl.repository.ExerciseTemplateRepository;
 import ru.itis.healthserviceimpl.repository.UserRepository;
+import ru.itis.healthserviceimpl.security.userdetails.BaseUserDetails;
 import ru.itis.healthserviceimpl.service.ExerciseService;
 import ru.itis.healthserviceimpl.service.ExerciseSessionRoleService;
 
@@ -36,7 +37,6 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     private final ExerciseTemplateRepository templateRepository;
     private final ExerciseSessionRepository sessionRepository;
-
     private final ExerciseMapper exerciseMapper;
     private final ExerciseSessionRoleService roleService;
     private final UserRepository userRepository;
@@ -90,7 +90,10 @@ public class ExerciseServiceImpl implements ExerciseService {
     @Override // ToDo: пользак должен поулчаать только свои сессии
     @Cacheable(value = "sessions", key = "#date")
     public List<ExerciseSessionResponse> getExercisesAtDay(String date) {
-        return sessionRepository.findAllByDate(Date.valueOf(date)).stream()
+        BaseUserDetails principal = (BaseUserDetails) SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getPrincipal();
+        return sessionRepository.findAllByDateAndUserId(Date.valueOf(date), principal.getId()).stream()
                 .map(exerciseMapper::toResponse)
                 .collect(Collectors.toList());
     }
@@ -99,9 +102,12 @@ public class ExerciseServiceImpl implements ExerciseService {
     @Cacheable(value = "sessions")
     public void addExercise(ExerciseSessionRequest request) {
         ExerciseSessionEntity session = new ExerciseSessionEntity();
-        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        BaseUserDetails principal = (BaseUserDetails) SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getPrincipal();
+        String username = principal.getUsername();
         User user = userRepository.findByUsername(username)
-                .orElseThrow(()-> new UserNotFoundException(username));
+                .orElseThrow(() -> new UserNotFoundException(username));
         session.setUserId(user.getId());
         session.setTemplateId(request.templateId());
         session.setMetricAmount(request.metricAmount());

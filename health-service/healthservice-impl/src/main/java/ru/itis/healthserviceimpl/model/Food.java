@@ -4,17 +4,19 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
 @Getter
+@Setter
 @Entity
 @Table(name = "foods")
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Food extends AbstractModel {
+public class Food extends AbstractModel implements Consumable{
 
     @Column(nullable = false, unique = false)
     private String name;
@@ -41,4 +43,8 @@ public class Food extends AbstractModel {
     @OneToMany(mappedBy = "food")
     private List<EatenFood> users;
 
+    @Override
+    public NutritionalInfo getNutrients() {
+        return new NutritionalInfo(calories, proteins, fats, carbohydrates);
+    }
 }

@@ -12,7 +12,9 @@ import ru.itis.healthserviceimpl.exception.FoodNotFoundException;
 import ru.itis.healthserviceimpl.exception.ServiceException;
 import ru.itis.healthserviceimpl.mapper.FoodMapper;
 import ru.itis.healthserviceimpl.model.Food;
+import ru.itis.healthserviceimpl.repository.FoodCategoryRepository;
 import ru.itis.healthserviceimpl.repository.FoodRepository;
+import ru.itis.healthserviceimpl.service.FoodCategoryService;
 import ru.itis.healthserviceimpl.service.FoodService;
 
 import java.util.HashSet;
@@ -27,11 +29,16 @@ public class FoodServiceImpl implements FoodService {
 
     private final FoodMapper mapper;
 
+    private final FoodCategoryRepository foodCategoryRepository;
+
     @Override
     @Cacheable(value = "food")
     public UUID save(FoodRequest foodRequest) {
         try {
-            return repository.save(mapper.toEntity(foodRequest)).getId();
+            Food food = mapper.toEntity(foodRequest);
+            food.setCategory(foodCategoryRepository.findById(foodRequest.categoryId()).get());
+            repository.save(food);
+            return food.getId();
         } catch (Exception e) {
             throw new ServiceException("Bad food-create exception", HttpStatus.BAD_REQUEST);
         }
@@ -41,8 +48,7 @@ public class FoodServiceImpl implements FoodService {
     @Cacheable(value = "food", key = "#id")
     public FoodResponse getById(UUID id) {
         return mapper.toResponse(
-                repository.findById(id)
-                        .orElseThrow(() -> new FoodNotFoundException(id))
+                repository.findById(id).orElseThrow(() -> new FoodNotFoundException(id))
         );
     }
 

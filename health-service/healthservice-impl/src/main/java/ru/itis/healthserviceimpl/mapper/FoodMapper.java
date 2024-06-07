@@ -8,12 +8,13 @@ import ru.itis.healthserviceimpl.model.Food;
 
 
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {FoodCategoryMapper.class})
 public interface FoodMapper {
 
     @Mapping(target = "id", ignore = true)
     Food toEntity(FoodRequest foodRequest);
 
+    @Mapping(source = "category.id", target = "categoryId")
     FoodResponse toResponse(Food foodEntity);
 
 }
