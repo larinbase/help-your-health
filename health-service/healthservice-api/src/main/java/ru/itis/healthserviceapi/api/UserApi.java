@@ -61,7 +61,7 @@ public interface UserApi {
             @ApiResponse(responseCode = "403", description = "Не достаточно прав"),
             @ApiResponse(responseCode = "500", description = "Ведутся технические работы")
     })
-    @PutMapping("/role")
+    @PatchMapping("/role")
     @ResponseStatus(HttpStatus.OK)
     void updateRole(@RequestParam UUID id, @RequestParam String roleType);
 
