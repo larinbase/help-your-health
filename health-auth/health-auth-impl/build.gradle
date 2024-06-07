@@ -6,9 +6,12 @@ dependencies {
     implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
     implementation 'io.jsonwebtoken:jjwt-impl:0.11.2'
     implementation 'io.jsonwebtoken:jjwt-jackson:0.11.2'
-    implementation 'org.springframework.boot:spring-boot-starter-security:3.0.5'
+
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
     implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+    implementation 'ru.itis:logger-starter:1.0.0-SNAPSHOT'
+    implementation 'org.springframework.boot:spring-boot-starter-security:3.0.5'
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:4.1.2'
 }
 
 tasks.named('test') {

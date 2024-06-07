@@ -1,11 +1,11 @@
-package ru.itis.healthauthimpl.provider;
+package ru.itis.healthauthimpl.provider.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import ru.itis.healthauthapi.dto.AccountRequest;
 import ru.itis.healthauthimpl.model.SessionEntity;
-import ru.itis.healthauthimpl.service.SessionService;
+import ru.itis.healthauthimpl.provider.JwtRefreshTokenProvider;
+import ru.itis.healthauthimpl.service.impl.SessionService;
 
 import java.time.Instant;
 import java.util.UUID;
